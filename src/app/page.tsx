@@ -1,103 +1,150 @@
-import Image from "next/image";
+'use client';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [menuOpen, setMenuOpen] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-blue-800 via-black to-blue-600 text-white font-sans">
+      {/* Navbar */}
+      <header className="bg-blue-900 text-white shadow-lg relative z-50">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">
+            NVision Insights™
+          </h1>
+
+          <button
+            className="md:hidden text-white text-3xl z-50"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {menuOpen ? <X /> : <Menu />}
+          </button>
+
+          {/* Desktop nav: visibile solo se menu mobile chiuso */}
+          <nav className={`hidden md:flex space-x-8 ${menuOpen ? 'hidden' : 'block'}`}>
+            <a href="#home" className="hover:text-blue-300">Home</a>
+            <a href="/articoli" className="hover:text-blue-300">Articoli</a>
+            <a href="#soluzioni" className="hover:text-blue-300">Soluzioni</a>
+            <a href="#home" className="hover:text-blue-300">Chi siamo</a>
+            <a href="#contatti" className="hover:text-blue-300">Contatti</a>
+          </nav>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        {/* Mobile nav: menu a schermo intero se attivo */}
+        {menuOpen && (
+          <nav className="absolute top-full left-0 w-full bg-blue-800 px-6 py-6 space-y-4 shadow-xl z-40 md:hidden">
+            <a href="#home" className="block text-white hover:text-blue-300">Home</a>
+            <a href="/articoli" className="block text-white hover:text-blue-300">Articoli</a>
+            <a href="#soluzioni" className="block text-white hover:text-blue-300">Soluzioni</a>
+            <a href="#home" className="block text-white hover:text-blue-300">Chi siamo</a>
+            <a href="#contatti" className="block text-white hover:text-blue-300">Contatti</a>
+          </nav>
+        )}
+      </header>
+
+      {/* Hero */}
+      <section id="home" className="py-16 bg-gradient-to-r from-blue-700 to-black text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-6xl mx-auto px-6"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">NVision Insights</h2>
+          <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-8">Dove tecnologia, divulgazione e conoscenza sono alla base della nostra crescita.</p>
+        </motion.div>
+
+        {/* Carousel */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="overflow-x-auto whitespace-nowrap px-4"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <div className="flex space-x-4 pb-6">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <img
+                key={i}
+                src={`/carousel/img${i}.jpg`}
+                alt={`Immagine ${i}`}
+                className="h-40 sm:h-48 md:h-64 w-auto rounded-2xl shadow-2xl transform transition duration-300 hover:scale-105 hover:shadow-lg"
+              />
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Articoli */}
+      <section id="articoli" className="py-20 bg-gradient-to-b from-gray-100 to-gray-300 text-blue-900">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="max-w-6xl mx-auto px-6"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          <h3 className="text-4xl md:text-5xl font-extrabold text-center text-black-700 mb-6">Ultimi Articoli</h3>
+          <p className="text-center mb-12 text-black-700 text-lg">Scopri i nostri articoli scientifici, tecnologici, di attualità e molto altro.</p>
+
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {[1, 2, 3].map((id) => (
+              <motion.div
+                key={id}
+                whileHover={{ scale: 1.05 }}
+                className="rounded-2xl bg-white p-8 shadow-md hover:shadow-2xl transition-all"
+              >
+                <h4 className="text-2xl font-semibold text-black-700 mb-4">Titolo Articolo {id}</h4>
+                <p className="text-black-700 text-base leading-relaxed">
+                  Descrizione breve dell’articolo numero {id} con informazioni utili e interessanti.
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+
+
+      {/* Soluzioni */}
+      <section id="soluzioni" className="py-20 bg-gradient-to-br from-blue-800 to-black text-white">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="max-w-6xl mx-auto px-6"
+        >
+          <h3 className="text-4xl md:text-5xl font-extrabold text-center text-blue-300 mb-6">Soluzioni Tecnologiche</h3>
+          <p className="text-center mb-12 text-blue-200 text-lg">Le nostre invenzioni e sistemi per innovare e dare vita alle nostre visioni.</p>
+
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-10">
+            {[1, 2].map((id) => (
+              <motion.div
+                key={id}
+                whileHover={{ scale: 1.05 }}
+                className="rounded-2xl bg-white/5 backdrop-blur-md border border-blue-400 p-8 shadow-md hover:shadow-2xl transition-all"
+              >
+                <h4 className="text-2xl font-semibold text-white mb-4">Soluzione {id}</h4>
+                <p className="text-blue-200 text-base leading-relaxed">
+                  Descrizione dettagliata della soluzione tecnologica {id} che abbiamo sviluppato con passione.
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Footer */}
+      <footer id="contatti" className="bg-blue-900 text-white py-8">
+        <div className="max-w-6xl mx-auto px-4 text-center text-sm">
+          ©{new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+          <br />
+          <a href="mailto:info@nomeazienda.it" className="underline">info@nomeazienda.it</a>
+        </div>
       </footer>
-    </div>
+    </main>
   );
 }
