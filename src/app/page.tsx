@@ -27,8 +27,8 @@ export default function Home() {
           <nav className={`hidden md:flex space-x-8 ${menuOpen ? 'hidden' : 'block'}`}>
             <a href="#home" className="hover:text-blue-300">Home</a>
             <a href="/articoli" className="hover:text-blue-300">Articoli</a>
-            <a href="#soluzioni" className="hover:text-blue-300">Soluzioni</a>
-            <a href="#home" className="hover:text-blue-300">Chi siamo</a>
+            <a href="/soluzioni" className="hover:text-blue-300">Soluzioni</a> {/* Link aggiornato */}
+            <a href="#chisiamo" className="hover:text-blue-300">Chi siamo</a>
             <a href="#contatti" className="hover:text-blue-300">Contatti</a>
           </nav>
         </div>
@@ -38,8 +38,8 @@ export default function Home() {
           <nav className="absolute top-full left-0 w-full bg-blue-800 px-6 py-6 space-y-4 shadow-xl z-40 md:hidden">
             <a href="#home" className="block text-white hover:text-blue-300">Home</a>
             <a href="/articoli" className="block text-white hover:text-blue-300">Articoli</a>
-            <a href="#soluzioni" className="block text-white hover:text-blue-300">Soluzioni</a>
-            <a href="#home" className="block text-white hover:text-blue-300">Chi siamo</a>
+            <a href="/soluzioni" className="block text-white hover:text-blue-300">Soluzioni</a> {/* Link aggiornato */}
+            <a href="#chisiamo" className="block text-white hover:text-blue-300">Chi siamo</a>
             <a href="#contatti" className="block text-white hover:text-blue-300">Contatti</a>
           </nav>
         )}
@@ -86,17 +86,17 @@ export default function Home() {
           viewport={{ once: true }}
           className="max-w-6xl mx-auto px-6"
         >
-          <h3 className="text-4xl md:text-5xl font-extrabold text-center text-black-700 mb-6">Ultimi Articoli</h3>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-black-700 mb-6">Ultimi Articoli</h3>
           <p className="text-center mb-12 text-black-700 text-lg">Scopri i nostri articoli scientifici, tecnologici, di attualità e molto altro.</p>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-4">
             {[1, 2, 3].map((id) => (
               <motion.div
                 key={id}
                 whileHover={{ scale: 1.05 }}
                 className="rounded-2xl bg-white p-8 shadow-md hover:shadow-2xl transition-all"
               >
-                <h4 className="text-2xl font-semibold text-black-700 mb-4">Titolo Articolo {id}</h4>
+                <h4 className="text-xl sm:text-2xl font-semibold text-black-700 mb-4">Titolo Articolo {id}</h4>
                 <p className="text-black-700 text-base leading-relaxed">
                   Descrizione breve dell’articolo numero {id} con informazioni utili e interessanti.
                 </p>
@@ -105,8 +105,6 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-
-
 
       {/* Soluzioni */}
       <section id="soluzioni" className="py-20 bg-gradient-to-br from-blue-800 to-black text-white">
@@ -117,17 +115,17 @@ export default function Home() {
           viewport={{ once: true }}
           className="max-w-6xl mx-auto px-6"
         >
-          <h3 className="text-4xl md:text-5xl font-extrabold text-center text-blue-300 mb-6">Soluzioni Tecnologiche</h3>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-blue-300 mb-6">Soluzioni Tech</h3>
           <p className="text-center mb-12 text-blue-200 text-lg">Le nostre invenzioni e sistemi per innovare e dare vita alle nostre visioni.</p>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 sm:gap-4">
             {[1, 2].map((id) => (
               <motion.div
                 key={id}
                 whileHover={{ scale: 1.05 }}
                 className="rounded-2xl bg-white/5 backdrop-blur-md border border-blue-400 p-8 shadow-md hover:shadow-2xl transition-all"
               >
-                <h4 className="text-2xl font-semibold text-white mb-4">Soluzione {id}</h4>
+                <h4 className="text-xl sm:text-2xl font-semibold text-white mb-4">Soluzione {id}</h4>
                 <p className="text-blue-200 text-base leading-relaxed">
                   Descrizione dettagliata della soluzione tecnologica {id} che abbiamo sviluppato con passione.
                 </p>
