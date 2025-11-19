@@ -8,97 +8,119 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-800 via-black to-blue-600 text-white font-sans">
-      {/* Navbar */}
-      <header className="bg-blue-900 text-white shadow-lg relative z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">
+    <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-900 via-black to-blue-800 text-white font-sans">
+
+      {/* NAVBAR */}
+      <header className="fixed top-0 w-full z-50 bg-blue-900/40 backdrop-blur-xl border-b border-blue-400/20 shadow-[0_0_20px_rgba(0,0,80,0.3)]">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white drop-shadow-lg select-none">
             NVision Insights™
           </h1>
 
+          {/* MOBILE BUTTON */}
           <button
-            className="md:hidden text-white text-3xl z-50"
+            className="md:hidden text-white text-3xl"
             onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
           >
             {menuOpen ? <X /> : <Menu />}
           </button>
 
-          {/* Desktop nav: visibile solo se menu mobile chiuso */}
-          <nav className={`hidden md:flex space-x-8 ${menuOpen ? 'hidden' : 'block'}`}>
-            <a href="#home" className="hover:text-blue-300">Home</a>
-            <a href="/articoli" className="hover:text-blue-300">Articoli</a>
-            <a href="/soluzioni" className="hover:text-blue-300">Soluzioni</a> {/* Link aggiornato */}
-            <a href="#chisiamo" className="hover:text-blue-300">Chi siamo</a>
-            <a href="#contatti" className="hover:text-blue-300">Contatti</a>
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex space-x-10 text-lg font-light">
+            <Link href="/" className="hover:text-blue-300 transition">Home</Link>
+            <Link href="/articoli" className="hover:text-blue-300 transition">Articoli</Link>
+            <Link href="/soluzioni" className="hover:text-blue-300 transition">Soluzioni</Link>
+            <Link href="/chisiamo" className="hover:text-blue-300 transition">Chi siamo</Link>
+            <Link href="/contatti" className="hover:text-blue-300 transition">Contatti</Link>
           </nav>
         </div>
 
-        {/* Mobile nav: menu a schermo intero se attivo */}
+        {/* MOBILE NAV */}
         {menuOpen && (
-          <nav className="absolute top-full left-0 w-full bg-blue-800 px-6 py-6 space-y-4 shadow-xl z-40 md:hidden">
-            <a href="#home" className="block text-white hover:text-blue-300">Home</a>
-            <a href="/articoli" className="block text-white hover:text-blue-300">Articoli</a>
-            <a href="/soluzioni" className="block text-white hover:text-blue-300">Soluzioni</a> {/* Link aggiornato */}
-            <a href="#chisiamo" className="block text-white hover:text-blue-300">Chi siamo</a>
-            <a href="#contatti" className="block text-white hover:text-blue-300">Contatti</a>
-          </nav>
+          <motion.nav
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden absolute top-full left-0 w-full bg-blue-950/95 backdrop-blur-xl px-6 py-8 space-y-4 border-t border-blue-400/20 shadow-xl z-40 rounded-b-2xl"
+          >
+            <Link href="/" className="block text-white text-xl hover:text-blue-300 transition">Home</Link>
+            <Link href="/articoli" className="block text-white text-xl hover:text-blue-300 transition">Articoli</Link>
+            <Link href="/soluzioni" className="block text-white text-xl hover:text-blue-300 transition">Soluzioni</Link>
+            <Link href="/chisiamo" className="block text-white text-xl hover:text-blue-300 transition">Chi siamo</Link>
+            <Link href="/contatti" className="block text-white text-xl hover:text-blue-300 transition">Contatti</Link>
+          </motion.nav>
         )}
       </header>
 
-      {/* Hero */}
-      <section id="home" className="py-16 bg-gradient-to-r from-blue-700 to-black text-center">
+      {/* HERO */}
+      <section
+        id="home"
+        className="pt-30 sm:pt-32 pb-10 min-h-[60vh] sm:min-h-[90vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 bg-gradient-to-b from-blue-950 via-black to-blue-900 relative"
+      >
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-6xl mx-auto px-6"
+          transition={{ duration: 0.9 }}
+          className="max-w-4xl mx-auto"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">NVision Insights</h2>
-          <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-8">Dove tecnologia, divulgazione e conoscenza sono alla base della nostra crescita.</p>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 leading-tight drop-shadow-xl">
+            NVision Insights
+          </h2>
+          <p className="text-lg sm:text-xl md:text-1xl text-blue-200 max-w-2xl mx-auto mb-6 sm:mb-10 leading-relaxed">
+            Tecnologia, divulgazione e innovazione progettate per la prossima generazione.
+          </p>
         </motion.div>
 
-        {/* Carousel */}
+        {/* HERO CAROUSEL MOBILE */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="overflow-x-auto whitespace-nowrap px-4"
+          transition={{ duration: 1 }}
+          className="overflow-x-auto w-full max-w-full whitespace-nowrap py-4 px-2 flex gap-4"
         >
-          <div className="flex space-x-4 pb-6">
-            {[1, 2, 3, 4, 5].map((i) => (
+          {[1, 2, 3, 4, 5].map((i) => (
+            <motion.div
+              key={i}
+              whileHover={{ scale: 1.05 }}
+              className="inline-block min-w-[60%] sm:min-w-[45%] md:min-w-[28%] rounded-3xl overflow-hidden shadow-2xl cursor-pointer transition-transform"
+            >
               <img
-                key={i}
                 src={`/carousel/img${i}.jpg`}
                 alt={`Immagine ${i}`}
-                className="h-40 sm:h-48 md:h-64 w-auto rounded-2xl shadow-2xl transform transition duration-300 hover:scale-105 hover:shadow-lg"
+                className="w-full h-44 sm:h-52 md:h-72 object-cover"
               />
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </motion.div>
       </section>
 
-      {/* Articoli */}
-      <section id="articoli" className="py-20 bg-gradient-to-b from-gray-100 to-gray-300 text-blue-900">
+      {/* ARTICOLI (MOBILE COMPACT) */}
+      <section id="articoli" className="py-14 sm:py-20 bg-gray-100 text-black">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="max-w-6xl mx-auto px-6"
+          className="max-w-7xl mx-auto px-4 sm:px-6"
         >
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-black-700 mb-6">Ultimi Articoli</h3>
-          <p className="text-center mb-12 text-black-700 text-lg">Scopri i nostri articoli scientifici, tecnologici, di attualità e molto altro.</p>
+          <h3 className="text-3xl sm:text-5xl font-bold text-center mb-4 sm:mb-6">Ultimi Articoli</h3>
+          <p className="text-center mb-8 sm:mb-12 text-base sm:text-lg text-gray-700 max-w-2xl mx-auto">
+            Approfondimenti tech e analisi essenziali.
+          </p>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-4">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
             {[1, 2, 3].map((id) => (
               <motion.div
                 key={id}
-                whileHover={{ scale: 1.05 }}
-                className="rounded-2xl bg-white p-8 shadow-md hover:shadow-2xl transition-all"
+                whileHover={{ scale: 1.04, y: -6 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                className="rounded-2xl bg-white p-5 sm:p-8 shadow-xl border border-gray-200 hover:shadow-[0_15px_35px_rgba(0,0,0,0.25)] transition-all"
               >
-                <h4 className="text-xl sm:text-2xl font-semibold text-black-700 mb-4">Titolo Articolo {id}</h4>
-                <p className="text-black-700 text-base leading-relaxed">
-                  Descrizione breve dell’articolo numero {id} con informazioni utili e interessanti.
+                <h4 className="text-xl sm:text-2xl font-semibold mb-3">Titolo Articolo {id}</h4>
+                <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                  Overview rapida dell'articolo {id} con contenuti rilevanti.
                 </p>
               </motion.div>
             ))}
@@ -106,28 +128,35 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Soluzioni */}
-      <section id="soluzioni" className="py-20 bg-gradient-to-br from-blue-800 to-black text-white">
+      {/* SOLUZIONI (MOBILE COMPACT) */}
+      <section id="soluzioni" className="py-14 sm:py-24 bg-gradient-to-br from-blue-950 to-black text-white relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,140,255,0.25),transparent_70%)] pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="max-w-6xl mx-auto px-6"
+          className="max-w-7xl mx-auto px-4 sm:px-6 relative z-20"
         >
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-blue-300 mb-6">Soluzioni Tech</h3>
-          <p className="text-center mb-12 text-blue-200 text-lg">Le nostre invenzioni e sistemi per innovare e dare vita alle nostre visioni.</p>
+          <h3 className="text-3xl sm:text-5xl font-extrabold text-center mb-4 sm:mb-6 text-blue-200">
+            Soluzioni Tech
+          </h3>
+          <p className="text-center mb-8 sm:mb-12 text-blue-300 text-base sm:text-lg max-w-2xl mx-auto">
+            Innovation pipelines progettate per creare impatto reale.
+          </p>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 sm:gap-4">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
             {[1, 2].map((id) => (
               <motion.div
                 key={id}
-                whileHover={{ scale: 1.05 }}
-                className="rounded-2xl bg-white/5 backdrop-blur-md border border-blue-400 p-8 shadow-md hover:shadow-2xl transition-all"
+                whileHover={{ scale: 1.04, y: -6 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                className="rounded-2xl bg-white/10 backdrop-blur-md border border-blue-400/40 p-6 sm:p-8 shadow-2xl hover:shadow-[0_20px_40px_rgba(0,120,255,0.35)] transition-all"
               >
-                <h4 className="text-xl sm:text-2xl font-semibold text-white mb-4">Soluzione {id}</h4>
-                <p className="text-blue-200 text-base leading-relaxed">
-                  Descrizione dettagliata della soluzione tecnologica {id} che abbiamo sviluppato con passione.
+                <h4 className="text-xl sm:text-2xl font-semibold mb-3">Soluzione {id}</h4>
+                <p className="text-blue-200 leading-relaxed text-sm sm:text-base">
+                  Panoramica essenziale della soluzione tech {id}.
                 </p>
               </motion.div>
             ))}
@@ -135,14 +164,17 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer id="contatti" className="bg-blue-900 text-white py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center text-sm">
+      {/* FOOTER */}
+      <footer className="bg-blue-950 text-white py-10 border-t border-blue-400/20 shadow-[0_-5px_25px_rgba(0,0,80,0.3)]">
+        <div className="max-w-6xl mx-auto px-6 text-center text-sm">
           ©{new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
           <br />
-          <a href="mailto:info@nomeazienda.it" className="underline">info@nomeazienda.it</a>
+          <a href="mailto:info@nvisioninsights.it" className="underline hover:text-blue-300">
+            info@nvisioninsights.it
+          </a>
         </div>
       </footer>
+
     </main>
   );
 }

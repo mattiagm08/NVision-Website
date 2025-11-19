@@ -8,93 +8,109 @@ export default function Articoli() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-800 via-black to-blue-600 text-white font-sans">
-      {/* Navbar */}
-      <header className="bg-blue-900 text-white shadow-lg relative z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">
+    <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white font-sans">
+
+      {/* NAVBAR */}
+      <header className="fixed top-0 w-full z-50 bg-blue-950/40 backdrop-blur-xl border-b border-blue-400/20 shadow-[0_0_20px_rgba(0,0,80,0.3)]">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white drop-shadow-lg select-none">
             NVision Insights™
           </h1>
 
           <button
-            className="md:hidden text-white text-3xl z-50"
+            className="md:hidden text-white text-3xl"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X /> : <Menu />}
           </button>
 
-          <nav className={`hidden md:flex space-x-8 ${menuOpen ? 'hidden' : 'block'}`}>
-            <Link href="/" className="hover:text-blue-300">Home</Link>
-            <Link href="/articoli" className="hover:text-blue-300">Articoli</Link>
-            <Link href="/soluzioni" className="hover:text-blue-300">Soluzioni</Link>
-            <a href="#chisiamo" className="hover:text-blue-300">Chi siamo</a>
-            <a href="#contatti" className="hover:text-blue-300">Contatti</a>
-          </nav>
-        </div>
-
-        {menuOpen && (
-          <nav className="absolute top-full left-0 w-full bg-blue-800 px-6 py-6 space-y-4 shadow-xl z-40 md:hidden">
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex space-x-10 text-lg font-light">
             <Link href="/" className="block text-white hover:text-blue-300">Home</Link>
             <Link href="/articoli" className="block text-white hover:text-blue-300">Articoli</Link>
             <Link href="/soluzioni" className="block text-white hover:text-blue-300">Soluzioni</Link>
-            <a href="#chisiamo" className="block text-white hover:text-blue-300">Chi siamo</a>
-            <a href="#contatti" className="block text-white hover:text-blue-300">Contatti</a>
+            <Link href="/chisiamo" className="block text-white hover:text-blue-300">Chi siamo</Link>
+            <Link href="/contatti" className="block text-white hover:text-blue-300">Contatti</Link>
+          </nav>
+        </div>
+
+        {/* MOBILE MENU */}
+        {menuOpen && (
+          <nav className="md:hidden bg-blue-950/95 backdrop-blur-xl px-6 py-7 space-y-4 shadow-xl border-t border-blue-400/20 animate-fade-in">
+            <Link href="/" className="block text-white hover:text-blue-300">Home</Link>
+            <Link href="/articoli" className="block text-white hover:text-blue-300">Articoli</Link>
+            <Link href="/soluzioni" className="block text-white hover:text-blue-300">Soluzioni</Link>
+            <Link href="/chisiamo" className="block text-white hover:text-blue-300">Chi siamo</Link>
+            <Link href="/contatti" className="block text-white hover:text-blue-300">Contatti</Link>
           </nav>
         )}
       </header>
 
-      {/* Hero Articoli */}
-      <section className="py-20 bg-gradient-to-r from-blue-700 to-black text-center">
+      {/* HERO ARTICOLI */}
+      <section className="pt-32 pb-20 text-center bg-gradient-to-b from-blue-950 via-black to-blue-900 relative">
+        {/* Glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,120,255,0.25),transparent_70%)]"></div>
+
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-6xl mx-auto px-6"
+          transition={{ duration: 0.9 }}
+          className="relative max-w-4xl mx-auto px-6"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">I Nostri Articoli</h2>
-          <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-8">
-            Esplora approfondimenti, novità scientifiche e le ultime dal mondo della tecnologia.
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-xl">
+            I Nostri Articoli
+          </h2>
+          <p className="text-lg sm:text-xl text-blue-200 max-w-3xl mx-auto leading-relaxed">
+            Approfondimenti tech, scenari futuri e analisi pensate per una nuova generazione di innovatori.
           </p>
         </motion.div>
       </section>
 
-      {/* Articoli */}
-      <section className="py-20 bg-gradient-to-b from-gray-100 to-gray-300 text-blue-900 flex-grow">
-        <div className="max-w-6xl mx-auto px-6">
-          <h3 className="text-3xl font-bold text-center text-blue-900 mb-10">Esplora i Nostri Articoli</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {/* Articolo 1 */}
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <h4 className="text-xl font-semibold text-blue-900 mb-4">Innovazioni tecnologiche nel 2025</h4>
-              <p className="text-gray-600 mb-4">Esplora le principali innovazioni tecnologiche che modelleranno il nostro futuro.</p>
-              <Link href="/articolo/1" className="text-blue-600 hover:text-blue-800">Leggi di più</Link>
-            </div>
+      {/* GRID ARTICOLI */}
+      <section className="py-24 bg-gray-100 text-black flex-grow relative">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-7xl mx-auto px-6"
+        >
+          <h3 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 text-blue-900">
+            Esplora i Nostri Articoli
+          </h3>
+          <p className="text-center mb-12 text-lg text-gray-700 max-w-3xl mx-auto">
+            Una raccolta di contenuti progettati per alimentare competenze, visione e consapevolezza.
+          </p>
 
-            {/* Articolo 2 */}
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <h4 className="text-xl font-semibold text-blue-900 mb-4">L'intelligenza artificiale nei business</h4>
-              <p className="text-gray-600 mb-4">Come le aziende stanno adottando l'IA per ottimizzare i loro processi.</p>
-              <Link href="/articolo/2" className="text-blue-600 hover:text-blue-800">Leggi di più</Link>
-            </div>
-
-            {/* Articolo 3 */}
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <h4 className="text-xl font-semibold text-blue-900 mb-4">Cybersecurity: la battaglia contro gli hacker</h4>
-              <p className="text-gray-600 mb-4">Le migliori pratiche per proteggere i dati aziendali in un mondo digitale.</p>
-              <Link href="/articolo/3" className="text-blue-600 hover:text-blue-800">Leggi di più</Link>
-            </div>
-
-            {/* Aggiungi altri articoli qui */}
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {[1, 2, 3].map((id) => (
+              <motion.div
+                key={id}
+                whileHover={{ scale: 1.04, y: -6 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                className="rounded-2xl bg-white p-8 shadow-xl border border-gray-200 hover:shadow-[0_15px_35px_rgba(0,0,0,0.25)] transition-all"
+              >
+                <h4 className="text-2xl font-semibold mb-4">Titolo Articolo {id}</h4>
+                <p className="text-gray-700 text-base leading-relaxed mb-4">
+                  Breve overview dell'articolo {id} con contenuti chiave e prospettive di valore.
+                </p>
+                <Link href={`/articolo/${id}`} className="text-blue-600 hover:text-blue-800 font-semibold">
+                  Leggi di più →
+                </Link>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer id="contatti" className="bg-blue-900 text-white py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center text-sm">
+      {/* FOOTER */}
+      <footer id="contatti" className="bg-blue-950 text-white py-10 border-t border-blue-400/20 shadow-[0_-5px_25px_rgba(0,0,80,0.3)]">
+        <div className="max-w-6xl mx-auto px-6 text-center text-sm">
           ©{new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
           <br />
-          <a href="mailto:info@nomeazienda.it" className="underline">info@nomeazienda.it</a>
+          <a href="mailto:info@nvisioninsights.it" className="underline hover:text-blue-300">
+            info@nvisioninsights.it
+          </a>
         </div>
       </footer>
     </main>
