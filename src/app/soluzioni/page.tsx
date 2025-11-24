@@ -11,10 +11,9 @@ export default function Soluzioni() {
     <main className="min-h-screen flex flex-col bg-gradient-to-br from-green-800 via-black to-green-600 text-white font-sans">
       
       {/* NAVBAR */}
-      <header className="bg-blue-900 text-white shadow-lg relative z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          {/* LOGO */}
-          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">
+      <header className="fixed top-0 w-full z-50 bg-green-900/40 backdrop-blur-xl border-b border-green-400/20 shadow-[0_0_20px_rgba(0,80,0,0.3)]">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-white drop-shadow-lg select-none">
             NVision Insights™
           </h1>
 
@@ -22,41 +21,42 @@ export default function Soluzioni() {
           <button
             className="md:hidden text-white text-3xl"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
+            aria-label="Toggle menu"
           >
             {menuOpen ? <X /> : <Menu />}
           </button>
 
           {/* DESKTOP NAV */}
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/" className="hover:text-blue-300 transition-colors">Home</Link>
-            <Link href="/articoli" className="hover:text-blue-300 transition-colors">Articoli</Link>
-            <Link href="/soluzioni" className="hover:text-blue-300 transition-colors">Soluzioni</Link>
-            <Link href="/chisiamo" className="hover:text-blue-300 transition-colors">Chi siamo</Link>
-            <Link href="/contatti" className="hover:text-blue-300 transition-colors">Contatti</Link>
+          <nav className="hidden md:flex space-x-10 text-lg font-light">
+            <Link href="/" className="hover:text-green-300 transition">Home</Link>
+            <Link href="/articoli" className="hover:text-green-300 transition">Articoli</Link>
+            <Link href="/soluzioni" className="hover:text-green-300 transition">Soluzioni</Link>
+            <Link href="/chisiamo" className="hover:text-green-300 transition">Chi siamo</Link>
+            <Link href="/contatti" className="hover:text-green-300 transition">Contatti</Link>
           </nav>
         </div>
 
         {/* MOBILE NAV */}
         {menuOpen && (
           <motion.nav
-            initial={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden absolute top-full left-0 w-full bg-blue-800 px-6 py-6 space-y-4 shadow-xl z-40"
+            className="md:hidden absolute top-full left-0 w-full bg-green-950/95 backdrop-blur-xl px-6 py-8 space-y-4 border-t border-green-400/20 shadow-xl z-40 rounded-b-2xl"
           >
-            <Link href="/" className="block hover:text-blue-300 transition-colors">Home</Link>
-            <Link href="/articoli" className="block hover:text-blue-300 transition-colors">Articoli</Link>
-            <Link href="/soluzioni" className="block hover:text-blue-300 transition-colors">Soluzioni</Link>
-            <Link href="/chisiamo" className="block hover:text-blue-300 transition-colors">Chi siamo</Link>
-            <Link href="/contatti" className="block hover:text-blue-300 transition-colors">Contatti</Link>
+            <Link href="/" className="block text-white text-xl hover:text-green-300 transition">Home</Link>
+            <Link href="/articoli" className="block text-white text-xl hover:text-green-300 transition">Articoli</Link>
+            <Link href="/soluzioni" className="block text-white text-xl hover:text-green-300 transition">Soluzioni</Link>
+            <Link href="/chisiamo" className="block text-white text-xl hover:text-green-300 transition">Chi siamo</Link>
+            <Link href="/contatti" className="block text-white text-xl hover:text-green-300 transition">Contatti</Link>
           </motion.nav>
         )}
       </header>
 
 
-      {/* HERO SECTION */}
-      <section className="py-20 bg-gradient-to-r from-green-700 to-black text-center">
+      {/* HERO SECTION - (Padding top aumentato per la navbar fixed) */}
+      <section className="pt-32 pb-20 bg-gradient-to-r from-green-700 to-black text-center">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
