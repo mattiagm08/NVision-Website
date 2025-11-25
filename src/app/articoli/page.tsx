@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import articles from '../../../resources/articles.json'; // Assicurati che il path sia corretto
 
 export default function Articoli() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -48,7 +49,6 @@ export default function Articoli() {
 
       {/* HERO ARTICOLI */}
       <section className="pt-32 pb-20 text-center bg-gradient-to-b from-blue-950 via-black to-blue-900 relative">
-        {/* Glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,120,255,0.25),transparent_70%)]"></div>
 
         <motion.div
@@ -83,18 +83,19 @@ export default function Articoli() {
           </p>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {[1, 2, 3].map((id) => (
+            {articles.map((article) => (
               <motion.div
-                key={id}
+                key={article.slug}
                 whileHover={{ scale: 1.04, y: -6 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}
                 className="rounded-2xl bg-white p-8 shadow-xl border border-gray-200 hover:shadow-[0_15px_35px_rgba(0,0,0,0.25)] transition-all"
               >
-                <h4 className="text-2xl font-semibold mb-4">Titolo Articolo {id}</h4>
-                <p className="text-gray-700 text-base leading-relaxed mb-4">
-                  Breve overview dell'articolo {id} con contenuti chiave e prospettive di valore.
-                </p>
-                <Link href={`/articolo/${id}`} className="text-blue-600 hover:text-blue-800 font-semibold">
+                <h4 className="text-2xl font-semibold mb-4">{article.title}</h4>
+                <p className="text-gray-700 text-base leading-relaxed mb-4">{article.excerpt}</p>
+                <Link
+                  href={`/articoli/${article.slug}`}
+                  className="text-blue-600 hover:text-blue-800 font-semibold"
+                >
                   Leggi di più →
                 </Link>
               </motion.div>
