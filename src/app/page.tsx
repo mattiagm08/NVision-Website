@@ -100,7 +100,6 @@ export default function Home() {
 
         {/* HERO CAROUSEL MOBILE */}
         <motion.div
-          // Aggiunta Ref e gestori eventi
           ref={carouselRef}
           onMouseDown={onMouseDown}
           onMouseLeave={onMouseLeaveOrUp}
