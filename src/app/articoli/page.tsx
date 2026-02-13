@@ -1,13 +1,23 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Twitter, Linkedin, Share2, ArrowRight, Calendar } from 'lucide-react';
+import { Menu, X, Twitter, Linkedin, Share2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import articles from '../../../resources/articles.json';
+import articlesData from '../../../resources/articles.json';
 
 export default function Articoli() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Ordina gli articoli dal più recente al meno recente
+  const sortedArticles = useMemo(() => {
+    return [...articlesData].sort((a, b) => {
+      const dateA = new Date(a.date.split('/').reverse().join('-')).getTime();
+      const dateB = new Date(b.date.split('/').reverse().join('-')).getTime();
+      return dateB - dateA; // Ordine decrescente
+    });
+  }, []);
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white font-sans">
@@ -16,10 +26,11 @@ export default function Articoli() {
       <header className="fixed top-0 w-full z-50 bg-blue-950/40 backdrop-blur-xl border-b border-blue-400/20 shadow-[0_0_20px_rgba(0,0,80,0.3)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           
-          {/* LOGO CON GRADIENTE SFUMATO */}
-          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white drop-shadow-lg select-none">
-            NVision Insights™
-          </h1>
+          <Link href="/">
+            <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white drop-shadow-lg select-none cursor-pointer">
+              NVision Insights™
+            </h1>
+          </Link>
 
           {/* MOBILE BUTTON */}
           <button
@@ -33,14 +44,14 @@ export default function Articoli() {
           {/* DESKTOP NAV */}
           <nav className="hidden md:flex space-x-10 text-lg font-light">
             <Link href="/" className="hover:text-blue-300 transition-colors">Home</Link>
-            <Link href="/articoli" className="hover:text-blue-300 transition-colors">Articoli</Link>
+            <Link href="/articoli" className="text-blue-300 font-medium">Articoli</Link>
             <Link href="/soluzioni" className="hover:text-blue-300 transition-colors">Soluzioni</Link>
             <Link href="/chisiamo" className="hover:text-blue-300 transition-colors">Chi siamo</Link>
             <Link href="/contatti" className="hover:text-blue-300 transition-colors">Contatti</Link>
           </nav>
         </div>
 
-        {/* MOBILE NAV CON ANIMAZIONE */}
+        {/* MOBILE NAV */}
         <AnimatePresence>
           {menuOpen && (
             <motion.nav
@@ -50,11 +61,11 @@ export default function Articoli() {
               transition={{ duration: 0.25 }}
               className="md:hidden absolute top-full left-0 w-full bg-blue-950/95 backdrop-blur-xl px-6 py-8 space-y-4 border-t border-blue-400/20 shadow-xl z-40 rounded-b-2xl"
             >
-              <Link href="/" className="block text-white text-xl hover:text-blue-300 transition">Home</Link>
-              <Link href="/articoli" className="block text-white text-xl hover:text-blue-300 transition">Articoli</Link>
-              <Link href="/soluzioni" className="block text-white text-xl hover:text-blue-300 transition">Soluzioni</Link>
-              <Link href="/chisiamo" className="block text-white text-xl hover:text-blue-300 transition">Chi siamo</Link>
-              <Link href="/contatti" className="block text-white text-xl hover:text-blue-300 transition">Contatti</Link>
+              <Link href="/" className="block text-white text-xl">Home</Link>
+              <Link href="/articoli" className="block text-blue-300 text-xl font-bold">Articoli</Link>
+              <Link href="/soluzioni" className="block text-white text-xl">Soluzioni</Link>
+              <Link href="/chisiamo" className="block text-white text-xl">Chi siamo</Link>
+              <Link href="/contatti" className="block text-white text-xl">Contatti</Link>
             </motion.nav>
           )}
         </AnimatePresence>
@@ -95,7 +106,7 @@ export default function Articoli() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {articles.map((article) => (
+            {sortedArticles.map((article) => (
               <motion.div
                 key={article.slug}
                 whileHover={{ y: -10 }}
@@ -110,6 +121,9 @@ export default function Articoli() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                  <div className="absolute top-4 left-4 bg-blue-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full">
+                    {article.date}
+                  </div>
                 </div>
 
                 {/* CONTENUTO CARD */}

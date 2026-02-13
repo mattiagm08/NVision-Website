@@ -1,14 +1,17 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+import typography from '@tailwindcss/typography';
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}', // Importante per l'App Router
-    './pages/**/*.{js,ts,jsx,tsx,mdx}', // Importante per il Pages Router
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {},
   },
   plugins: [
-    require('@tailwindcss/typography'), 
+    typography,
   ],
 }
