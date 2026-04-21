@@ -79,7 +79,7 @@ export default function Soluzioni() {
           transition={{ duration: 0.7 }}
           className="max-w-6xl mx-auto px-6 relative"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-xl">
+          <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-8">
             Le Nostre Soluzioni
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-blue-200 max-w-3xl mx-auto">
@@ -88,11 +88,19 @@ export default function Soluzioni() {
         </motion.div>
       </section>
 
-
       {/* ---------------------------------------------------------
           SEZIONE GRIGLIA SOLUZIONI
       --------------------------------------------------------- */}
       <section className="py-20 bg-gray-100 text-black flex-grow">
+
+        <h3 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 text-blue-900">
+            Esplora i Nostri Progetti
+          </h3>
+          <p className="text-center mb-16 text-lg text-gray-700 max-w-3xl mx-auto">
+            Una raccolta di contenuti progettati per alimentare competenze, visione e consapevolezza.
+          </p>
+
+
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
           
           {/* MAPPATURA CARD SOLUZIONI */}
@@ -130,6 +138,7 @@ export default function Soluzioni() {
           ))}
 
         </div>
+        
       </section>
 
 

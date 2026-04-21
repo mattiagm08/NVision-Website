@@ -77,7 +77,7 @@ export default function Articoli() {
           transition={{ duration: 0.9 }}
           className="relative max-w-4xl mx-auto px-6"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-xl">
+          <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-8">
             I Nostri Articoli
           </h2>
           <p className="text-lg sm:text-xl text-blue-200 max-w-3xl mx-auto leading-relaxed font-light">

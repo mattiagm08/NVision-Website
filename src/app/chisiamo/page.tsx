@@ -205,9 +205,6 @@ export default function ChiSiamo() {
                 <p className="text-xl text-slate-500 font-light leading-relaxed">
                   In NVision Insights™ crediamo che la conoscenza tecnologica, per essere davvero utile, debba essere <strong className="text-slate-800 font-semibold">accessibile, verificata e orientata all&apos;azione</strong>. Non produciamo contenuto per il volume: ogni analisi, ogni report, ogni soluzione che proponiamo è il risultato di un processo rigoroso che unisce dati, esperienza sul campo e visione strategica.
                 </p>
-                <p className="text-lg text-slate-400 font-light leading-relaxed">
-                  Lavoriamo al fianco di imprenditori, manager e professionisti che vogliono navigare la complessità digitale con strumenti concreti — non con buzzword.
-                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -329,15 +326,20 @@ export default function ChiSiamo() {
             viewport={{ once: true }}
             className="mb-20"
           >
+
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
             <span className="inline-block text-[11px] uppercase tracking-[0.3em] font-bold text-blue-500 border border-blue-200 bg-blue-50 px-4 py-1.5 rounded-full mb-5">
               Le Menti Dietro la Visione
             </span>
+
             <h3 className="text-5xl md:text-6xl font-black text-slate-950 tracking-tighter leading-tight mb-6">
               Il Nostro Team
             </h3>
-            <p className="max-w-2xl text-slate-400 font-light text-lg leading-relaxed">
-              Un collettivo di strateghi, ricercatori, ingegneri e comunicatori uniti da una visione comune: rendere l&apos;innovazione comprensibile e accessibile.
+
+            <p className="text-slate-700 font-light text-lg leading-relaxed">
+              Un collettivo di strateghi, ricercatori, ingegneri e comunicatori uniti da una visione comune: <strong className="text-slate-800 font-semibold">rendere l&apos;innovazione comprensibile e accessibile.</strong>
             </p>
+          </div>
           </motion.div>
 
           {/* GRID TEAM */}

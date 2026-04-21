@@ -96,7 +96,7 @@ export default function Home() {
       --------------------------------------------------------- */}
       <section
         id="home"
-        className="pt-28 sm:pt-32 pb-16 min-h-[60vh] sm:min-h-[90vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 bg-gradient-to-b from-blue-950 via-black to-blue-900 relative"
+        className="pt-28 sm:pt-32 pb-16 min-h-[60vh] sm:min-h-[90vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 from-blue-950 via-black to-blue-900 relative"
       >
         {/* TESTI INTRODUTTIVI */}
         <motion.div
@@ -105,7 +105,7 @@ export default function Home() {
           transition={{ duration: 0.9 }}
           className="max-w-4xl mx-auto"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 leading-tight drop-shadow-xl">
+          <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-8">
             NVision Insights
           </h2>
           <p className="text-lg sm:text-xl md:text-xl text-blue-200 max-w-2xl mx-auto mb-5 sm:mb-7 leading-relaxed">
@@ -154,7 +154,9 @@ export default function Home() {
           className="max-w-7xl mx-auto px-4 sm:px-6"
         >
           {/* INTESTAZIONE SEZIONE */}
-          <h3 className="text-4xl sm:text-5xl font-bold text-center mb-4 sm:mb-6">Ultimi Articoli</h3>
+          <h2 className="text-center text-5xl md:text-7xl font-black text-slate-950 tracking-tighter leading-[1.1] mb-8">
+              Ultimi Articoli
+            </h2>
           <p className="text-center mb-8 sm:mb-12 text-base sm:text-lg text-gray-700 max-w-2xl mx-auto">
             Approfondimenti tech e analisi essenziali.
           </p>
@@ -212,9 +214,9 @@ export default function Home() {
           className="max-w-7xl mx-auto px-4 sm:px-6 relative z-20"
         >
           {/* INTESTAZIONE SEZIONE */}
-          <h3 className="text-4xl sm:text-5xl font-extrabold text-center mb-4 sm:mb-6 text-blue-200">
+          <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-8">
             Soluzioni Tech
-          </h3>
+          </h2>
           <p className="text-center mb-8 sm:mb-12 text-blue-300 text-base sm:text-lg max-w-2xl mx-auto">
             Innovation pipelines progettate per creare impatto reale.
           </p>
