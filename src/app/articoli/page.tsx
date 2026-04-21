@@ -10,29 +10,29 @@ import articlesData from '../../../resources/articles.json';
 export default function Articoli() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Ordina gli articoli dal più recente al meno recente
   const sortedArticles = useMemo(() => {
     return [...articlesData].sort((a, b) => {
-      const dateA = new Date(a.date.split('/').reverse().join('-')).getTime();
-      const dateB = new Date(b.date.split('/').reverse().join('-')).getTime();
-      return dateB - dateA; // Ordine decrescente
+      const [dayA, monthA, yearA] = a.date.split('/').map(Number);
+      const [dayB, monthB, yearB] = b.date.split('/').map(Number);
+
+      const dateA = new Date(yearA, monthA - 1, dayA).getTime();
+      const dateB = new Date(yearB, monthB - 1, dayB).getTime();
+
+      return dateB - dateA;
     });
   }, []);
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white font-sans">
 
-      {/* NAVBAR */}
       <header className="fixed top-0 w-full z-50 bg-blue-950/40 backdrop-blur-xl border-b border-blue-400/20 shadow-[0_0_20px_rgba(0,0,80,0.3)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          
           <Link href="/">
             <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white drop-shadow-lg select-none cursor-pointer">
               NVision Insights™
             </h1>
           </Link>
 
-          {/* MOBILE BUTTON */}
           <button
             className="md:hidden text-white text-3xl"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -41,7 +41,6 @@ export default function Articoli() {
             {menuOpen ? <X /> : <Menu />}
           </button>
 
-          {/* DESKTOP NAV */}
           <nav className="hidden md:flex space-x-10 text-lg font-light">
             <Link href="/" className="hover:text-blue-300 transition-colors">Home</Link>
             <Link href="/articoli" className="text-blue-300 font-medium">Articoli</Link>
@@ -51,7 +50,6 @@ export default function Articoli() {
           </nav>
         </div>
 
-        {/* MOBILE NAV */}
         <AnimatePresence>
           {menuOpen && (
             <motion.nav
@@ -71,7 +69,6 @@ export default function Articoli() {
         </AnimatePresence>
       </header>
 
-      {/* HERO SECTION */}
       <section className="pt-32 pb-20 text-center bg-gradient-to-b from-blue-950 via-black to-blue-900 relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,120,255,0.25),transparent_70%)]"></div>
         <motion.div
@@ -89,7 +86,6 @@ export default function Articoli() {
         </motion.div>
       </section>
 
-      {/* GRID ARTICOLI */}
       <section className="py-24 bg-gray-100 text-black flex-grow">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -113,7 +109,6 @@ export default function Articoli() {
                 transition={{ duration: 0.3 }}
                 className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-gray-200"
               >
-                {/* IMMAGINE ARTICOLO */}
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={article.image}
@@ -126,12 +121,11 @@ export default function Articoli() {
                   </div>
                 </div>
 
-                {/* CONTENUTO CARD */}
                 <div className="p-8 flex flex-col flex-grow">
                   <h4 className="text-2xl font-bold mb-4 text-blue-950 group-hover:text-blue-600 transition-colors leading-tight">
                     {article.title}
                   </h4>
-                  
+
                   <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3 font-light">
                     {article.excerpt}
                   </p>
@@ -157,7 +151,6 @@ export default function Articoli() {
         </motion.div>
       </section>
 
-      {/* FOOTER */}
       <footer className="bg-blue-950 text-white py-10 border-t border-blue-400/20 shadow-[0_-5px_25px_rgba(0,0,80,0.3)]">
         <div className="max-w-6xl mx-auto px-6 text-center text-sm font-light">
           ©{new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
