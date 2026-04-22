@@ -86,7 +86,7 @@ export default function ArticleView({ article, readTime }: Props) {
 
           <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-white text-xs sm:text-sm md:text-base">
             <div className="flex items-center gap-1 sm:gap-2">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 relative rounded-full overflow-hidden">
+              <div className="w-5 h-5 sm:w-8 sm:h-8 relative rounded-full overflow-hidden">
                 <Image src="/logos/logo_lite.png" alt="Redazione NVision" fill className="object-cover" />
               </div>
               <span className="font-medium text-xs sm:text-sm">Redazione NVision</span>
@@ -107,7 +107,7 @@ export default function ArticleView({ article, readTime }: Props) {
 
       {/* IMMAGINE ARTICOLO */}
       {article.image && (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 md:-mt-16 relative z-20">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-6 md:-mt-6 relative z-20">
           <motion.div
             className="relative w-full rounded-3xl shadow-2xl ring-1 ring-black/10 overflow-hidden aspect-[16/9]"
             initial={{ opacity: 0, y: 20 }}
