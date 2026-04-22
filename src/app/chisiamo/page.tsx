@@ -6,9 +6,11 @@ import { motion } from 'framer-motion';
 import {
   Menu, X, Rocket, ShieldCheck, Target,
   Zap, Globe, Cpu, ArrowRight, CheckCircle2,
-  LineChart, Users, Award, Briefcase, Linkedin, Twitter, Mail
+  LineChart, Users, Award, Briefcase, Linkedin, Twitter, Mail,
+  Sparkles, Code2
 } from 'lucide-react';
 import Link from 'next/link';
+import NBold from '../components/NBold';
 
 export default function ChiSiamo() {
 
@@ -148,7 +150,7 @@ export default function ChiSiamo() {
               Definiamo il <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">Futuro Digitale</span>
             </h3>
             <p className="max-w-2xl mx-auto text-slate-500 text-lg md:text-xl font-light leading-relaxed">
-              NVision Insights™ nasce dalla passione per la tecnologia, l&apos;innovazione e la divulgazione. La nostra missione è portare conoscenza e soluzioni concrete alla nuova generazione di innovatori.
+              <NBold>NVision Insights™</NBold> nasce dalla <NBold>passione per la tecnologia, l&apos;innovazione e la divulgazione. </NBold>La nostra missione è <NBold>portare conoscenza</NBold> e soluzioni concrete alla <NBold>nuova generazione di innovatori.</NBold>
             </p>
           </motion.div>
 
@@ -202,78 +204,162 @@ export default function ChiSiamo() {
                   Rigore analitico.<br />
                   <span className="text-blue-600">Impatto misurabile.</span>
                 </h3>
-                <p className="text-xl text-slate-500 font-light leading-relaxed">
-                  In NVision Insights™ crediamo che la conoscenza tecnologica, per essere davvero utile, debba essere <strong className="text-slate-800 font-semibold">accessibile, verificata e orientata all&apos;azione</strong>. Non produciamo contenuto per il volume: ogni analisi, ogni report, ogni soluzione che proponiamo è il risultato di un processo rigoroso che unisce dati, esperienza sul campo e visione strategica.
+                <p className="text-xl ext-slatte-500 font-light leading-relaxed">
+                  <NBold>In NVision Insights™</NBold> crediamo che <NBold>la conoscenza tecnologica</NBold>, per essere davvero utile, <NBold>debba essere accessibile, verificata e orientata all&apos;azione</NBold>. Non produciamo contenuto per il volume: ogni analisi, ogni report, ogni soluzione che proponiamo <NBold>è il risultato di un processo rigoroso che unisce dati, esperienza sul campo e visione strategica.</NBold>
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
-                  { icon: Globe, label: "Prospettiva Globale", desc: "Analisi di mercati e tendenze internazionali, con focus sull'ecosistema europeo e mediterraneo." },
-                  { icon: Cpu, label: "AI & Tech Intelligence", desc: "Monitoraggio continuativo delle frontiere tecnologiche con valutazione critica dell'impatto reale." }
+                  { 
+                    icon: Globe, 
+                    label: "Prospettiva Globale", 
+                    desc: "Analisi di mercati e tendenze internazionali, con focus sull'ecosistema europeo e mediterraneo." 
+                  },
+                  { 
+                    icon: Cpu, 
+                    label: "AI & Tech Intelligence", 
+                    desc: "Monitoraggio continuativo delle frontiere tecnologiche con valutazione critica dell'impatto reale." 
+                  },
+                  { 
+                    icon: Sparkles, 
+                    label: "Impatto Positivo sulla Società", 
+                    desc: "Valutiamo ogni innovazione in base al valore generato per persone, comunità e sostenibilità a lungo termine." 
+                  },
+                  { 
+                    icon: Rocket, 
+                    label: "Progresso Tecnologico", 
+                    desc: "Individuiamo tecnologie emergenti con reale potenziale di scalabilità e trasformazione nei prossimi anni." 
+                  }
                 ].map((feature, i) => (
-                  <div key={i} className="group flex flex-col gap-4 p-6 rounded-3xl bg-white border border-slate-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300">
+                  <div 
+                    key={i} 
+                    className="group flex flex-col gap-4 p-6 rounded-3xl bg-white border border-slate-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300"
+                  >
                     <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                       <feature.icon size={24} />
                     </div>
                     <div>
-                      <h5 className="font-bold text-slate-900 mb-1 tracking-tight">{feature.label}</h5>
-                      <p className="text-sm text-slate-400 font-light leading-relaxed">{feature.desc}</p>
+                      <h5 className="font-bold mb-1 tracking-tight">
+                        {feature.label}
+                      </h5>
+                      <p className="text-sm font-light leading-relaxed">
+                        {feature.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
               </div>
             </motion.div>
 
-            {/* STANDARD CARD */}
+            {/* ── PLATFORM 2026 CARD ── */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="lg:col-span-5 relative"
             >
-              <div className="relative z-10 overflow-hidden bg-slate-950 rounded-[3rem] p-1 shadow-[0_35px_60px_-15px_rgba(30,58,138,0.4)]">
-                <div className="bg-slate-900 rounded-[2.9rem] p-8 md:p-12 border border-white/5">
-                  <div className="flex justify-between items-start mb-10">
-                    <div>
-                      <h4 className="text-white text-3xl font-black tracking-tight mb-2 italic">Standard</h4>
-                      <div className="h-1 w-12 bg-blue-500 rounded-full"></div>
-                    </div>
-                    <div className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-md text-[10px] text-blue-400 font-black uppercase tracking-widest">
-                      v.2.6 — 2025
-                    </div>
-                  </div>
+              <div
+                className="relative z-10 overflow-hidden rounded-[3rem] p-[1px] shadow-[0_35px_80px_-10px_rgba(30,58,138,0.5)]"
+                style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.4) 0%, rgba(15,23,42,1) 40%, rgba(99,102,241,0.3) 100%)' }}
+              >
+                <div className="bg-slate-950 rounded-[3rem] p-8 md:p-12">
 
-                  <ul className="space-y-8">
+                  {/* FEATURE LIST */}
+                  <ul className="space-y-6">
                     {[
-                      { t: "Analisi Evidence-Based", d: "Ogni affermazione è supportata da dati verificabili e fonti primarie." },
-                      { t: "Indipendenza Editoriale", d: "Nessun conflitto d'interesse. Solo prospettive genuine e senza filtri commerciali." },
-                      { t: "Aggiornamento Continuo", d: "I nostri contenuti evolvono con il mercato: nessun report rimane statico." }
-                    ].map((list, i) => (
-                      <li key={i} className="flex gap-5 items-start group">
-                        <div className="flex-shrink-0 mt-1">
-                          <CheckCircle2 size={20} className="text-blue-500 group-hover:scale-125 transition-transform" />
+                      {
+                        icon: <Sparkles size={18} />,
+                        color: 'text-violet-400',
+                        bg: 'bg-violet-500/10 border-violet-500/20',
+                        dot: 'bg-violet-500',
+                        domain: 'Content Creation',
+                        t: 'Creator Monetization & AI Production Suite',
+                        d: "Tool avanzati per influencer e creator: massimizza revenue, analizza le performance dei tuoi contenuti e sfrutta pipeline AI-driven per produrre output di qualità in un ecosistema dove l'intelligenza artificiale detta le regole.",
+                      },
+                      {
+                        icon: <Code2 size={18} />,
+                        color: 'text-blue-400',
+                        bg: 'bg-blue-500/10 border-blue-500/20',
+                        dot: 'bg-blue-500',
+                        domain: 'Software Development',
+                        t: 'Applicazioni con Impatto Reale sulla Società',
+                        d: "Progetti software sviluppati per generare valore tangibile: dalle utility quotidiane allo sviluppo di videogiochi e piattaforme di intrattenimento, ogni riga di codice è scritta per migliorare concretamente la vita delle persone.",
+                      },
+                      {
+                        icon: <Globe size={18} />,
+                        color: 'text-emerald-400',
+                        bg: 'bg-emerald-500/10 border-emerald-500/20',
+                        dot: 'bg-emerald-500',
+                        domain: 'Advantages through Knowledge',
+                        t: 'Vantaggio Competitivo attraverso la Conoscenza Condivisa',
+                        d: "Ogni contenuto su NVision è costruito per darti un vantaggio reale: conoscenza selezionata, validata e condivisa da milioni di esperti globali, perché informarsi bene non è un'opzione, è il tuo asset più prezioso.",
+                      },
+                    ].map((item, i) => (
+                      <li key={i} className="group flex gap-4 items-start">
+
+                        {/* ICON BADGE */}
+                        <div className={`flex-shrink-0 mt-0.5 w-9 h-9 rounded-xl flex items-center justify-center border ${item.bg} ${item.color} group-hover:scale-110 transition-transform duration-200`}>
+                          {item.icon}
                         </div>
-                        <div className="space-y-1">
-                          <p className="text-white font-bold text-lg tracking-tight leading-none group-hover:text-blue-400 transition-colors">{list.t}</p>
-                          <p className="text-slate-400 text-sm font-light leading-snug">{list.d}</p>
+
+                        <div className="flex-1 min-w-0">
+                          {/* DOMAIN TAG + TITLE */}
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${item.dot}`} />
+                            <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${item.color}`}>{item.domain}</span>
+                          </div>
+                          <p className="text-white font-bold text-base tracking-tight leading-snug group-hover:text-blue-300 transition-colors duration-200 mb-1">
+                            {item.t}
+                          </p>
+                          <p className="text-slate-400 text-sm font-light leading-snug">
+                            {item.d}
+                          </p>
                         </div>
+
                       </li>
                     ))}
                   </ul>
 
-                  <div className="mt-12">
-                    <Link href="/soluzioni" className="group relative flex items-center justify-center w-full py-4 bg-white text-slate-950 font-black rounded-2xl overflow-hidden transition-all hover:pr-8 active:scale-[0.98]">
-                      <span className="relative z-10 flex items-center gap-3 text-sm uppercase tracking-widest">
-                        Esplora le Soluzioni <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                  {/* STATS STRIP */}
+                  <div className="mt-10 grid grid-cols-3 gap-3">
+                    {[
+                      { val: '500+', label: 'Tool testati' },
+                      { val: '120+', label: 'App rilasciate' },
+                      { val: '2M+',  label: 'Persone avvantaggiate' },
+                    ].map((s) => (
+                      <div key={s.label} className="rounded-2xl bg-white/[0.03] border border-white/[0.07] p-3 text-center">
+                        <p className="text-white font-black text-xl tracking-tight">{s.val}</p>
+                        <p className="text-slate-500 text-[10px] font-medium uppercase tracking-wider mt-0.5">{s.label}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA */}
+                  <div className="mt-8">
+                    <Link
+                      href="/soluzioni"
+                      className="group relative flex items-center justify-center w-full py-4 rounded-2xl overflow-hidden font-black text-sm uppercase tracking-widest transition-all active:scale-[0.98]"
+                      style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)' }}
+                    >
+                      <span className="relative z-10 flex items-center gap-3 text-white">
+                        Esplora le Soluzioni
+                        <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-200" />
                       </span>
+                      {/* SHIMMER ON HOVER */}
+                      <span className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-all duration-700" />
                     </Link>
                   </div>
+
                 </div>
               </div>
-              <div className="absolute -top-12 -left-12 w-64 h-64 bg-blue-600/30 rounded-full blur-[100px] pointer-events-none"></div>
-              <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-indigo-500/20 rounded-full blur-[80px] pointer-events-none"></div>
+
+              {/* GLOW BLOBS */}
+              <div className="absolute -top-16 -left-16 w-72 h-72 bg-blue-600/25 rounded-full blur-[120px] pointer-events-none" />
+              <div className="absolute -bottom-12 -right-12 w-56 h-56 bg-indigo-500/20 rounded-full blur-[90px] pointer-events-none" />
+              <div className="absolute top-1/2 -right-8 w-32 h-32 bg-violet-600/15 rounded-full blur-[60px] pointer-events-none" />
             </motion.div>
+
           </div>
         </div>
       </section>
@@ -337,7 +423,7 @@ export default function ChiSiamo() {
             </h3>
 
             <p className="text-slate-700 font-light text-lg leading-relaxed">
-              Un collettivo di strateghi, ricercatori, ingegneri e comunicatori uniti da una visione comune: <strong className="text-slate-800 font-semibold">rendere l&apos;innovazione comprensibile e accessibile.</strong>
+              Un collettivo di <NBold>strateghi, ricercatori, ingegneri e comunicatori</NBold> uniti da una visione comune: <strong className="text-slate-800 font-semibold">rendere l&apos;innovazione comprensibile e accessibile.</strong>
             </p>
           </div>
           </motion.div>
@@ -365,7 +451,7 @@ export default function ChiSiamo() {
                 {/* CONTENT */}
                 <div className="relative z-10 flex-1">
                   <div className="flex items-start justify-between gap-2 mb-1">
-                    <h4 className="text-xl font-black text-slate-900 tracking-tight leading-tight group-hover:text-blue-700 transition-colors">{member.name}</h4>
+                    <h4 className="text-xl font-black tracking-tight leading-tight group-hover:text-blue-700 transition-colors">{member.name}</h4>
                     {/* SOCIAL ICONS PLACEHOLDER */}
                     <div className="flex gap-2 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-blue-50 cursor-pointer transition-colors">
@@ -377,7 +463,7 @@ export default function ChiSiamo() {
                     </div>
                   </div>
                   <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-blue-500 mb-4">{member.role}</p>
-                  <p className="text-slate-500 text-sm font-light leading-relaxed mb-5">{member.bio}</p>
+                  <p className="text-sm font-light leading-relaxed mb-5">{member.bio}</p>
 
                   {/* TAGS */}
                   <div className="flex flex-wrap gap-2">

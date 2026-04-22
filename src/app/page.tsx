@@ -2,39 +2,123 @@
 'use client';
 
 // IMPORTAZIONI
-import React, { useState, useRef } from 'react'; 
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
 
   // STATI PER IL MENU MOBILE
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // STATI E REFERENZE PER IL CAROSELLO DRAGGABILE
+  // ROUTER PER NAVIGAZIONE PROGRAMMATICA
+  const router = useRouter();
+
+  // ─── CAROSELLO HERO: LOOP INFINITO + DRAG ───────────────────────────────────
+  const trackRef        = useRef<HTMLDivElement>(null);
+  const positionRef     = useRef(0);           // posizione corrente in px
+  const rafRef          = useRef<number | null>(null);
+  const isDraggingHero  = useRef(false);
+  const dragStartX      = useRef(0);
+  const dragStartPos    = useRef(0);
+  const hasDragged      = useRef(false);
+  const SPEED           = 0.8;                 // px per frame
+
+  /** Avvia (o riprende) l'animazione automatica */
+  const startAnimation = () => {
+    const tick = () => {
+      if (!trackRef.current) return;
+      const halfWidth = trackRef.current.scrollWidth / 2;
+      positionRef.current -= SPEED;
+      // wrap seamless: quando si supera la metà, si salta indietro di halfWidth
+      if (positionRef.current <= -halfWidth) {
+        positionRef.current += halfWidth;
+      }
+      trackRef.current.style.transform = `translateX(${positionRef.current}px)`;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  };
+
+  /** Ferma l'animazione automatica */
+  const stopAnimation = () => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    startAnimation();
+    return () => stopAnimation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Mousedown: inizia drag, ferma auto-scroll
+  const onHeroMouseDown = (e: React.MouseEvent) => {
+    stopAnimation();
+    isDraggingHero.current = true;
+    hasDragged.current     = false;
+    dragStartX.current     = e.clientX;
+    dragStartPos.current   = positionRef.current;
+  };
+
+  // Mousemove: sposta il track manualmente
+  const onHeroMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingHero.current || !trackRef.current) return;
+    e.preventDefault();
+    const dx = e.clientX - dragStartX.current;
+    if (Math.abs(dx) > 4) hasDragged.current = true;
+
+    const halfWidth = trackRef.current.scrollWidth / 2;
+    let newPos = dragStartPos.current + dx;
+
+    // wrap in entrambe le direzioni
+    if (newPos > 0)              newPos -= halfWidth;
+    if (newPos <= -halfWidth)    newPos += halfWidth;
+
+    positionRef.current = newPos;
+    trackRef.current.style.transform = `translateX(${newPos}px)`;
+  };
+
+  // Mouseup / Mouseleave dal wrapper: riprende auto-scroll
+  const onHeroMouseUpOrLeave = () => {
+    if (isDraggingHero.current) {
+      isDraggingHero.current = false;
+      startAnimation();
+    }
+  };
+
+  // Click su immagine: naviga solo se non era un drag
+  const handleImageClick = () => {
+    if (!hasDragged.current) {
+      router.push('/articoli');
+    }
+  };
+  // ────────────────────────────────────────────────────────────────────────────
+
+  // STATI E REFERENZE PER IL CAROSELLO DRAGGABILE (articoli/soluzioni mobile)
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
+  const [startX, setStartX]         = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  // LOGICA DI GESTIONE DEL TRASCINAMENTO (MOUSE EVENTS)
-  const onMouseDown = (e: React.MouseEvent) => { 
+  const onMouseDown = (e: React.MouseEvent) => {
     if (!carouselRef.current) return;
     setIsDragging(true);
     setStartX(e.pageX - carouselRef.current.offsetLeft);
     setScrollLeft(carouselRef.current.scrollLeft);
   };
 
-  const onMouseLeaveOrUp = () => {
-    setIsDragging(false);
-  };
+  const onMouseLeaveOrUp = () => setIsDragging(false);
 
-  const onMouseMove = (e: React.MouseEvent) => { 
+  const onMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !carouselRef.current) return;
-    e.preventDefault(); 
-    const x = e.pageX - carouselRef.current.offsetLeft;
-    const walk = (x - startX) * 2; 
+    e.preventDefault();
+    const x    = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
     carouselRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -47,7 +131,7 @@ export default function Home() {
       --------------------------------------------------------- */}
       <header className="fixed top-0 w-full z-50 bg-blue-900/40 backdrop-blur-xl border-b border-blue-400/20 shadow-[0_0_20px_rgba(0,0,80,0.3)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-          
+
           {/* LOGO */}
           <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white drop-shadow-lg select-none">
             NVision Insights™
@@ -64,11 +148,11 @@ export default function Home() {
 
           {/* NAVIGAZIONE (DESKTOP) */}
           <nav className="hidden md:flex space-x-10 text-lg font-light">
-            <Link href="/" className="text-blue-300 font-medium">Home</Link>
-            <Link href="/articoli" className="hover:text-blue-300 transition">Articoli</Link>
+            <Link href="/"          className="text-blue-300 font-medium">Home</Link>
+            <Link href="/articoli"  className="hover:text-blue-300 transition">Articoli</Link>
             <Link href="/soluzioni" className="hover:text-blue-300 transition">Soluzioni</Link>
-            <Link href="/chisiamo" className="hover:text-blue-300 transition">Chi siamo</Link>
-            <Link href="/contatti" className="hover:text-blue-300 transition">Contatti</Link>
+            <Link href="/chisiamo"  className="hover:text-blue-300 transition">Chi siamo</Link>
+            <Link href="/contatti"  className="hover:text-blue-300 transition">Contatti</Link>
           </nav>
         </div>
 
@@ -81,11 +165,11 @@ export default function Home() {
             transition={{ duration: 0.25 }}
             className="md:hidden absolute top-full left-0 w-full bg-blue-950/95 backdrop-blur-xl px-6 py-8 space-y-4 border-t border-blue-400/20 shadow-xl z-40 rounded-b-2xl"
           >
-            <Link href="/" className="block text-blue-300 text-xl font-bold">Home</Link>
-            <Link href="/articoli" className="block text-white text-xl hover:text-blue-300 transition">Articoli</Link>
+            <Link href="/"          className="block text-blue-300 text-xl font-bold">Home</Link>
+            <Link href="/articoli"  className="block text-white text-xl hover:text-blue-300 transition">Articoli</Link>
             <Link href="/soluzioni" className="block text-white text-xl hover:text-blue-300 transition">Soluzioni</Link>
-            <Link href="/chisiamo" className="block text-white text-xl hover:text-blue-300 transition">Chi siamo</Link>
-            <Link href="/contatti" className="block text-white text-xl hover:text-blue-300 transition">Contatti</Link>
+            <Link href="/chisiamo"  className="block text-white text-xl hover:text-blue-300 transition">Chi siamo</Link>
+            <Link href="/contatti"  className="block text-white text-xl hover:text-blue-300 transition">Contatti</Link>
           </motion.nav>
         )}
       </header>
@@ -113,31 +197,44 @@ export default function Home() {
           </p>
         </motion.div>
 
-        {/* CAROSELLO IMMAGINI HERO */}
+        {/* ── CAROSELLO HERO: LOOP INFINITO + DRAG + CLICK ── */}
         <motion.div
-          ref={carouselRef}
-          onMouseDown={onMouseDown}
-          onMouseLeave={onMouseLeaveOrUp}
-          onMouseUp={onMouseLeaveOrUp}
-          onMouseMove={onMouseMove}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="overflow-x-auto w-full max-w-full whitespace-nowrap py-4 flex gap-4 cursor-grab active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="overflow-hidden w-full max-w-full py-4 select-none"
+          // eventi sul WRAPPER: gestiscono drag e ripresa auto-scroll
+          onMouseDown={onHeroMouseDown}
+          onMouseMove={onHeroMouseMove}
+          onMouseUp={onHeroMouseUpOrLeave}
+          onMouseLeave={onHeroMouseUpOrLeave}
+          style={{ cursor: isDraggingHero.current ? 'grabbing' : 'grab' }}
         >
-          {[1, 2, 3, 4, 5].map((i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 1.05 }}
-              className="inline-block min-w-[70%] sm:min-w-[55%] md:min-w-[33%] rounded-3xl overflow-hidden shadow-2xl transition-transform pointer-events-none"
-            >
-              <img
-                src={`/carousel/img${i}.jpg`}
-                alt={`Immagine ${i}`}
-                className="w-full h-44 sm:h-52 md:h-72 object-cover"
-              />
-            </motion.div>
-          ))}
+          {/*
+            Track duplicato [1..5, 1..5].
+            La posizione è gestita interamente via JS (translateX inline).
+            will-change ottimizza il repaint.
+          */}
+          <div
+            ref={trackRef}
+            className="flex gap-4 w-max will-change-transform"
+          >
+            {[1, 2, 3, 4, 5, 1, 2, 3, 4, 5].map((i, index) => (
+              <div
+                key={index}
+                onClick={handleImageClick}
+                className="min-w-[70vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-2xl
+                           transition-transform duration-200 hover:scale-[1.03] cursor-pointer"
+              >
+                <img
+                  src={`/carousel/img${i}.jpg`}
+                  alt={`Immagine ${i}`}
+                  draggable={false}
+                  className="w-full h-44 sm:h-52 md:h-72 object-cover pointer-events-none"
+                />
+              </div>
+            ))}
+          </div>
         </motion.div>
       </section>
 
@@ -155,21 +252,21 @@ export default function Home() {
         >
           {/* INTESTAZIONE SEZIONE */}
           <h2 className="text-center text-5xl md:text-7xl font-black text-slate-950 tracking-tighter leading-[1.1] mb-8">
-              Ultimi Articoli
-            </h2>
+            Ultimi Articoli
+          </h2>
           <p className="text-center mb-8 sm:mb-12 text-base sm:text-lg text-gray-700 max-w-2xl mx-auto">
             Approfondimenti tech e analisi essenziali.
           </p>
-          
+
           {/* VISUALIZZAZIONE MOBILE (CAROSELLO) */}
-          <div 
+          <div
             className="md:hidden overflow-x-auto w-full whitespace-nowrap py-4 flex gap-4 cursor-grab active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             {[1, 2, 3].map((id) => (
               <motion.div
                 key={id}
                 whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 className="inline-block min-w-[85%] rounded-2xl bg-white p-5 sm:p-8 shadow-lg border border-gray-200 relative overflow-hidden transition-all before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-blue-500 hover:before:bg-blue-700 before:transition-all before:duration-300 hover:shadow-[0_10px_25px_rgba(0,0,0,0.1)]"
               >
                 <h4 className="text-xl sm:text-2xl font-semibold mb-3">Titolo Articolo {id}</h4>
@@ -186,7 +283,7 @@ export default function Home() {
               <motion.div
                 key={id}
                 whileHover={{ scale: 1.02, x: 4 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 className="rounded-2xl bg-white p-5 sm:p-8 shadow-lg border border-gray-200 relative overflow-hidden transition-all before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-blue-500 hover:before:bg-blue-700 before:transition-all before:duration-300 hover:shadow-[0_10px_25px_rgba(0,0,0,0.1)]"
               >
                 <h4 className="text-xl sm:text-2xl font-semibold mb-3">Titolo Articolo {id}</h4>
@@ -205,7 +302,7 @@ export default function Home() {
       --------------------------------------------------------- */}
       <section id="soluzioni" className="py-14 sm:py-24 bg-gradient-to-br from-blue-950 to-black text-white relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,140,255,0.25),transparent_70%)] pointer-events-none" />
-        
+
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -220,16 +317,16 @@ export default function Home() {
           <p className="text-center mb-8 sm:mb-12 text-blue-300 text-base sm:text-lg max-w-2xl mx-auto">
             Innovation pipelines progettate per creare impatto reale.
           </p>
-          
+
           {/* VISUALIZZAZIONE MOBILE (CAROSELLO) */}
-          <div 
+          <div
             className="md:hidden overflow-x-auto w-full whitespace-nowrap py-4 flex gap-4 cursor-grab active:cursor-grabbing [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             {[1, 2].map((id) => (
               <motion.div
                 key={id}
                 whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 className="inline-block min-w-[85%] rounded-2xl bg-white/10 backdrop-blur-md border border-blue-400/40 p-6 sm:p-8 shadow-2xl transition-all"
               >
                 <h4 className="text-xl sm:text-2xl font-semibold mb-3">Soluzione {id}</h4>
@@ -239,14 +336,14 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-          
+
           {/* VISUALIZZAZIONE DESKTOP (GRIGLIA) */}
           <div className="hidden md:grid md:grid-cols-2 gap-6 sm:gap-10">
             {[1, 2].map((id) => (
               <motion.div
                 key={id}
                 whileHover={{ scale: 1.04, y: -6 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 className="rounded-2xl bg-white/10 backdrop-blur-md border border-blue-400/40 p-6 sm:p-8 shadow-2xl hover:shadow-[0_20px_40px_rgba(0,120,255,0.35)] transition-all"
               >
                 <h4 className="text-xl sm:text-2xl font-semibold mb-3">Soluzione {id}</h4>
