@@ -87,7 +87,7 @@ export default function ArticleView({ article, readTime }: Props) {
           <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-white text-xs sm:text-sm md:text-base">
             <div className="flex items-center gap-1 sm:gap-2">
               <div className="w-5 h-5 sm:w-8 sm:h-8 relative rounded-full overflow-hidden">
-                <Image src="/logos/logo_lite.png" alt="Redazione NVision" fill className="object-cover" />
+                <Image src="/logos/logo2_lite.png" alt="Redazione NVision" fill className="object-cover" />
               </div>
               <span className="font-medium text-xs sm:text-sm">Redazione NVision</span>
             </div>
@@ -183,7 +183,7 @@ export default function ArticleView({ article, readTime }: Props) {
       {/* CALL TO ACTION */}
       <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-8 max-w-3xl mx-auto flex flex-col items-center md:flex-row md:items-center gap-4 sm:gap-8 text-center md:text-left my-8 sm:my-12 shadow-sm">
         <div className="w-16 h-16 sm:w-24 sm:h-24 relative flex-shrink-0 rounded-full overflow-hidden">
-          <Image src="/logos/logo_lite.png" alt="Logo NVision" fill className="object-cover" />
+          <Image src="/logos/logo2_lite.png" alt="Logo NVision" fill className="object-cover" />
         </div>
         <div>
           <h4 className="text-sm sm:text-lg font-bold text-slate-900 mb-2">Ti è piaciuto questo articolo?</h4>

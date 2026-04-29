@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Twitter, Linkedin, Share2, ArrowRight } from 'lucide-react';
+import { Menu, X, Twitter, Linkedin, Share2, ArrowRight, Facebook, Youtube, Instagram, Mail, MapPin, Globe } from 'lucide-react';
 import Link from 'next/link';
 import articlesData from '../../../resources/articles.json';
 
@@ -23,54 +23,48 @@ export default function Articoli() {
   }, []);
 
   return (
-    <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-950 via-black to-blue-900 text-white font-sans">
+    <main className="min-h-screen flex flex-col bg-gradient-to-br from-purple-950 via-black to-purple-900 text-white font-sans">
 
-      <header className="fixed top-0 w-full z-50 bg-blue-950/40 backdrop-blur-xl border-b border-blue-400/20 shadow-[0_0_20px_rgba(0,0,80,0.3)]">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/">
-            <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white drop-shadow-lg select-none cursor-pointer">
-              NVision Insights™
-            </h1>
-          </Link>
-
-          <button
-            className="md:hidden text-white text-3xl"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
+      {/* ---------------------------------------------------------
+          NAVBAR / HEADER
+      --------------------------------------------------------- */}
+      <header className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/8 shadow-[0_0_40px_rgba(139,92,246,0.08)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 select-none">
+            NVision Insights™
+          </h1>
+          <button className="md:hidden text-white text-3xl" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X /> : <Menu />}
           </button>
-
-          <nav className="hidden md:flex space-x-10 text-lg font-light">
-            <Link href="/" className="hover:text-blue-300 transition-colors">Home</Link>
-            <Link href="/articoli" className="text-blue-300 font-medium">Articoli</Link>
-            <Link href="/soluzioni" className="hover:text-blue-300 transition-colors">Soluzioni</Link>
-            <Link href="/chisiamo" className="hover:text-blue-300 transition-colors">Chi siamo</Link>
-            <Link href="/contatti" className="hover:text-blue-300 transition-colors">Contatti</Link>
+          <nav className="hidden md:flex space-x-10 text-base font-light tracking-wide">
+            <Link href="/" className="text-white/70 hover:text-white transition-colors duration-300">Home</Link>
+            <Link href="/articoli" className="text-white/90 font-semibold">Articoli</Link>
+            <Link href="/soluzioni" className="text-white/70 hover:text-white transition-colors duration-300">Soluzioni</Link>
+            <Link href="/chisiamo" className="text-white/70 hover:text-white transition-colors duration-300">Chi Siamo</Link>
+            <Link href="/contatti" className="text-white/70 hover:text-white transition-colors duration-300">Contatti</Link>
           </nav>
         </div>
 
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.nav
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25 }}
-              className="md:hidden absolute top-full left-0 w-full bg-blue-950/95 backdrop-blur-xl px-6 py-8 space-y-4 border-t border-blue-400/20 shadow-xl z-40 rounded-b-2xl"
-            >
-              <Link href="/" className="block text-white text-xl">Home</Link>
-              <Link href="/articoli" className="block text-blue-300 text-xl font-bold">Articoli</Link>
-              <Link href="/soluzioni" className="block text-white text-xl">Soluzioni</Link>
-              <Link href="/chisiamo" className="block text-white text-xl">Chi siamo</Link>
-              <Link href="/contatti" className="block text-white text-xl">Contatti</Link>
-            </motion.nav>
-          )}
-        </AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="md:hidden absolute top-full left-0 w-full bg-zinc-950/98 backdrop-blur-xl px-6 py-8 space-y-5 border-t border-white/10 shadow-2xl z-40 rounded-b-2xl"
+          >
+            <Link href="/" className="block text-white text-xl hover:text-violet-300 transition">Home</Link>
+            <Link href="/articoli" className="block text-violet-400 text-xl font-bold">Articoli</Link>
+            <Link href="/soluzioni" className="block text-white text-xl hover:text-violet-300 transition">Soluzioni</Link>
+            <Link href="/chisiamo" className="block text-white text-xl hover:text-violet-300 transition">Chi Siamo</Link>
+            <Link href="/contatti" className="block text-white text-xl hover:text-violet-300 transition">Contatti</Link>
+          </motion.nav>
+        )}
       </header>
 
-      <section className="pt-32 pb-20 text-center bg-gradient-to-b from-blue-950 via-black to-blue-900 relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,120,255,0.25),transparent_70%)]"></div>
+      {/* ---------------------------------------------------------
+          SEZIONE HERO
+      --------------------------------------------------------- */}
+      <section className="pt-32 pb-20 text-center bg-gradient-to-b from-purple-950 via-black to-purple-900 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(192,38,211,0.15),transparent_70%)]"></div>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -80,13 +74,16 @@ export default function Articoli() {
           <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-8">
             I Nostri Articoli
           </h2>
-          <p className="text-lg sm:text-xl text-blue-200 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-lg sm:text-xl text-purple-200 max-w-3xl mx-auto leading-relaxed font-light">
             Approfondimenti tech, scenari futuri e analisi pensate per una nuova generazione di innovatori.
           </p>
         </motion.div>
       </section>
 
-      <section className="py-24 bg-gray-100 text-black flex-grow">
+      {/* ---------------------------------------------------------
+          SEZIONE GRID ARTICOLI
+      --------------------------------------------------------- */}
+      <section className="py-24 bg-slate-50 text-black flex-grow">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -94,10 +91,10 @@ export default function Articoli() {
           viewport={{ once: true }}
           className="max-w-7xl mx-auto px-6"
         >
-          <h3 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 text-blue-900">
+          <h3 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 text-purple-900 tracking-tight">
             Esplora i Nostri Contenuti
           </h3>
-          <p className="text-center mb-16 text-lg text-gray-700 max-w-3xl mx-auto">
+          <p className="text-center mb-16 text-lg text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
             Una raccolta di contenuti progettati per alimentare competenze, visione e consapevolezza.
           </p>
 
@@ -107,41 +104,44 @@ export default function Articoli() {
                 key={article.slug}
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-gray-200"
+                className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-slate-100"
               >
+                {/* Immagine con Overlay */}
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={article.image}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                  <div className="absolute top-4 left-4 bg-blue-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full">
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent" />
+                  <div className="absolute top-4 left-4 bg-purple-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
                     {article.date}
                   </div>
                 </div>
 
+                {/* Contenuto Card */}
                 <div className="p-8 flex flex-col flex-grow">
-                  <h4 className="text-2xl font-bold mb-4 text-blue-950 group-hover:text-blue-600 transition-colors leading-tight">
+                  <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-purple-600 transition-colors leading-tight tracking-tight">
                     {article.title}
                   </h4>
 
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3 font-light">
+                  <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 font-light">
                     {article.excerpt}
                   </p>
 
-                  <div className="mt-auto flex justify-between items-center pt-6 border-t border-gray-100">
+                  {/* Footer Card */}
+                  <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
                     <Link
                       href={`/articoli/${article.slug}`}
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-bold text-sm uppercase tracking-wider transition-all"
+                      className="flex items-center gap-2 text-purple-600 hover:text-purple-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
                     >
-                      Leggi di più <ArrowRight size={16} />
+                      Leggi di più <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
                     </Link>
 
-                    <div className="flex items-center gap-4 text-gray-400">
-                      <Twitter size={18} className="hover:text-blue-400 cursor-pointer transition-colors" />
-                      <Linkedin size={18} className="hover:text-blue-700 cursor-pointer transition-colors" />
-                      <Share2 size={18} className="hover:text-gray-600 cursor-pointer transition-colors" />
+                    <div className="flex items-center gap-4 text-slate-400">
+                      <Twitter size={18} className="hover:text-purple-400 cursor-pointer transition-colors" />
+                      <Linkedin size={18} className="hover:text-purple-700 cursor-pointer transition-colors" />
+                      <Share2 size={18} className="hover:text-slate-600 cursor-pointer transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -151,13 +151,100 @@ export default function Articoli() {
         </motion.div>
       </section>
 
-      <footer className="bg-blue-950 text-white py-10 border-t border-blue-400/20 shadow-[0_-5px_25px_rgba(0,0,80,0.3)]">
-        <div className="max-w-6xl mx-auto px-6 text-center text-sm font-light">
-          ©{new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-          <br />
-          <a href="mailto:info@nvisioninsights.it" className="underline hover:text-blue-300 transition-colors">
-            info@nvisioninsights.it
-          </a>
+      {/* ---------------------------------------------------------
+          FOOTER
+      --------------------------------------------------------- */}
+      <footer className="relative mt-auto border-t border-zinc-100 bg-white">
+        <div className="max-w-6xl mx-auto px-6 pt-20 pb-5 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+            {/* Brand */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600">
+                NVision Insights™
+              </h3>
+
+              <div className="flex space-x-3">
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                  <Facebook size={18} />
+                </a>
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                  <Youtube size={18} />
+                </a>
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                  <Instagram size={18} />
+                </a>
+              </div>
+            </div>
+
+            {/* Navigazione */}
+            <div>
+              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
+              <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                <li><Link href="/" className="text-black hover:text-violet-600 transition-colors duration-200">Home</Link></li>
+                <li><Link href="/articoli" className="text-black hover:text-violet-600 transition-colors duration-200">Articoli</Link></li>
+                <li><Link href="/soluzioni" className="text-black hover:text-violet-600 transition-colors duration-200">Soluzioni</Link></li>
+                <li><Link href="/chisiamo" className="text-black hover:text-violet-600 transition-colors duration-200">Chi Siamo</Link></li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Policy & Cookies</h4>
+              <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                <li><Link href="/privacy" className="text-black hover:text-violet-600 transition-colors duration-200">Privacy Policy</Link></li>
+                <li><Link href="/cookies" className="text-black hover:text-violet-600 transition-colors duration-200">Cookie Policy</Link></li>
+                <li><Link href="/terms" className="text-black hover:text-violet-600 transition-colors duration-200">Termini</Link></li>
+                <li className="text-black pt-2 text-xs font-mono">P.IVA IT 01234567890</li>
+              </ul>
+            </div>
+
+            {/* Newsletter */}
+            <div className="space-y-6">
+              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="La tua email"
+                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
+                />
+                <button className="absolute right-2 top-2 bg-violet-600 hover:bg-violet-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+              <div className="space-y-3 pt-1">
+                <div className="flex items-center space-x-3 text-sm text-black font-light">
+                  <Mail size={15} className="text-violet-600 shrink-0" />
+
+                  <span>info@nvisioninsights.it</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm text-black font-light">
+                  <MapPin size={15} className="text-violet-600 shrink-0" />
+                  <span>Innovations Hub, Milano, IT</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Divisore con accento violetto */}
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
+          <p className="text-xs text-black font-light text-center">
+              © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+            </p>
+          {/* Bottom bar */}
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            
+            <div className="flex items-center justify-end ml-auto space-x-6 text-xs text-zinc-400">
+              <span className="flex items-center gap-1.5">
+                <Globe size={12} className="text-violet-500" />
+                Italiano
+              </span>
+
+              <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
+                Supporto
+              </span>
+            </div>
+          </div>
         </div>
       </footer>
     </main>
