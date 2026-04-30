@@ -31,7 +31,7 @@ export default function Articoli() {
       <header className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/8 shadow-[0_0_40px_rgba(139,92,246,0.08)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 select-none">
-            NVision Insights™
+            <Link href="/" >NVision Insights™</Link>
           </h1>
           <button className="md:hidden text-white text-3xl" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X /> : <Menu />}
@@ -63,8 +63,8 @@ export default function Articoli() {
       {/* ---------------------------------------------------------
           SEZIONE HERO
       --------------------------------------------------------- */}
-      <section className="pt-32 pb-20 text-center bg-gradient-to-b from-purple-950 via-black to-purple-900 relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(192,38,211,0.15),transparent_70%)]"></div>
+      <section className="pt-32 pb-20 text-center bg-gradient-to-b from-blue-950 via-black to-blue-900 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_70%)]"></div>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -74,7 +74,7 @@ export default function Articoli() {
           <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-8">
             I Nostri Articoli
           </h2>
-          <p className="text-lg sm:text-xl text-purple-200 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed font-light">
             Approfondimenti tech, scenari futuri e analisi pensate per una nuova generazione di innovatori.
           </p>
         </motion.div>
@@ -91,12 +91,6 @@ export default function Articoli() {
           viewport={{ once: true }}
           className="max-w-7xl mx-auto px-6"
         >
-          <h3 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 text-purple-900 tracking-tight">
-            Esplora i Nostri Contenuti
-          </h3>
-          <p className="text-center mb-16 text-lg text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
-            Una raccolta di contenuti progettati per alimentare competenze, visione e consapevolezza.
-          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {sortedArticles.map((article) => (
@@ -113,15 +107,15 @@ export default function Articoli() {
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent" />
-                  <div className="absolute top-4 left-4 bg-purple-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
+                  <div className="absolute top-4 left-4 bg-blue-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
                     {article.date}
                   </div>
                 </div>
 
                 {/* Contenuto Card */}
                 <div className="p-8 flex flex-col flex-grow">
-                  <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-purple-600 transition-colors leading-tight tracking-tight">
+                  <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-blue-600 transition-colors leading-tight tracking-tight">
                     {article.title}
                   </h4>
 
@@ -133,7 +127,7 @@ export default function Articoli() {
                   <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
                     <Link
                       href={`/articoli/${article.slug}`}
-                      className="flex items-center gap-2 text-purple-600 hover:text-purple-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
+                      className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
                     >
                       Leggi di più <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
                     </Link>
@@ -160,18 +154,18 @@ export default function Articoli() {
 
             {/* Brand */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600">
+              <h3 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">
                 NVision Insights™
               </h3>
 
               <div className="flex space-x-3">
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200">
                   <Facebook size={18} />
                 </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200">
                   <Youtube size={18} />
                 </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200">
                   <Instagram size={18} />
                 </a>
               </div>
@@ -181,10 +175,10 @@ export default function Articoli() {
             <div>
               <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/" className="text-black hover:text-violet-600 transition-colors duration-200">Home</Link></li>
-                <li><Link href="/articoli" className="text-black hover:text-violet-600 transition-colors duration-200">Articoli</Link></li>
-                <li><Link href="/soluzioni" className="text-black hover:text-violet-600 transition-colors duration-200">Soluzioni</Link></li>
-                <li><Link href="/chisiamo" className="text-black hover:text-violet-600 transition-colors duration-200">Chi Siamo</Link></li>
+                <li><Link href="/" className="text-black hover:text-blue-600 transition-colors duration-200">Home</Link></li>
+                <li><Link href="/articoli" className="text-black hover:text-blue-600 transition-colors duration-200">Articoli</Link></li>
+                <li><Link href="/soluzioni" className="text-black hover:text-blue-600 transition-colors duration-200">Soluzioni</Link></li>
+                <li><Link href="/chisiamo" className="text-black hover:text-blue-600 transition-colors duration-200">Chi Siamo</Link></li>
               </ul>
             </div>
 
@@ -192,9 +186,9 @@ export default function Articoli() {
             <div>
               <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Policy & Cookies</h4>
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/privacy" className="text-black hover:text-violet-600 transition-colors duration-200">Privacy Policy</Link></li>
-                <li><Link href="/cookies" className="text-black hover:text-violet-600 transition-colors duration-200">Cookie Policy</Link></li>
-                <li><Link href="/terms" className="text-black hover:text-violet-600 transition-colors duration-200">Termini</Link></li>
+                <li><Link href="/privacy" className="text-black hover:text-blue-600 transition-colors duration-200">Privacy Policy</Link></li>
+                <li><Link href="/cookies" className="text-black hover:text-blue-600 transition-colors duration-200">Cookie Policy</Link></li>
+                <li><Link href="/terms" className="text-black hover:text-blue-600 transition-colors duration-200">Termini</Link></li>
                 <li className="text-black pt-2 text-xs font-mono">P.IVA IT 01234567890</li>
               </ul>
             </div>
@@ -206,20 +200,20 @@ export default function Articoli() {
                 <input
                   type="email"
                   placeholder="La tua email"
-                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
+                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-violet-600 hover:bg-violet-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                <button className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
                   <ArrowRight size={16} />
                 </button>
               </div>
               <div className="space-y-3 pt-1">
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <Mail size={15} className="text-violet-600 shrink-0" />
+                  <Mail size={15} className="text-blue-600 shrink-0" />
 
                   <span>info@nvisioninsights.it</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <MapPin size={15} className="text-violet-600 shrink-0" />
+                  <MapPin size={15} className="text-blue-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
                 </div>
               </div>
@@ -236,11 +230,11 @@ export default function Articoli() {
             
             <div className="flex items-center justify-end ml-auto space-x-6 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <Globe size={12} className="text-violet-500" />
+                <Globe size={12} className="text-blue-500" />
                 Italiano
               </span>
 
-              <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
+              <span className="hover:text-blue-600 transition-colors duration-200 cursor-pointer">
                 Supporto
               </span>
             </div>

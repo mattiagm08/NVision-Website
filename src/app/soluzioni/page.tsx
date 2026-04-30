@@ -20,7 +20,7 @@ export default function Soluzioni() {
       <header className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/8 shadow-[0_0_40px_rgba(139,92,246,0.08)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 select-none">
-            NVision Insights™
+            <Link href="/" >NVision Insights™</Link>
           </h1>
           <button className="md:hidden text-white text-3xl" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X /> : <Menu />}
@@ -82,12 +82,6 @@ export default function Soluzioni() {
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#7e22ce 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
 
         <div className="max-w-6xl mx-auto px-6 relative">
-          <h3 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 text-black/90">
-            Esplora i Nostri Progetti
-          </h3>
-          <p className="text-center mb-16 text-lg text-slate-600 max-w-3xl mx-auto font-light">
-            Una raccolta di contenuti progettati per alimentare competenze, visione e consapevolezza.
-          </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             

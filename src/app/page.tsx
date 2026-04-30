@@ -173,7 +173,7 @@ export default function Home() {
       <header className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/8 shadow-[0_0_40px_rgba(139,92,246,0.08)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 select-none">
-            NVision Insights™
+            <Link href="/" >NVision Insights™</Link>
           </h1>
           <button className="md:hidden text-white text-3xl" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X /> : <Menu />}
@@ -328,7 +328,7 @@ export default function Home() {
                     href="/articoli"
                     className={`inline-flex items-center gap-2 text-sm font-bold bg-gradient-to-r ${art.gradientFrom} ${art.gradientTo} bg-clip-text text-transparent group/link`}
                   >
-                    Leggi di più
+                    Scopri di più
                     <ArrowRight size={16} className="text-violet-600 group-hover/link:translate-x-1.5 transition-transform duration-300" />
                   </Link>
                 </div>
@@ -409,7 +409,7 @@ export default function Home() {
                     <p className="text-white/90 leading-relaxed text-base font-light">{item.desc}</p>
                   </div>
                   <div className="mt-8 flex items-center text-xs font-bold text-violet-400 tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    APPROFONDISCI <ArrowRight className="ml-2" size={14} />
+                    Scopri di più <ArrowRight className="ml-2" size={14} />
                   </div>
                 </div>
                 <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-violet-500/8 rounded-full blur-3xl group-hover:bg-violet-500/20 transition-colors duration-500" />
