@@ -61,18 +61,15 @@ export default function ArticleView({ article, readTime }: Props) {
       {/* NAVBAR */}
       <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center">
-          <Link
-            href="/"
-            className="text-lg sm:text-2xl font-bold tracking-tight text-slate-900 hover:text-blue-400 transition-colors"
-          >
-            NVision Insights™
-          </Link>
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-black to-black/70 select-none">
+            <Link href="/" >NVision Insights™</Link>
+          </h1>
           <Link
             href="/articoli"
             className="flex items-center gap-1 sm:gap-2 text-slate-600 hover:text-blue-400 text-xs sm:text-sm transition-colors"
           >
             <ChevronLeft size={14} />
-            Torna agli articoli
+            Torna Agli Articoli
           </Link>
         </div>
       </header>
@@ -87,9 +84,9 @@ export default function ArticleView({ article, readTime }: Props) {
           <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-white text-xs sm:text-sm md:text-base">
             <div className="flex items-center gap-1 sm:gap-2">
               <div className="w-5 h-5 sm:w-8 sm:h-8 relative rounded-full overflow-hidden">
-                <Image src="/logos/logo2_lite.png" alt="Redazione NVision" fill className="object-cover" />
+                <Image src="/logos/logo2_lite.png" alt="NVision Insights" fill className="object-cover" />
               </div>
-              <span className="font-medium text-xs sm:text-sm">Redazione NVision</span>
+              <span className="font-medium text-xs sm:text-sm">NVision Insights</span>
             </div>
             <span className="hidden sm:inline w-1 h-1 bg-white/40 rounded-full"></span>
             <div className="flex items-center gap-1 sm:gap-2">
@@ -148,7 +145,7 @@ export default function ArticleView({ article, readTime }: Props) {
       {/* ARTICOLI CORRELATI */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 mb-16">
         <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-8 flex items-center gap-2">
-          <span className="w-8 h-1 bg-blue-400 rounded-full"></span>
+          <span className="w-10 h-1 bg-blue-400 rounded-full"></span>
           Continua a leggere
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -170,8 +167,8 @@ export default function ArticleView({ article, readTime }: Props) {
                   <p className="text-slate-500 text-xs line-clamp-2 mb-4 flex-grow">
                     {rel.excerpt}
                   </p>
-                  <div className="flex items-center text-blue-400 text-xs font-bold uppercase tracking-wider">
-                    Leggi ora <ArrowRight size={14} className="ml-1 group-hover:ml-2 transition-all" />
+                  <div className="flex items-center text-blue-600 text-xs font-bold uppercase tracking-wider">
+                    Scopri di più <ArrowRight size={14} className="ml-1 group-hover:ml-2 transition-all" />
                   </div>
                 </div>
               </div>
@@ -191,8 +188,8 @@ export default function ArticleView({ article, readTime }: Props) {
             Scopri altri approfondimenti tecnologici e resta aggiornato con NVision Insights™.
           </p>
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-3 sm:mt-4 justify-center md:justify-start">
-            <Link href="/articoli" className="px-4 py-1 sm:px-6 sm:py-2 bg-blue-300 text-white rounded-full hover:bg-blue-400 transition-all shadow-md shadow-blue-200 text-xs sm:text-base">
-              Leggi altre News
+            <Link href="/articoli" className="px-4 py-1 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-full hover:bg-blue-400 transition-all shadow-md shadow-blue-200 text-xs sm:text-base">
+              Scopri di più
             </Link>
             <Link href="/contatti" className="px-4 py-1 sm:px-6 sm:py-2 border border-slate-300 text-slate-700 rounded-full hover:bg-slate-50 transition-all text-xs sm:text-base">
               Contattaci

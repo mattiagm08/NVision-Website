@@ -23,11 +23,198 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+// ─── VIEWPORT CONFIG (once: false = re-triggers ogni volta) ──────────────────
+const vp  = { once: false, amount: 0.2 } as const;
+const vpS = { once: false, amount: 0.4 } as const;
+
+// ─── ANIMATED TITLE ──────────────────────────────────────────────────────────
+// Forme geometriche volano, si materializzano e si dissolvono mentre il testo emerge
+const AnimatedTitle = ({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <div className="relative overflow-visible">
+
+    {/* ① Grande cerchio viola — esplode dalla sinistra */}
+    <motion.div
+      className="absolute -left-8 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-violet-600 pointer-events-none"
+      initial={{ x: -130, scale: 0, opacity: 0 }}
+      whileInView={{ x: 0, scale: 1, opacity: [0, 0.9, 0.9, 0] }}
+      viewport={vp}
+      transition={{ duration: 1.1, times: [0, 0.22, 0.65, 1] }}
+    />
+
+    {/* ② Cerchio fuchsia — scende diagonale da destra */}
+    <motion.div
+      className="absolute right-1/3 -top-5 w-9 h-9 rounded-full bg-fuchsia-500 pointer-events-none"
+      initial={{ x: 80, y: -80, scale: 0, opacity: 0 }}
+      whileInView={{ x: 0, y: 0, scale: 1, opacity: [0, 1, 1, 0] }}
+      viewport={vp}
+      transition={{ duration: 1.0, delay: 0.08, times: [0, 0.25, 0.65, 1] }}
+    />
+
+    {/* ③ Quadrato viola che ruota piombando dall'alto */}
+    <motion.div
+      className="absolute left-[44%] -top-4 w-7 h-7 bg-violet-800 pointer-events-none"
+      initial={{ y: -100, rotate: -200, scale: 0, opacity: 0 }}
+      whileInView={{ y: 0, rotate: 45, scale: 1, opacity: [0, 1, 1, 0] }}
+      viewport={vp}
+      transition={{ duration: 1.0, delay: 0.14, times: [0, 0.28, 0.65, 1] }}
+    />
+
+    {/* ④ Linea di scansione orizzontale */}
+    <motion.div
+      className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-violet-500 via-fuchsia-400 to-transparent pointer-events-none"
+      initial={{ scaleX: 0, originX: 0, opacity: 0 }}
+      whileInView={{ scaleX: 1, opacity: [0, 0.85, 0.85, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.85, delay: 0.05, times: [0, 0.18, 0.7, 1] }}
+    />
+
+    {/* ⑤ Punto bianco — scatta dall'angolo in alto a sinistra */}
+    <motion.div
+      className="absolute -left-2 -top-2 w-4 h-4 rounded-full bg-white pointer-events-none"
+      initial={{ x: -50, y: -50, scale: 0, opacity: 0 }}
+      whileInView={{ x: 0, y: 0, scale: 1, opacity: [0, 1, 1, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.8, delay: 0.04, times: [0, 0.3, 0.6, 1] }}
+    />
+
+    {/* ⑥ Triangolo — sale dal basso ruotando */}
+    <motion.div
+      className="absolute right-[26%] bottom-1 w-0 h-0 border-l-[11px] border-l-transparent border-r-[11px] border-r-transparent border-b-[20px] border-b-violet-400 pointer-events-none"
+      initial={{ y: 70, scale: 0, opacity: 0, rotate: 180 }}
+      whileInView={{ y: 0, scale: 1, opacity: [0, 1, 1, 0], rotate: 0 }}
+      viewport={vp}
+      transition={{ duration: 1.0, delay: 0.18, times: [0, 0.3, 0.65, 1] }}
+    />
+
+    {/* ⑦ Orb glow fuchsia — pulsa a destra */}
+    <motion.div
+      className="absolute -right-10 top-1/2 -translate-y-1/2 w-28 h-28 rounded-full bg-fuchsia-600 blur-3xl pointer-events-none"
+      initial={{ scale: 0, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: [0, 0.45, 0.45, 0] }}
+      viewport={vp}
+      transition={{ duration: 1.2, times: [0, 0.2, 0.6, 1] }}
+    />
+
+    {/* ⑧ Piccolo quadrato viola — scivola da basso-destra */}
+    <motion.div
+      className="absolute right-16 bottom-0 w-5 h-5 bg-violet-500 pointer-events-none"
+      initial={{ x: 40, y: 40, scale: 0, opacity: 0 }}
+      whileInView={{ x: 0, y: 0, scale: 1, opacity: [0, 1, 1, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.8, delay: 0.12, times: [0, 0.3, 0.6, 1] }}
+    />
+
+    {/* ⑨ Linea verticale accent */}
+    <motion.div
+      className="absolute left-[30%] top-0 w-[2px] h-full bg-gradient-to-b from-violet-400 to-transparent pointer-events-none"
+      initial={{ scaleY: 0, originY: 0, opacity: 0 }}
+      whileInView={{ scaleY: 1, opacity: [0, 0.6, 0.6, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.7, delay: 0.1, times: [0, 0.2, 0.7, 1] }}
+    />
+
+    {/* ⑩ Micro-cerchio fuchsia basso-sinistra */}
+    <motion.div
+      className="absolute left-[38%] bottom-0 w-3 h-3 rounded-full bg-fuchsia-400 pointer-events-none"
+      initial={{ scale: 0, opacity: 0, y: 20 }}
+      whileInView={{ scale: 1, opacity: [0, 1, 1, 0], y: 0 }}
+      viewport={vp}
+      transition={{ duration: 0.7, delay: 0.22, times: [0, 0.3, 0.65, 1] }}
+    />
+
+    {/* ─── TESTO EMERGENTE ───────────────────────────────────────────── */}
+    <motion.div
+      className={`relative z-10 ${className}`}
+      initial={{ opacity: 0, y: 36, filter: 'blur(14px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      viewport={vp}
+      transition={{ duration: 0.9, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  </div>
+);
+
+// ─── ANIMATED PARAGRAPH ──────────────────────────────────────────────────────
+const AnimatedParagraph = ({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <div className="relative overflow-visible">
+
+    {/* ① Dot viola da sinistra */}
+    <motion.div
+      className="absolute -left-3 top-2 w-3 h-3 rounded-full bg-violet-500 pointer-events-none"
+      initial={{ x: -30, scale: 0, opacity: 0 }}
+      whileInView={{ x: 0, scale: 1, opacity: [0, 1, 1, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.7, times: [0, 0.3, 0.65, 1] }}
+    />
+
+    {/* ② Dot fuchsia dall'alto-destra */}
+    <motion.div
+      className="absolute right-1/4 -top-1 w-2.5 h-2.5 rounded-full bg-fuchsia-400 pointer-events-none"
+      initial={{ x: 25, y: -20, scale: 0, opacity: 0 }}
+      whileInView={{ x: 0, y: 0, scale: 1, opacity: [0, 1, 1, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.6, delay: 0.06, times: [0, 0.3, 0.65, 1] }}
+    />
+
+    {/* ③ Mini quadrato che si srotola */}
+    <motion.div
+      className="absolute left-1/4 bottom-1 w-2.5 h-2.5 bg-violet-700 pointer-events-none"
+      initial={{ scale: 0, opacity: 0, rotate: -45 }}
+      whileInView={{ scale: 1, opacity: [0, 0.8, 0.8, 0], rotate: 0 }}
+      viewport={vp}
+      transition={{ duration: 0.6, delay: 0.1, times: [0, 0.3, 0.65, 1] }}
+    />
+
+    {/* ④ Sottile sottolineatura che si disegna da sinistra */}
+    <motion.div
+      className="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-violet-400/40 to-transparent pointer-events-none"
+      initial={{ scaleX: 0, originX: 0, opacity: 0 }}
+      whileInView={{ scaleX: 1, opacity: [0, 0.7, 0.7, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.8, delay: 0.08, times: [0, 0.2, 0.7, 1] }}
+    />
+
+    {/* ⑤ Soft glow */}
+    <motion.div
+      className="absolute right-1/3 bottom-0 w-8 h-8 rounded-full bg-violet-500 blur-lg pointer-events-none"
+      initial={{ scale: 0, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: [0, 0.4, 0.4, 0] }}
+      viewport={vp}
+      transition={{ duration: 0.8, delay: 0.15, times: [0, 0.3, 0.65, 1] }}
+    />
+
+    {/* ─── TESTO EMERGENTE ───────────────────────────────────────────── */}
+    <motion.div
+      className={`relative z-10 ${className}`}
+      initial={{ opacity: 0, y: 22, filter: 'blur(8px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      viewport={vp}
+      transition={{ duration: 0.8, delay: 0.38, ease: [0.25, 0.4, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  </div>
+);
+
+// ─── COMPONENTE PRINCIPALE ───────────────────────────────────────────────────
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
-  // ─── CAROSELLO HERO ───────────────────────────────────────────────────────────
+  // ─── CAROSELLO HERO ─────────────────────────────────────────────────────────
   const trackRef       = useRef<HTMLDivElement>(null);
   const positionRef    = useRef(0);
   const rafRef         = useRef<number | null>(null);
@@ -94,7 +281,81 @@ export default function Home() {
     if (!hasDragged.current) router.push('/articoli');
   };
 
-  // ─── DATI ARTICOLI ────────────────────────────────────────────────────────────
+  const NetworkBackground = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const points = Array.from({ length: 100 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+    }));
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      points.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(139,92,246,0.7)";
+        ctx.fill();
+      });
+
+      for (let i = 0; i < points.length; i++) {
+        for (let j = i; j < points.length; j++) {
+          const dx = points[i].x - points[j].x;
+          const dy = points[i].y - points[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(points[i].x, points[i].y);
+            ctx.lineTo(points[j].x, points[j].y);
+            ctx.strokeStyle = `rgba(139,92,246,${1 - dist / 120})`;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    const resize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="w-full h-full"
+    />
+  );
+};
+
+  // ─── DATI ───────────────────────────────────────────────────────────────────
   const articoli = [
     {
       id: 1,
@@ -107,6 +368,7 @@ export default function Home() {
       accent: 'bg-violet-100 text-violet-700',
       tag: '#AI',
       delay: 0,
+      enterFrom: { x: -25, y: 0 },
     },
     {
       id: 2,
@@ -119,6 +381,7 @@ export default function Home() {
       accent: 'bg-fuchsia-100 text-fuchsia-700',
       tag: '#Quantum',
       delay: 0.12,
+      enterFrom: { x: 0, y: 40 },
     },
     {
       id: 3,
@@ -131,10 +394,10 @@ export default function Home() {
       accent: 'bg-purple-100 text-purple-700',
       tag: '#Future',
       delay: 0.24,
+      enterFrom: { x: 25, y: 0 },
     },
   ];
 
-  // ─── DATI SOLUZIONI ───────────────────────────────────────────────────────────
   const soluzioni = [
     {
       id: 1,
@@ -142,6 +405,7 @@ export default function Home() {
       desc: 'Sviluppiamo algoritmi predittivi per trasformare i dati in decisioni automatizzate.',
       icon: <Cpu className="text-violet-400" size={28} />,
       size: 'md:col-span-2',
+      enterFrom: { x: -40, y: 0 },
     },
     {
       id: 2,
@@ -149,6 +413,7 @@ export default function Home() {
       desc: 'Visualizzazione avanzata dei flussi informativi aziendali.',
       icon: <BarChart3 className="text-violet-400" size={28} />,
       size: 'md:col-span-1',
+      enterFrom: { x: 20, y: 0 },
     },
     {
       id: 3,
@@ -156,6 +421,7 @@ export default function Home() {
       desc: 'Infrastrutture scalabili e resilienti per il business moderno.',
       icon: <Zap className="text-violet-400" size={28} />,
       size: 'md:col-span-1',
+      enterFrom: { x: -30, y: 0 },
     },
     {
       id: 4,
@@ -163,17 +429,31 @@ export default function Home() {
       desc: 'Protezione end-to-end degli asset digitali e conformità normativa.',
       icon: <ShieldCheck className="text-violet-400" size={28} />,
       size: 'md:col-span-2',
+      enterFrom: { x: 0, y: 40 },
     },
+  ];
+
+  const footerNavLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/articoli', label: 'Articoli' },
+    { href: '/soluzioni', label: 'Soluzioni' },
+    { href: '/chisiamo', label: 'Chi Siamo' },
+  ];
+
+  const footerSocials = [
+    { Icon: Facebook },
+    { Icon: Youtube },
+    { Icon: Instagram },
   ];
 
   return (
     <main className="min-h-screen flex flex-col bg-black text-white font-sans">
 
-      {/* ─── NAVBAR ──────────────────────────────────────────────────────────────── */}
+      {/* ─── NAVBAR ────────────────────────────────────────────────────────────── */}
       <header className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/8 shadow-[0_0_40px_rgba(139,92,246,0.08)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 select-none">
-            <Link href="/" >NVision Insights™</Link>
+            <Link href="/">NVision Insights™</Link>
           </h1>
           <button className="md:hidden text-white text-3xl" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X /> : <Menu />}
@@ -202,12 +482,24 @@ export default function Home() {
         )}
       </header>
 
-      {/* ─── HERO ────────────────────────────────────────────────────────────────── */}
+      {/* ─── HERO ──────────────────────────────────────────────────────────────── */}
       <section className="pt-28 sm:pt-32 pb-16 min-h-[60vh] sm:min-h-[90vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 relative overflow-hidden bg-black">
-        {/* Luci ambientali violette */}
+
+        {/* Glow background */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-violet-700/25 blur-[140px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-fuchsia-800/10 blur-[120px] pointer-events-none" />
 
+        {/* ── NETWORK LAYER ── */}
+        <motion.div
+          initial={{ opacity: 0.9, filter: 'blur(0px)' }}
+          animate={{ opacity: 0.9, filter: 'blur(2px)' }}
+          transition={{ duration: 2, delay: 0.8, ease: 'easeOut' }}
+          className="absolute inset-0 z-0"
+        >
+          <NetworkBackground />
+        </motion.div>
+
+        {/* ── CONTENUTO HERO ── */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -215,22 +507,36 @@ export default function Home() {
           className="max-w-4xl mx-auto z-10"
         >
 
-          <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.05] mb-8">
+          {/* ── TITOLO ANIMATO ── */}
+          <motion.h2
+            initial={{ opacity: 0, scale: 0.85, filter: 'blur(20px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            transition={{ duration: 1.2, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.05] mb-8"
+          >
             NVision{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-violet-500 to-violet-300">
               Insights
             </span>
-          </h2>
-          <p className="text-lg sm:text-xl text-white max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+          </motion.h2>
+
+          {/* ── PARAGRAFO ── */}
+          <motion.p
+            initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1.0, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg sm:text-xl text-white max-w-2xl mx-auto mb-10 leading-relaxed font-light"
+          >
             Tecnologia, divulgazione e innovazione progettate per la prossima generazione di leader digitali.
-          </p>
+          </motion.p>
         </motion.div>
 
+        {/* ── CAROSELLO ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="overflow-hidden w-full max-w-full py-4 select-none"
+          transition={{ duration: 1, delay: 1 }}
+          className="overflow-hidden w-full max-w-full py-6 select-none z-10"
           onMouseDown={onHeroMouseDown}
           onMouseMove={onHeroMouseMove}
           onMouseUp={onHeroMouseUpOrLeave}
@@ -242,13 +548,13 @@ export default function Home() {
               <div
                 key={index}
                 onClick={handleImageClick}
-                className="min-w-[70vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-2xl shadow-violet-900/30 transition-all duration-300 hover:scale-[1.03] hover:shadow-violet-700/40 cursor-pointer ring-1 ring-white/5"
+                className="min-w-[70vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.22)] transition-all duration-300 hover:scale-[1.03] hover:shadow-violet-700/80 cursor-pointer ring-1 ring-white/5"
               >
                 <img
                   src={`/carousel/img${i}.jpg`}
                   alt={`Immagine ${i}`}
                   draggable={false}
-                  className="w-full h-44 sm:h-52 md:h-72 object-cover pointer-events-none"
+                  className="w-full h-44 sm:h-52 md:h-75 object-cover pointer-events-none"
                 />
               </div>
             ))}
@@ -256,9 +562,8 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ─── SEZIONE ARTICOLI ─────────────────────────────────────────────────────── */}
+      {/* ─── SEZIONE ARTICOLI ──────────────────────────────────────────────────── */}
       <section id="articoli" className="py-24 bg-white text-black relative overflow-hidden">
-        {/* Blob decorativi */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-violet-100 opacity-70 blur-3xl" />
           <div className="absolute top-1/2 right-0 w-72 h-72 rounded-full bg-fuchsia-100 opacity-50 blur-3xl" />
@@ -266,37 +571,78 @@ export default function Home() {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          {/* Header sezione */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-7xl font-black text-zinc-950 tracking-tighter mb-4 leading-none">
+
+          {/* Header */}
+          <div className="text-center mb-16">
+            <AnimatedTitle className="text-5xl md:text-7xl font-black text-zinc-950 tracking-tighter mb-4 leading-none">
               Ultimi{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-fuchsia-500">
-                Articoli
+              <span className="relative inline-block">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-fuchsia-500">
+                  Articoli
+                </span>
+                
               </span>
-            </h2>
-            <p className="text-black/70 max-w-xl mx-auto text-lg leading-relaxed font-light">
+            </AnimatedTitle>
+            <AnimatedParagraph className="text-black/70 max-w-xl mx-auto text-lg leading-relaxed font-light">
               Approfondimenti tech e analisi essenziali per restare al passo con il mondo che cambia.
-            </p>
-          </motion.div>
+            </AnimatedParagraph>
+          </div>
 
           {/* Cards */}
           <div className="grid md:grid-cols-3 gap-8">
             {articoli.map((art) => (
               <motion.div
                 key={art.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: art.delay }}
+                initial={{ opacity: 0, ...art.enterFrom }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: false, amount: 0.15 }}
+                transition={{ duration: 0.75, delay: art.delay, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-violet-200/60 transition-all duration-500 bg-white border border-zinc-100 flex flex-col"
               >
+                {/* ── Angoli-reticolo che appaiono poi svaniscono (targeting brackets) */}
+                <motion.div
+                  className="absolute top-3 left-3 w-6 h-6 pointer-events-none z-20"
+                  style={{ borderTop: '2px solid rgba(139,92,246,0.85)', borderLeft: '2px solid rgba(139,92,246,0.85)', borderTopLeftRadius: 4 }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 1.8, delay: art.delay + 0.25, times: [0, 0.1, 0.6, 1] }}
+                />
+                <motion.div
+                  className="absolute top-3 right-3 w-6 h-6 pointer-events-none z-20"
+                  style={{ borderTop: '2px solid rgba(232,121,249,0.85)', borderRight: '2px solid rgba(232,121,249,0.85)', borderTopRightRadius: 4 }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 1.8, delay: art.delay + 0.3, times: [0, 0.1, 0.6, 1] }}
+                />
+                <motion.div
+                  className="absolute bottom-3 left-3 w-6 h-6 pointer-events-none z-20"
+                  style={{ borderBottom: '2px solid rgba(139,92,246,0.6)', borderLeft: '2px solid rgba(139,92,246,0.6)', borderBottomLeftRadius: 4 }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 1.8, delay: art.delay + 0.32, times: [0, 0.1, 0.6, 1] }}
+                />
+                <motion.div
+                  className="absolute bottom-3 right-3 w-6 h-6 pointer-events-none z-20"
+                  style={{ borderBottom: '2px solid rgba(167,139,250,0.6)', borderRight: '2px solid rgba(167,139,250,0.6)', borderBottomRightRadius: 4 }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 1.8, delay: art.delay + 0.35, times: [0, 0.1, 0.6, 1] }}
+                />
+
+                {/* ── Linea di scansione sul banner */}
+                <motion.div
+                  className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none z-30`}
+                  initial={{ scaleX: 0, originX: 0, opacity: 0 }}
+                  whileInView={{ scaleX: 1, opacity: [0, 0.8, 0.8, 0] }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 1.0, delay: art.delay + 0.1, times: [0, 0.15, 0.6, 1] }}
+                />
+
                 {/* Banner superiore */}
                 <div className={`relative h-36 bg-gradient-to-br ${art.gradientFrom} ${art.gradientTo} flex items-end px-6 pb-5 overflow-hidden`}>
                   <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
@@ -333,83 +679,126 @@ export default function Home() {
                   </Link>
                 </div>
 
-                {/* Bordo inferiore animato */}
                 <div className={`h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${art.gradientFrom} ${art.gradientTo} transition-all duration-500`} />
               </motion.div>
             ))}
           </div>
 
-          {/* CTA */}
+          {/* CTA — rimbalza con spring */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.5, delay: 0.3, type: 'spring', stiffness: 220, damping: 14 }}
             className="text-center mt-14"
           >
             <Link
               href="/articoli"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-zinc-950 text-white font-bold text-sm hover:bg-violet-700 transition-all duration-300 shadow-xl hover:shadow-violet-400/30 hover:shadow-2xl"
+              className="inline-flex items-center gap-3 px-12 py-5 rounded-full bg-zinc-950 text-white font-bold text-sm hover:bg-purple-500 transition-all duration-300 shadow-xl hover:shadow-violet-400/30 hover:shadow-2xl"
             >
-              Tutti gli articoli <ArrowRight size={18} />
+              Tutti Gli Articoli <ArrowRight size={18} />
             </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* ─── SEZIONE SOLUZIONI ───────────────────────────────────────────────────── */}
+      {/* ─── SEZIONE SOLUZIONI ─────────────────────────────────────────────────── */}
       <section id="soluzioni" className="py-24 bg-zinc-950 relative overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-violet-700/15 rounded-full blur-[140px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-fuchsia-700/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
+
+          {/* Header + pulsante */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl">
-              <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-6">
+              <AnimatedTitle className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-6">
                 Le Nostre{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-fuchsia-400">
-                  Soluzioni
+                <span className="relative inline-block">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-fuchsia-400">
+                    Soluzioni
+                  </span>
+                
                 </span>
-              </h2>
-              
-              <p className="text-white/90 text-lg md:text-xl leading-relaxed font-light">
+              </AnimatedTitle>
+
+              <AnimatedParagraph className="text-white/90 text-lg md:text-xl leading-relaxed font-light">
                 Uniamo visione strategica e conoscenza tecnica d&apos;eccellenza.
-              </p>
-              
+              </AnimatedParagraph>
             </div>
-            <button className="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-violet-500 hover:text-white transition-all duration-300 flex items-center h-fit w-fit shadow-lg">
-              Tutte le soluzioni <ArrowRight className="ml-2" size={20} />
-            </button>
+
+            {/* Il pulsante vola da destra */}
+            <motion.button
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-white text-black px-12 py-4 rounded-full font-bold hover:bg-purple-500 hover:text-white transition-all duration-300 flex items-center h-fit w-fit shadow-lg"
+            >
+              <Link href="/soluzioni" className="text-black hover:text-white">
+                Tutte Le Soluzioni
+              </Link>
+              <ArrowRight className="ml-2" size={20} />
+            </motion.button>
           </div>
 
-          {/* Pillola badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-semibold tracking-widest uppercase mb-8"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-                Tecnologia & Innovazione
-              </motion.div>
+          {/* Badge "Tecnologia & Innovazione" — pop con spring */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ delay: 0.25, duration: 0.6, type: 'spring', stiffness: 260, damping: 14 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-semibold tracking-widest uppercase mb-8"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+            Tecnologia &amp; Innovazione
+          </motion.div>
 
+          {/* Grid soluzioni */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {soluzioni.map((item) => (
+            {soluzioni.map((item, i) => (
               <motion.div
                 key={item.id}
+                initial={{ opacity: 0, ...item.enterFrom }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: false, amount: 0.15 }}
+                transition={{ duration: 0.75, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ scale: 0.985 }}
                 className={`group relative p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/8 backdrop-blur-md overflow-hidden transition-all duration-300 hover:bg-white/[0.07] hover:border-violet-500/40 hover:shadow-[0_0_60px_rgba(139,92,246,0.12)] ${item.size}`}
               >
+                {/* ── Linea di scansione sul bordo superiore */}
+                <motion.div
+                  className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-violet-500 to-transparent pointer-events-none"
+                  initial={{ scaleX: 0, originX: 0, opacity: 0 }}
+                  whileInView={{ scaleX: 1, opacity: [0, 1, 1, 0] }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 1.4, delay: i * 0.1 + 0.2, times: [0, 0.1, 0.6, 1] }}
+                />
+
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div>
-                    <div className="mb-6 p-3 bg-violet-500/10 w-fit rounded-2xl border border-violet-500/20 group-hover:scale-110 group-hover:bg-violet-500/20 transition-all duration-300">
-                      {item.icon}
+                    {/* Icona con anello espandente */}
+                    <div className="relative mb-6 w-fit">
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl border-2 border-violet-500 pointer-events-none"
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        whileInView={{ scale: [0.5, 1.6, 2.2], opacity: [0, 0.7, 0] }}
+                        viewport={{ once: false, amount: 0.15 }}
+                        transition={{ duration: 1.1, delay: i * 0.1 + 0.35 }}
+                      />
+                      <div className="p-3 bg-violet-500/10 w-fit rounded-2xl border border-violet-500/20 group-hover:scale-110 group-hover:bg-violet-500/20 transition-all duration-300">
+                        {item.icon}
+                      </div>
                     </div>
+
                     <h4 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight">{item.title}</h4>
                     <p className="text-white/90 leading-relaxed text-base font-light">{item.desc}</p>
                   </div>
                   <div className="mt-8 flex items-center text-xs font-bold text-violet-400 tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Scopri di più <ArrowRight className="ml-2" size={14} />
+                    <Link href="/soluzioni" className="flex items-center">
+                      Scopri di più
+                      <ArrowRight className="ml-2" size={14} />
+                    </Link>
                   </div>
                 </div>
                 <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-violet-500/8 rounded-full blur-3xl group-hover:bg-violet-500/20 transition-colors duration-500" />
@@ -419,54 +808,117 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── FOOTER BIANCO ───────────────────────────────────────────────────────── */}
+      {/* ─── FOOTER ────────────────────────────────────────────────────────────── */}
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
         <div className="max-w-6xl mx-auto px-6 pt-20 pb-5 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
-            {/* Brand */}
+            {/* Brand + Socials */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600">
+              <motion.h3
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.6 }}
+                className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600"
+              >
                 NVision Insights™
-              </h3>
+              </motion.h3>
 
               <div className="flex space-x-3">
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Facebook size={18} />
-                </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Youtube size={18} />
-                </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Instagram size={18} />
-                </a>
+                {footerSocials.map(({ Icon }, i) => (
+                  <motion.a
+                    key={i}
+                    href="#"
+                    initial={{ scale: 0, opacity: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.5, delay: i * 0.1, type: 'spring', stiffness: 260, damping: 13 }}
+                    className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200"
+                  >
+                    <Icon size={18} />
+                  </motion.a>
+                ))}
               </div>
             </div>
 
-            {/* Navigazione */}
+            {/* Navigazione — link a cascata */}
             <div>
-              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
+              <motion.h4
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.4 }}
+                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+              >
+                Navigazione
+              </motion.h4>
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/" className="text-black hover:text-violet-600 transition-colors duration-200">Home</Link></li>
-                <li><Link href="/articoli" className="text-black hover:text-violet-600 transition-colors duration-200">Articoli</Link></li>
-                <li><Link href="/soluzioni" className="text-black hover:text-violet-600 transition-colors duration-200">Soluzioni</Link></li>
-                <li><Link href="/chisiamo" className="text-black hover:text-violet-600 transition-colors duration-200">Chi Siamo</Link></li>
+                {footerNavLinks.map((item, i) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -18 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
+                  >
+                    <Link href={item.href} className="text-black hover:text-violet-600 transition-colors duration-200">
+                      {item.label}
+                    </Link>
+                  </motion.li>
+                ))}
               </ul>
             </div>
 
             {/* Legal */}
             <div>
-              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Policy & Cookies</h4>
+              <motion.h4
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.4 }}
+                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+              >
+                Policy &amp; Cookies
+              </motion.h4>
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/privacy" className="text-black hover:text-violet-600 transition-colors duration-200">Privacy Policy</Link></li>
-                <li><Link href="/cookies" className="text-black hover:text-violet-600 transition-colors duration-200">Cookie Policy</Link></li>
-                <li><Link href="/terms" className="text-black hover:text-violet-600 transition-colors duration-200">Termini</Link></li>
-                <li className="text-black pt-2 text-xs font-mono">P.IVA IT 01234567890</li>
+                {[
+                  { href: '/privacy', label: 'Privacy Policy' },
+                  { href: '/cookies', label: 'Cookie Policy' },
+                  { href: '/terms', label: 'Termini' },
+                ].map((item, i) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -18 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
+                  >
+                    <Link href={item.href} className="text-black hover:text-violet-600 transition-colors duration-200">
+                      {item.label}
+                    </Link>
+                  </motion.li>
+                ))}
+                <motion.li
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="text-black pt-2 text-xs font-mono"
+                >
+                  P.IVA IT 01234567890
+                </motion.li>
               </ul>
             </div>
 
-            {/* Newsletter */}
-            <div className="space-y-6">
+            {/* Newsletter — vola da destra */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={vpS}
+              transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-6"
+            >
               <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
               <div className="relative">
                 <input
@@ -474,38 +926,43 @@ export default function Home() {
                   placeholder="La tua email"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-violet-600 hover:bg-violet-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                <button className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
                   <ArrowRight size={16} />
                 </button>
               </div>
               <div className="space-y-3 pt-1">
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <Mail size={15} className="text-violet-600 shrink-0" />
-
+                  <Mail size={15} className="text-purple-600 shrink-0" />
                   <span>info@nvisioninsights.it</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <MapPin size={15} className="text-violet-600 shrink-0" />
+                  <MapPin size={15} className="text-purple-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Divisore con accento violetto */}
+          {/* Divisore */}
           <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
-          <p className="text-xs text-black font-light text-center">
-              © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-            </p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: false, amount: 0.8 }}
+            transition={{ duration: 0.8 }}
+            className="text-xs text-black font-light text-center"
+          >
+            © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+          </motion.p>
+
           {/* Bottom bar */}
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            
             <div className="flex items-center justify-end ml-auto space-x-6 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
                 <Globe size={12} className="text-violet-500" />
                 Italiano
               </span>
-
               <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
                 Supporto
               </span>

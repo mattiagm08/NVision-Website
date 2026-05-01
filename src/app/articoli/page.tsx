@@ -116,8 +116,13 @@ export default function Articoli() {
                 {/* Contenuto Card */}
                 <div className="p-8 flex flex-col flex-grow">
                   <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-blue-600 transition-colors leading-tight tracking-tight">
-                    {article.title}
+                    <Link href={`/articoli/${article.slug}`}>{article.title}</Link>
                   </h4>
+
+                  <Link
+                      href={`/articoli/${article.title}`}
+                      className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
+                    ></Link>
 
                   <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 font-light">
                     {article.excerpt}

@@ -12,7 +12,7 @@ export default function Soluzioni() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <main className="min-h-screen flex flex-col bg-gradient-to-br from-purple-950 via-black to-fuchsia-950 text-white font-sans">
+    <main className="min-h-screen flex flex-col bg-gradient-to-br from-green-950 via-black to-green-950 text-white font-sans">
       
       {/* ---------------------------------------------------------
           NAVBAR / HEADER
@@ -54,9 +54,9 @@ export default function Soluzioni() {
           SEZIONE HERO
       --------------------------------------------------------- */}
 
-      <section className="pt-32 pb-20 bg-gradient-to-b from-purple-950 via-black to-purple-900 text-center relative overflow-hidden">
+      <section className="pt-32 pb-20 bg-gradient-to-b from-green-950 via-black/20 to-green-900 text-center relative overflow-hidden">
         {/* EFFETTO VISIVO BACKGROUND */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(192,38,211,0.15),transparent_70%)] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0, 255, 89, 0.15),transparent_70%)] pointer-events-none"></div>
         
         {/* CONTENUTO HERO */}
         <motion.div
@@ -68,7 +68,7 @@ export default function Soluzioni() {
           <h2 className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-8">
             Le Nostre Soluzioni
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-purple-200 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-white max-w-3xl mx-auto">
             Scopri come le nostre soluzioni innovative possono migliorare la tua esperienza e semplificare i processi aziendali.
           </p>
         </motion.div>
@@ -76,16 +76,14 @@ export default function Soluzioni() {
 
       {/* ---------------------------------------------------------
           SEZIONE GRIGLIA SOLUZIONI
-      --------------------------------------------------------- */}
+      --------------------------------------------------------- 
       <section className="py-20 bg-slate-50 text-black flex-grow relative">
-        {/* Pattern di sfondo leggero */}
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#7e22ce 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
 
         <div className="max-w-6xl mx-auto px-6 relative">
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             
-            {/* MAPPATURA CARD SOLUZIONI */}
             {[
               {
                 title: "Soluzione 1: Ottimizzazione dei Processi",
@@ -126,6 +124,11 @@ export default function Soluzioni() {
 
           </div>
         </div>
+      </section> */}
+
+      <section className="py-20 text-black flex-grow relative bg-white">
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#7e22ce 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+        <h2 className="text-3xl text-slate-700 mb-8 text-center">Nessuna Soluzione Disponibile.</h2>
       </section>
 
 
@@ -138,18 +141,18 @@ export default function Soluzioni() {
 
             {/* Brand */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600">
+              <h3 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-green-600">
                 NVision Insights™
               </h3>
 
               <div className="flex space-x-3">
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-500 transition-all duration-200">
                   <Facebook size={18} />
                 </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-500 transition-all duration-200">
                   <Youtube size={18} />
                 </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200">
+                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-500 transition-all duration-200">
                   <Instagram size={18} />
                 </a>
               </div>
@@ -159,10 +162,10 @@ export default function Soluzioni() {
             <div>
               <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/" className="text-black hover:text-violet-600 transition-colors duration-200">Home</Link></li>
-                <li><Link href="/articoli" className="text-black hover:text-violet-600 transition-colors duration-200">Articoli</Link></li>
-                <li><Link href="/soluzioni" className="text-black hover:text-violet-600 transition-colors duration-200">Soluzioni</Link></li>
-                <li><Link href="/chisiamo" className="text-black hover:text-violet-600 transition-colors duration-200">Chi Siamo</Link></li>
+                <li><Link href="/" className="text-black hover:text-green-600 transition-colors duration-200">Home</Link></li>
+                <li><Link href="/articoli" className="text-black hover:text-green-600 transition-colors duration-200">Articoli</Link></li>
+                <li><Link href="/soluzioni" className="text-black hover:text-green-600 transition-colors duration-200">Soluzioni</Link></li>
+                <li><Link href="/chisiamo" className="text-black hover:text-green-600 transition-colors duration-200">Chi Siamo</Link></li>
               </ul>
             </div>
 
@@ -170,9 +173,9 @@ export default function Soluzioni() {
             <div>
               <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Policy & Cookies</h4>
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/privacy" className="text-black hover:text-violet-600 transition-colors duration-200">Privacy Policy</Link></li>
-                <li><Link href="/cookies" className="text-black hover:text-violet-600 transition-colors duration-200">Cookie Policy</Link></li>
-                <li><Link href="/terms" className="text-black hover:text-violet-600 transition-colors duration-200">Termini</Link></li>
+                <li><Link href="/privacy" className="text-black hover:text-green-600 transition-colors duration-200">Privacy Policy</Link></li>
+                <li><Link href="/cookies" className="text-black hover:text-green-600 transition-colors duration-200">Cookie Policy</Link></li>
+                <li><Link href="/terms" className="text-black hover:text-green-600 transition-colors duration-200">Termini</Link></li>
                 <li className="text-black pt-2 text-xs font-mono">P.IVA IT 01234567890</li>
               </ul>
             </div>
@@ -184,28 +187,28 @@ export default function Soluzioni() {
                 <input
                   type="email"
                   placeholder="La tua email"
-                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
+                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-violet-600 hover:bg-violet-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                <button className="absolute right-2 top-2 bg-green-600 hover:bg-green-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
                   <ArrowRight size={16} />
                 </button>
               </div>
               <div className="space-y-3 pt-1">
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <Mail size={15} className="text-violet-600 shrink-0" />
+                  <Mail size={15} className="text-green-600 shrink-0" />
 
                   <span>info@nvisioninsights.it</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <MapPin size={15} className="text-violet-600 shrink-0" />
+                  <MapPin size={15} className="text-green-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Divisore con accento violetto */}
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
+          {/* Divisore con accento verde */}
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-green-200 to-transparent mb-8" />
           <p className="text-xs text-black font-light text-center">
               © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
             </p>
@@ -214,11 +217,11 @@ export default function Soluzioni() {
             
             <div className="flex items-center justify-end ml-auto space-x-6 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <Globe size={12} className="text-violet-500" />
+                <Globe size={12} className="text-green-500" />
                 Italiano
               </span>
 
-              <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
+              <span className="hover:text-green-600 transition-colors duration-200 cursor-pointer">
                 Supporto
               </span>
             </div>
