@@ -124,7 +124,7 @@ export default function Articoli() {
                       className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
                     ></Link>
 
-                  <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 font-light">
+                  <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2 font-light">
                     {article.excerpt}
                   </p>
 
@@ -138,8 +138,8 @@ export default function Articoli() {
                     </Link>
 
                     <div className="flex items-center gap-4 text-slate-400">
-                      <Twitter size={18} className="hover:text-purple-400 cursor-pointer transition-colors" />
-                      <Linkedin size={18} className="hover:text-purple-700 cursor-pointer transition-colors" />
+                      <Facebook size={18} className="hover:text-purple-400 cursor-pointer transition-colors" />
+                      <Instagram size={18} className="hover:text-purple-700 cursor-pointer transition-colors" />
                       <Share2 size={18} className="hover:text-slate-600 cursor-pointer transition-colors" />
                     </div>
                   </div>
@@ -168,17 +168,20 @@ export default function Articoli() {
                   <Facebook size={18} />
                 </a>
                 <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Youtube size={18} />
+                  <Instagram size={18} />
                 </a>
                 <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Instagram size={18} />
+                  <Share2 size={18} />
                 </a>
               </div>
             </div>
 
             {/* Navigazione */}
             <div>
-              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
+              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">
+                Navigazione
+              </h4>
+
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
                 <li><Link href="/" className="text-black hover:text-blue-600 transition-colors duration-200">Home</Link></li>
                 <li><Link href="/articoli" className="text-black hover:text-blue-600 transition-colors duration-200">Articoli</Link></li>
@@ -189,18 +192,26 @@ export default function Articoli() {
 
             {/* Legal */}
             <div>
-              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">Policy & Cookies</h4>
+              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">
+                Policy & Cookies
+              </h4>
+
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
                 <li><Link href="/privacy" className="text-black hover:text-blue-600 transition-colors duration-200">Privacy Policy</Link></li>
                 <li><Link href="/cookies" className="text-black hover:text-blue-600 transition-colors duration-200">Cookie Policy</Link></li>
                 <li><Link href="/terms" className="text-black hover:text-blue-600 transition-colors duration-200">Termini</Link></li>
-                <li className="text-black pt-2 text-xs font-mono">P.IVA IT 01234567890</li>
+                <li className="text-black pt-2 text-xs font-mono">
+                  P.IVA IT 01234567890
+                </li>
               </ul>
             </div>
 
-            {/* Newsletter */}
+            {/* Contatti */}
             <div className="space-y-6">
-              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
+              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
+                Contattaci
+              </h4>
+
               <div className="relative">
                 <input
                   type="email"
@@ -211,12 +222,13 @@ export default function Articoli() {
                   <ArrowRight size={16} />
                 </button>
               </div>
+
               <div className="space-y-3 pt-1">
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
                   <Mail size={15} className="text-blue-600 shrink-0" />
-
                   <span>info@nvisioninsights.it</span>
                 </div>
+
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
                   <MapPin size={15} className="text-blue-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
@@ -225,15 +237,22 @@ export default function Articoli() {
             </div>
           </div>
 
-          {/* Divisore con accento violetto */}
+          {/* Divider */}
           <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
-          <p className="text-xs text-black font-light text-center">
+
+          {/* Copyright + Bottom bar perfettamente allineata */}
+          <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
+
+            {/* left spacer */}
+            <div />
+
+            {/* center copyright */}
+            <p className="text-center">
               © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
             </p>
-          {/* Bottom bar */}
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            
-            <div className="flex items-center justify-end ml-auto space-x-6 text-xs text-zinc-400">
+
+            {/* right controls */}
+            <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
                 <Globe size={12} className="text-blue-500" />
                 Italiano

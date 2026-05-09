@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Facebook,
   Youtube,
+  Share2,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -224,6 +225,12 @@ export default function Home() {
   const hasDragged     = useRef(false);
   const SPEED          = 0.8;
 
+  // ─── INDICI IMMAGINI CAROSELLO ───────────────────────────────────────────────
+  // [1,2,3,4,5, 1,2,3,4,5] — le prime 5 sono la copia originale,
+  // le seconde 5 sono la copia duplicata per il loop infinito.
+  // index 0 → img1 (primo elemento visibile = LCP candidate)
+  const CAROUSEL_ITEMS = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+
   const startAnimation = () => {
     const tick = () => {
       if (!trackRef.current) return;
@@ -282,78 +289,83 @@ export default function Home() {
   };
 
   const NetworkBackground = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    useEffect(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
 
-    const points = Array.from({ length: 100 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.6,
-      vy: (Math.random() - 0.5) * 0.6,
-    }));
+      const points = Array.from({ length: 100 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+      }));
 
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height);
+      let animFrameId: number;
 
-      points.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
+      const draw = () => {
+        ctx.clearRect(0, 0, width, height);
 
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+        points.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(139,92,246,0.7)";
-        ctx.fill();
-      });
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
 
-      for (let i = 0; i < points.length; i++) {
-        for (let j = i; j < points.length; j++) {
-          const dx = points[i].x - points[j].x;
-          const dy = points[i].y - points[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(139,92,246,0.7)";
+          ctx.fill();
+        });
 
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(points[i].x, points[i].y);
-            ctx.lineTo(points[j].x, points[j].y);
-            ctx.strokeStyle = `rgba(139,92,246,${1 - dist / 120})`;
-            ctx.stroke();
+        for (let i = 0; i < points.length; i++) {
+          for (let j = i; j < points.length; j++) {
+            const dx = points[i].x - points[j].x;
+            const dy = points[i].y - points[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 120) {
+              ctx.beginPath();
+              ctx.moveTo(points[i].x, points[i].y);
+              ctx.lineTo(points[j].x, points[j].y);
+              ctx.strokeStyle = `rgba(139,92,246,${1 - dist / 120})`;
+              ctx.stroke();
+            }
           }
         }
-      }
 
-      requestAnimationFrame(draw);
-    };
+        animFrameId = requestAnimationFrame(draw);
+      };
 
-    draw();
+      draw();
 
-    const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
+      const resize = () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      };
 
-    window.addEventListener('resize', resize);
-    return () => window.removeEventListener('resize', resize);
-  }, []);
+      window.addEventListener('resize', resize);
+      return () => {
+        window.removeEventListener('resize', resize);
+        cancelAnimationFrame(animFrameId);
+      };
+    }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="w-full h-full"
-    />
-  );
-};
+    return (
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full"
+      />
+    );
+  };
 
   // ─── DATI ───────────────────────────────────────────────────────────────────
   const articoli = [
@@ -363,9 +375,9 @@ export default function Home() {
       categoria: 'Intelligenza Artificiale',
       titolo: "L'evoluzione dell'AI nel 2025",
       desc: "Un'analisi dettagliata su come le nuove architetture trasformeranno il lavoro creativo.",
-      gradientFrom: 'from-violet-600',
-      gradientTo: 'to-purple-900',
-      accent: 'bg-violet-100 text-violet-700',
+      gradientFrom: 'from-fuchsia-600',
+      gradientTo: 'to-violet-800',
+      accent: 'bg-fuchsia-100 text-fuchsia-700',
       tag: '#AI',
       delay: 0,
       enterFrom: { x: -25, y: 0 },
@@ -389,9 +401,9 @@ export default function Home() {
       categoria: 'Future Tech',
       titolo: "L'evoluzione dell'AI nel 2027",
       desc: 'Scenari futuri e paradigmi emergenti: come prepararsi alla prossima rivoluzione tecnologica.',
-      gradientFrom: 'from-purple-700',
-      gradientTo: 'to-violet-950',
-      accent: 'bg-purple-100 text-purple-700',
+      gradientFrom: 'from-fuchsia-600',
+      gradientTo: 'to-violet-800',
+      accent: 'bg-fuchsia-100 text-fuchsia-700',
       tag: '#Future',
       delay: 0.24,
       enterFrom: { x: 25, y: 0 },
@@ -442,8 +454,8 @@ export default function Home() {
 
   const footerSocials = [
     { Icon: Facebook },
-    { Icon: Youtube },
     { Icon: Instagram },
+    { Icon: Share2 },
   ];
 
   return (
@@ -489,15 +501,13 @@ export default function Home() {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-violet-700/25 blur-[140px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-fuchsia-800/10 blur-[120px] pointer-events-none" />
 
-        {/* ── NETWORK LAYER ── */}
-        <motion.div
-          initial={{ opacity: 0.9, filter: 'blur(0px)' }}
-          animate={{ opacity: 0.9, filter: 'blur(2px)' }}
-          transition={{ duration: 2, delay: 0.8, ease: 'easeOut' }}
-          className="absolute inset-0 z-0"
-        >
+        {/* ── NETWORK LAYER ──
+            MODIFICA LCP: rimossa l'animazione blur iniziale (filter: blur(0px) → blur(2px))
+            che ritardava il rendering. Il canvas ora appare immediatamente senza transizione
+            sul filter, che bloccava il browser per ~2s prima di poter calcolare l'LCP. */}
+        <div className="absolute inset-0 z-0 opacity-90">
           <NetworkBackground />
-        </motion.div>
+        </div>
 
         {/* ── CONTENUTO HERO ── */}
         <motion.div
@@ -522,9 +532,9 @@ export default function Home() {
 
           {/* ── PARAGRAFO ── */}
           <motion.p
-            initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 1.0, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
             className="text-lg sm:text-xl text-white max-w-2xl mx-auto mb-10 leading-relaxed font-light"
           >
             Tecnologia, divulgazione e innovazione progettate per la prossima generazione di leader digitali.
@@ -544,17 +554,29 @@ export default function Home() {
           style={{ cursor: isDraggingHero.current ? 'grabbing' : 'grab' }}
         >
           <div ref={trackRef} className="flex gap-4 w-max will-change-transform">
-            {[1, 2, 3, 4, 5, 1, 2, 3, 4, 5].map((i, index) => (
+            {CAROUSEL_ITEMS.map((i, index) => (
               <div
                 key={index}
                 onClick={handleImageClick}
                 className="min-w-[70vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.22)] transition-all duration-300 hover:scale-[1.03] hover:shadow-violet-700/80 cursor-pointer ring-1 ring-white/5"
               >
+                {/*
+                  ─── FIX LCP ───────────────────────────────────────────────────
+                  index === 0 → prima immagine visibile all'utente al caricamento:
+                    • fetchPriority="high"  → il browser la scarica prima di tutto
+                    • loading="eager"       → nessun lazy load (default browser)
+                    • decoding="sync"       → decodifica sincrona, appare prima
+                  Tutti gli altri indici → lazy load per non sprecare banda.
+                  ───────────────────────────────────────────────────────────────
+                */}
                 <img
                   src={`/carousel/img${i}.jpg`}
                   alt={`Immagine ${i}`}
                   draggable={false}
                   className="w-full h-44 sm:h-52 md:h-75 object-cover pointer-events-none"
+                  fetchPriority={index === 0 ? 'high' : 'low'}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding={index === 0 ? 'sync' : 'async'}
                 />
               </div>
             ))}
@@ -664,7 +686,7 @@ export default function Home() {
                     </span>
                     <span className="text-xs text-zinc-400 font-medium">Tecnologia</span>
                   </div>
-                  <h4 className="text-xl font-black text-zinc-900 mb-3 leading-tight group-hover:text-violet-700 transition-colors duration-300">
+                  <h4 className="text-xl font-black text-zinc-900 mb-3 leading-tight group-hover:text-fuchsia-600 transition-colors duration-300">
                     {art.titolo}
                   </h4>
                   <p className="text-zinc-500 text-sm leading-relaxed flex-1 mb-6 font-light">
@@ -729,7 +751,7 @@ export default function Home() {
 
             {/* Il pulsante vola da destra */}
             <motion.button
-              initial={{ opacity: 0, x: 60 }}
+              initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false, amount: 0.5 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
@@ -833,8 +855,14 @@ export default function Home() {
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={vpS}
-                    transition={{ duration: 0.5, delay: i * 0.1, type: 'spring', stiffness: 260, damping: 13 }}
-                    className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200"
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.1,
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 13,
+                    }}
+                    className="p-2 bg-zinc-100 rounded-full hover:bg-purple-600 hover:text-white text-zinc-500 transition-all duration-200"
                   >
                     <Icon size={18} />
                   </motion.a>
@@ -842,7 +870,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Navigazione — link a cascata */}
+            {/* Navigazione */}
             <div>
               <motion.h4
                 initial={{ opacity: 0, y: -10 }}
@@ -853,6 +881,7 @@ export default function Home() {
               >
                 Navigazione
               </motion.h4>
+
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
                 {footerNavLinks.map((item, i) => (
                   <motion.li
@@ -862,7 +891,10 @@ export default function Home() {
                     viewport={vpS}
                     transition={{ duration: 0.4, delay: i * 0.07 }}
                   >
-                    <Link href={item.href} className="text-black hover:text-violet-600 transition-colors duration-200">
+                    <Link
+                      href={item.href}
+                      className="text-black hover:text-violet-600 transition-colors duration-200"
+                    >
                       {item.label}
                     </Link>
                   </motion.li>
@@ -881,11 +913,12 @@ export default function Home() {
               >
                 Policy &amp; Cookies
               </motion.h4>
+
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
                 {[
-                  { href: '/privacy', label: 'Privacy Policy' },
-                  { href: '/cookies', label: 'Cookie Policy' },
-                  { href: '/terms', label: 'Termini' },
+                  { href: "/privacy", label: "Privacy Policy" },
+                  { href: "/cookies", label: "Cookie Policy" },
+                  { href: "/terms", label: "Termini" },
                 ].map((item, i) => (
                   <motion.li
                     key={item.href}
@@ -894,11 +927,15 @@ export default function Home() {
                     viewport={vpS}
                     transition={{ duration: 0.4, delay: i * 0.07 }}
                   >
-                    <Link href={item.href} className="text-black hover:text-violet-600 transition-colors duration-200">
+                    <Link
+                      href={item.href}
+                      className="text-black hover:text-purple-600 transition-colors duration-200"
+                    >
                       {item.label}
                     </Link>
                   </motion.li>
                 ))}
+
                 <motion.li
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
@@ -911,7 +948,7 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Newsletter — vola da destra */}
+            {/* Newsletter */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -919,7 +956,10 @@ export default function Home() {
               transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="space-y-6"
             >
-              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
+              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
+                Contattaci
+              </h4>
+
               <div className="relative">
                 <input
                   type="email"
@@ -930,11 +970,13 @@ export default function Home() {
                   <ArrowRight size={16} />
                 </button>
               </div>
+
               <div className="space-y-3 pt-1">
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
                   <Mail size={15} className="text-purple-600 shrink-0" />
                   <span>info@nvisioninsights.it</span>
                 </div>
+
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
                   <MapPin size={15} className="text-purple-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
@@ -943,22 +985,25 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Divisore */}
+          {/* Divider */}
           <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: false, amount: 0.8 }}
-            transition={{ duration: 0.8 }}
-            className="text-xs text-black font-light text-center"
-          >
-            © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-          </motion.p>
+          {/* Copyright centrato vero */}
+          <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
+            <div />
 
-          {/* Bottom bar */}
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="flex items-center justify-end ml-auto space-x-6 text-xs text-zinc-400">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.8 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
+            >
+              © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+            </motion.p>
+
+            {/* Right aligned */}
+            <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
                 <Globe size={12} className="text-violet-500" />
                 Italiano

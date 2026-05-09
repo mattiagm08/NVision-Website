@@ -18,12 +18,12 @@
 
     "incremental": true,
 
-    "baseUrl": ".",
+    "ignoreDeprecations": "5.0",
+
     "paths": {
+      "*": ["./*"],
       "@/*": ["./*"]
     },
-
-    "ignoreDeprecations": "6.0",
 
     "plugins": [
       {
@@ -38,5 +38,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
+
   "exclude": ["node_modules"]
 }

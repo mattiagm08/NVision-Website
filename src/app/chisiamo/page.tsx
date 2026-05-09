@@ -7,7 +7,8 @@ import {
   Menu, X, Rocket, ShieldCheck, Target,
   Zap, Globe, Cpu, ArrowRight, CheckCircle2,
   LineChart, Users, Award, Briefcase, Linkedin, Twitter, Mail,
-  Sparkles, Code2, MapPin
+  Sparkles, Code2, MapPin,
+  Share2
 } from 'lucide-react';
 import Link from 'next/link';
 import NBold from '../components/NBold';
@@ -205,8 +206,8 @@ export default function ChiSiamo() {
 
   const missionCards = [
     { icon: Rocket, title: "Innovazione", bg: "from-purple-600 to-violet-700", text: "Non seguiamo i trend, li definiamo attraverso analisi critiche e R&D costante.", enterFrom: { x: -40, y: 0 } },
-    { icon: Target, title: "Strategia", bg: "from-purple-900 to-slate-900", text: "Ogni pixel e ogni riga di codice hanno lo scopo di generare un vantaggio reale.", enterFrom: { x: 0, y: 40 } },
-    { icon: Zap, title: "Agilità", bg: "from-fuchsia-600 to-purple-800", text: "Risposte rapide e adattamento fluido in mercati che evolvono in millisecondi.", enterFrom: { x: 0, y: 40 } },
+    { icon: Target, title: "Strategia", bg: "from-purple-900 to-slate-900", text: "Ogni pixel e ogni riga di codice hanno lo scopo di generare un vantaggio reale.", enterFrom: { x: 0, y: 20 } },
+    { icon: Zap, title: "Agilità", bg: "from-fuchsia-600 to-purple-800", text: "Risposte rapide e adattamento fluido in mercati che evolvono in millisecondi.", enterFrom: { x: 0, y: 20 } },
     { icon: ShieldCheck, title: "Affidabilità", bg: "from-slate-800 to-purple-950", text: "In un mondo di rumore digitale, offriamo la chiarezza di dati verificati.", enterFrom: { x: 40, y: 0 } },
   ];
 
@@ -335,7 +336,7 @@ export default function ChiSiamo() {
                   initial={{ opacity: 0, ...item.enterFrom }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
                   viewport={{ once: false, amount: 0.15 }}
-                  transition={{ duration: 0.75, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.25, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -12 }}
                   className={`relative group bg-gradient-to-br ${item.bg} p-1 rounded-[2.5rem] shadow-2xl transition-all duration-500 hover:shadow-purple-200/50`}
                 >
@@ -811,6 +812,7 @@ export default function ChiSiamo() {
       {/* ─── FOOTER ────────────────────────────────────────────────────────────── */}
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
         <div className="max-w-6xl mx-auto px-6 pt-20 pb-5 relative z-10">
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
             {/* Brand + Socials */}
@@ -824,16 +826,23 @@ export default function ChiSiamo() {
               >
                 NVision Insights™
               </motion.h3>
+
               <div className="flex space-x-3">
-                {[Facebook, Youtube, Instagram].map((Icon, i) => (
+                {[Facebook, Instagram, Share2].map((Icon, i) => (
                   <motion.a
                     key={i}
                     href="#"
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={vpS}
-                    transition={{ duration: 0.5, delay: i * 0.1, type: 'spring', stiffness: 260, damping: 13 }}
-                    className="p-2 bg-zinc-100 rounded-full hover:bg-violet-600 hover:text-white text-zinc-500 transition-all duration-200"
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.1,
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 13,
+                    }}
+                    className="p-2 bg-zinc-100 rounded-full hover:bg-purple-600 hover:text-white text-zinc-500 transition-all duration-200"
                   >
                     <Icon size={18} />
                   </motion.a>
@@ -852,6 +861,7 @@ export default function ChiSiamo() {
               >
                 Navigazione
               </motion.h4>
+
               <ul className="space-y-4 text-sm font-light">
                 {footerNavLinks.map((item, i) => (
                   <motion.li
@@ -861,7 +871,12 @@ export default function ChiSiamo() {
                     viewport={vpS}
                     transition={{ duration: 0.4, delay: i * 0.07 }}
                   >
-                    <Link href={item.href} className="text-black hover:text-violet-600 transition-colors duration-200">{item.label}</Link>
+                    <Link
+                      href={item.href}
+                      className="text-black hover:text-purple-600 transition-colors duration-200"
+                    >
+                      {item.label}
+                    </Link>
                   </motion.li>
                 ))}
               </ul>
@@ -878,11 +893,12 @@ export default function ChiSiamo() {
               >
                 Policy &amp; Cookies
               </motion.h4>
+
               <ul className="space-y-4 text-sm font-light">
                 {[
-                  { href: '/privacy', label: 'Privacy Policy' },
-                  { href: '/cookies', label: 'Cookie Policy' },
-                  { href: '/terms', label: 'Termini' },
+                  { href: "/privacy", label: "Privacy Policy" },
+                  { href: "/cookies", label: "Cookie Policy" },
+                  { href: "/terms", label: "Termini" },
                 ].map((item, i) => (
                   <motion.li
                     key={item.href}
@@ -891,9 +907,15 @@ export default function ChiSiamo() {
                     viewport={vpS}
                     transition={{ duration: 0.4, delay: i * 0.07 }}
                   >
-                    <Link href={item.href} className="text-black hover:text-violet-600 transition-colors duration-200">{item.label}</Link>
+                    <Link
+                      href={item.href}
+                      className="text-black hover:text-purple-600 transition-colors duration-200"
+                    >
+                      {item.label}
+                    </Link>
                   </motion.li>
                 ))}
+
                 <motion.li
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
@@ -914,53 +936,62 @@ export default function ChiSiamo() {
               transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="space-y-6"
             >
-              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
+              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
+                Contattaci
+              </h4>
+
               <div className="relative">
                 <input
                   type="email"
                   placeholder="La tua email"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-violet-600 hover:bg-violet-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                <button className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
                   <ArrowRight size={16} />
                 </button>
               </div>
+
               <div className="space-y-3 pt-1">
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <Mail size={15} className="text-violet-600 shrink-0" />
+                  <Mail size={15} className="text-purple-600 shrink-0" />
                   <span>info@nvisioninsights.it</span>
                 </div>
+
                 <div className="flex items-center space-x-3 text-sm text-black font-light">
-                  <MapPin size={15} className="text-violet-600 shrink-0" />
+                  <MapPin size={15} className="text-purple-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
                 </div>
               </div>
             </motion.div>
           </div>
 
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
+          {/* Divider */}
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-200 to-transparent mb-8" />
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: false, amount: 0.8 }}
-            transition={{ duration: 0.8 }}
-            className="text-xs text-black font-light text-center"
-          >
-            © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-          </motion.p>
+          {/* Bottom bar FIXED */}
+          <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
 
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="flex items-center justify-end ml-auto space-x-6 text-xs text-zinc-400">
+            {/* left spacer */}
+            <div />
+
+            {/* center copyright */}
+            <p className="text-center">
+              © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+            </p>
+
+            {/* right controls */}
+            <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <Globe size={12} className="text-violet-500" />
+                <Globe size={12} className="text-purple-500" />
                 Italiano
               </span>
-              <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
+
+              <span className="hover:text-purple-600 transition-colors duration-200 cursor-pointer">
                 Supporto
               </span>
             </div>
           </div>
+
         </div>
       </footer>
 
