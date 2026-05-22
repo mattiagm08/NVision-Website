@@ -6,6 +6,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Facebook, Globe, Instagram, Mail, MapPin, Menu, Share2, X, Youtube } from 'lucide-react';
 import Link from 'next/link';
 
+const vpS = { once: false, amount: 0.2 };
+
+const footerNavLinks = [
+  { href: "/", label: "Home" },
+  { href: "/articoli", label: "Articoli" },
+  { href: "/soluzioni", label: "Soluzioni" },
+  { href: "/chisiamo", label: "Chi Siamo" },
+];
+
+const footerSocials = [
+  { Icon: Facebook },
+  { Icon: Instagram },
+  { Icon: Share2 },
+];
+
 export default function Soluzioni() {
 
   // STATI PER IL MENU MOBILE
@@ -140,57 +155,127 @@ export default function Soluzioni() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
-            {/* Brand */}
+            {/* Brand + Socials */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-green-600">
+              <motion.h3
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.6 }}
+                className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-green-600"
+              >
                 NVision Insights™
-              </h3>
+              </motion.h3>
 
               <div className="flex space-x-3">
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Facebook size={18} />
-                </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Instagram size={18} />
-                </a>
-                <a href="#" className="p-2 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-500 transition-all duration-200">
-                  <Share2 size={18} />
-                </a>
+                {footerSocials.map(({ Icon }, i) => (
+                  <motion.a
+                    key={i}
+                    href="#"
+                    initial={{ scale: 0, opacity: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                    viewport={vpS}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.1,
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 13,
+                    }}
+                    className="p-2 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-500 transition-all duration-200"
+                  >
+                    <Icon size={18} />
+                  </motion.a>
+                ))}
               </div>
             </div>
 
             {/* Navigazione */}
             <div>
-              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">
+              <motion.h4
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.4 }}
+                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+              >
                 Navigazione
-              </h4>
+              </motion.h4>
 
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/" className="text-black hover:text-green-600 transition-colors duration-200">Home</Link></li>
-                <li><Link href="/articoli" className="text-black hover:text-green-600 transition-colors duration-200">Articoli</Link></li>
-                <li><Link href="/soluzioni" className="text-black hover:text-green-600 transition-colors duration-200">Soluzioni</Link></li>
-                <li><Link href="/chisiamo" className="text-black hover:text-green-600 transition-colors duration-200">Chi Siamo</Link></li>
+                {footerNavLinks.map((item, i) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -18 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className="text-black hover:text-green-600 transition-colors duration-200"
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.li>
+                ))}
               </ul>
             </div>
 
             {/* Legal */}
             <div>
-              <h4 className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]">
-                Policy & Cookies
-              </h4>
+              <motion.h4
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.4 }}
+                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+              >
+                Policy &amp; Cookies
+              </motion.h4>
 
               <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                <li><Link href="/privacy" className="text-black hover:text-green-600 transition-colors duration-200">Privacy Policy</Link></li>
-                <li><Link href="/cookies" className="text-black hover:text-green-600 transition-colors duration-200">Cookie Policy</Link></li>
-                <li><Link href="/terms" className="text-black hover:text-green-600 transition-colors duration-200">Termini</Link></li>
-                <li className="text-black pt-2 text-xs font-mono">
+                {[
+                  { href: "/privacy", label: "Privacy Policy" },
+                  { href: "/cookies", label: "Cookie Policy" },
+                  { href: "/terms", label: "Termini" },
+                ].map((item, i) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -18 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className="text-black hover:text-green-600 transition-colors duration-200"
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.li>
+                ))}
+
+                <motion.li
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="text-black pt-2 text-xs font-mono"
+                >
                   P.IVA IT 01234567890
-                </li>
+                </motion.li>
               </ul>
             </div>
 
-            {/* Contatti */}
-            <div className="space-y-6">
+            {/* Contattaci */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={vpS}
+              transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-6"
+            >
               <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
                 Contattaci
               </h4>
@@ -217,7 +302,7 @@ export default function Soluzioni() {
                   <span>Innovations Hub, Milano, IT</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Divider */}
@@ -230,9 +315,15 @@ export default function Soluzioni() {
             <div />
 
             {/* center copyright */}
-            <p className="text-center">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.8 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
+            >
               © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-            </p>
+            </motion.p>
 
             {/* right controls */}
             <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">

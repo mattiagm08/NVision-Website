@@ -326,7 +326,7 @@ export default function ChiSiamo() {
             </AnimatedParagraph>
           </div>
 
-          {/* GRID MISSION CARDS — con angoli-reticolo e linee scansione come le article cards della home */}
+          {/* GRID MISSION CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {missionCards.map((item, idx) => {
               const Icon = item.icon;
@@ -340,7 +340,7 @@ export default function ChiSiamo() {
                   whileHover={{ y: -12 }}
                   className={`relative group bg-gradient-to-br ${item.bg} p-1 rounded-[2.5rem] shadow-2xl transition-all duration-500 hover:shadow-purple-200/50`}
                 >
-                  {/* Angoli-reticolo (come nella home) */}
+                  {/* Angoli-reticolo */}
                   <motion.div
                     className="absolute top-3 left-3 w-6 h-6 pointer-events-none z-20"
                     style={{ borderTop: '2px solid rgba(139,92,246,0.85)', borderLeft: '2px solid rgba(139,92,246,0.85)', borderTopLeftRadius: 4 }}
@@ -386,7 +386,6 @@ export default function ChiSiamo() {
                   <div className="bg-slate-900/10 backdrop-blur-sm h-full w-full rounded-[2.4rem] p-10 flex flex-col items-start overflow-hidden relative">
                     <Icon className="absolute -right-6 -bottom-6 text-white opacity-[0.07] group-hover:scale-125 group-hover:rotate-12 transition-transform duration-700" size={160} />
 
-                    {/* Icona con anello espandente (come nella sezione soluzioni della home) */}
                     <div className="relative mb-6 w-fit">
                       <motion.div
                         className="absolute inset-0 rounded-2xl border-2 border-violet-400 pointer-events-none"
@@ -411,7 +410,6 @@ export default function ChiSiamo() {
           {/* ─── SEZIONE MANIFESTO ─────────────────────────────────────────────── */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-16">
 
-            {/* TESTO con AnimatedTitle e AnimatedParagraph */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -420,7 +418,6 @@ export default function ChiSiamo() {
               className="lg:col-span-7 space-y-10"
             >
               <div className="space-y-6">
-                {/* Badge con pop spring come nella home */}
                 <motion.span
                   initial={{ opacity: 0, scale: 0.6, y: 10 }}
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -456,7 +453,6 @@ export default function ChiSiamo() {
                     transition={{ duration: 0.6, delay: feature.delay, ease: [0.16, 1, 0.3, 1] }}
                     className="group flex flex-col gap-4 p-6 rounded-3xl bg-white border border-slate-200 hover:border-purple-400 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
                   >
-                    {/* Linea scansione sulle feature card */}
                     <motion.div
                       className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-violet-400 to-transparent pointer-events-none"
                       initial={{ scaleX: 0, originX: 0, opacity: 0 }}
@@ -476,7 +472,7 @@ export default function ChiSiamo() {
               </div>
             </motion.div>
 
-            {/* PLATFORM CARD — vola da destra */}
+            {/* PLATFORM CARD */}
             <motion.div
               initial={{ opacity: 0, x: 60 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -490,7 +486,6 @@ export default function ChiSiamo() {
               >
                 <div className="bg-slate-950 rounded-[3rem] p-8 md:p-12">
 
-                  {/* Feature list con anelli espandenti per le icone */}
                   <ul className="space-y-6">
                     {[
                       {
@@ -547,7 +542,6 @@ export default function ChiSiamo() {
                     ))}
                   </ul>
 
-                  {/* Stats strip — pop con spring come nella home */}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -567,7 +561,6 @@ export default function ChiSiamo() {
                     ))}
                   </motion.div>
 
-                  {/* CTA */}
                   <div className="mt-8">
                     <Link
                       href="/soluzioni"
@@ -584,7 +577,6 @@ export default function ChiSiamo() {
                 </div>
               </div>
 
-              {/* Glow blobs */}
               <div className="absolute -top-16 -left-16 w-72 h-72 bg-purple-600/25 rounded-full blur-[120px] pointer-events-none" />
               <div className="absolute -bottom-12 -right-12 w-56 h-56 bg-fuchsia-500/20 rounded-full blur-[90px] pointer-events-none" />
             </motion.div>
@@ -596,7 +588,7 @@ export default function ChiSiamo() {
       <section className="py-14 bg-gradient-to-br from-purple-950 via-slate-950 to-violet-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(150,50,255,0.15),transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto px-6 relative z-10">          
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((s, i) => {
@@ -610,7 +602,6 @@ export default function ChiSiamo() {
                   transition={{ duration: 0.65, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   className="flex flex-col items-center text-center gap-3 group relative"
                 >
-                  {/* Anello espandente sull'icona stat */}
                   <div className="relative w-14 h-14 mb-2">
                     <motion.div
                       className="absolute inset-0 rounded-2xl border-2 border-violet-400 pointer-events-none"
@@ -638,7 +629,6 @@ export default function ChiSiamo() {
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-          {/* Header team */}
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-20">
             <motion.span
               initial={{ opacity: 0, scale: 0.6, y: 10 }}
@@ -659,7 +649,6 @@ export default function ChiSiamo() {
             </AnimatedParagraph>
           </div>
 
-          {/* Grid team — con angoli-reticolo come le article cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {team.map((member, idx) => (
               <motion.div
@@ -705,7 +694,6 @@ export default function ChiSiamo() {
                   transition={{ duration: 1.8, delay: idx * 0.1 + 0.35, times: [0, 0.1, 0.6, 1] }}
                 />
 
-                {/* Linea scansione superiore */}
                 <motion.div
                   className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-violet-400 to-transparent pointer-events-none z-30"
                   initial={{ scaleX: 0, originX: 0, opacity: 0 }}
@@ -714,10 +702,8 @@ export default function ChiSiamo() {
                   transition={{ duration: 1.0, delay: idx * 0.1 + 0.1, times: [0, 0.15, 0.6, 1] }}
                 />
 
-                {/* Hover gradient */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-purple-50/60 to-violet-50/30 pointer-events-none rounded-[2.5rem]" />
 
-                {/* Avatar con anello espandente */}
                 <div className="relative flex-shrink-0">
                   <motion.div
                     className="absolute inset-0 rounded-[1.5rem] border-2 border-violet-500 pointer-events-none"
@@ -731,7 +717,6 @@ export default function ChiSiamo() {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="relative z-10 flex-1">
                   <div className="flex items-start justify-between gap-2 mb-1">
                     <h4 className="text-xl font-black tracking-tight leading-tight group-hover:text-purple-700 transition-colors">{member.name}</h4>
@@ -755,13 +740,12 @@ export default function ChiSiamo() {
                   </div>
                 </div>
 
-                {/* Bottom bar come nelle article cards */}
                 <div className="absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all duration-500 rounded-b-[2.5rem]" />
               </motion.div>
             ))}
           </div>
 
-          {/* CTA collaborazioni — rimbalza con spring come nella home */}
+          {/* CTA collaborazioni */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -771,7 +755,6 @@ export default function ChiSiamo() {
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(255,255,255,0.08),transparent_60%)] pointer-events-none" />
 
-            {/* Angoli-reticolo bianchi sul CTA */}
             <motion.div
               className="absolute top-4 left-4 w-7 h-7 pointer-events-none z-20"
               style={{ borderTop: '2px solid rgba(255,255,255,0.5)', borderLeft: '2px solid rgba(255,255,255,0.5)', borderTopLeftRadius: 4 }}
@@ -928,7 +911,7 @@ export default function ChiSiamo() {
               </ul>
             </div>
 
-            {/* Newsletter */}
+            {/* Contattaci */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -968,24 +951,26 @@ export default function ChiSiamo() {
           {/* Divider */}
           <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-200 to-transparent mb-8" />
 
-          {/* Bottom bar FIXED */}
+          {/* Bottom bar */}
           <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
 
-            {/* left spacer */}
             <div />
 
-            {/* center copyright */}
-            <p className="text-center">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.8 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
+            >
               © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-            </p>
+            </motion.p>
 
-            {/* right controls */}
             <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
                 <Globe size={12} className="text-purple-500" />
                 Italiano
               </span>
-
               <span className="hover:text-purple-600 transition-colors duration-200 cursor-pointer">
                 Supporto
               </span>
