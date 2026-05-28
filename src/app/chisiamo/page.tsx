@@ -291,10 +291,10 @@ export default function ChiSiamo() {
             animate={{ opacity: 1, y: 0 }}
             className="md:hidden absolute top-full left-0 w-full bg-zinc-950/98 backdrop-blur-xl px-6 py-8 space-y-5 border-t border-white/10 shadow-2xl z-40 rounded-b-2xl"
           >
-            <Link href="/" className="block text-violet-400 text-xl font-bold">Home</Link>
+            <Link href="/" className="block text-white text-xl hover:text-violet-300 transition">Home</Link>
             <Link href="/articoli" className="block text-white text-xl hover:text-violet-300 transition">Articoli</Link>
             <Link href="/soluzioni" className="block text-white text-xl hover:text-violet-300 transition">Soluzioni</Link>
-            <Link href="/chisiamo" className="block text-white text-xl hover:text-violet-300 transition">Chi Siamo</Link>
+            <Link href="/chisiamo" className="block text-violet-400 text-xl font-bold">Chi Siamo</Link>
             <Link href="/contatti" className="block text-white text-xl hover:text-violet-300 transition">Contatti</Link>
           </motion.nav>
         )}

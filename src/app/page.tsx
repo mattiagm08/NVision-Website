@@ -28,8 +28,19 @@ import { useRouter } from 'next/navigation';
 const vp  = { once: false, amount: 0.2 } as const;
 const vpS = { once: false, amount: 0.4 } as const;
 
+// ─── HOOK PER RILEVARE SE SIAMO SU MOBILE ────────────────────────────────────
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
+
 // ─── ANIMATED TITLE ──────────────────────────────────────────────────────────
-// Forme geometriche volano, si materializzano e si dissolvono mentre il testo emerge
 const AnimatedTitle = ({
   children,
   className = '',
@@ -214,6 +225,7 @@ const AnimatedParagraph = ({
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   // ─── CAROSELLO HERO ─────────────────────────────────────────────────────────
   const trackRef       = useRef<HTMLDivElement>(null);
@@ -223,12 +235,12 @@ export default function Home() {
   const dragStartX     = useRef(0);
   const dragStartPos   = useRef(0);
   const hasDragged     = useRef(false);
+  // Touch support refs
+  const touchStartX    = useRef(0);
+  const touchStartPos  = useRef(0);
   const SPEED          = 0.8;
 
   // ─── INDICI IMMAGINI CAROSELLO ───────────────────────────────────────────────
-  // [1,2,3,4,5, 1,2,3,4,5] — le prime 5 sono la copia originale,
-  // le seconde 5 sono la copia duplicata per il loop infinito.
-  // index 0 → img1 (primo elemento visibile = LCP candidate)
   const CAROUSEL_ITEMS = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
 
   const startAnimation = () => {
@@ -256,6 +268,7 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ── Mouse handlers ──
   const onHeroMouseDown = (e: React.MouseEvent) => {
     stopAnimation();
     isDraggingHero.current = true;
@@ -282,6 +295,30 @@ export default function Home() {
       isDraggingHero.current = false;
       startAnimation();
     }
+  };
+
+  // ── Touch handlers (mobile drag fix) ──
+  const onHeroTouchStart = (e: React.TouchEvent) => {
+    stopAnimation();
+    hasDragged.current    = false;
+    touchStartX.current   = e.touches[0].clientX;
+    touchStartPos.current = positionRef.current;
+  };
+
+  const onHeroTouchMove = (e: React.TouchEvent) => {
+    if (!trackRef.current) return;
+    const dx = e.touches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 4) hasDragged.current = true;
+    const halfWidth = trackRef.current.scrollWidth / 2;
+    let newPos = touchStartPos.current + dx;
+    if (newPos > 0)           newPos -= halfWidth;
+    if (newPos <= -halfWidth) newPos += halfWidth;
+    positionRef.current = newPos;
+    trackRef.current.style.transform = `translateX(${newPos}px)`;
+  };
+
+  const onHeroTouchEnd = () => {
+    startAnimation();
   };
 
   const handleImageClick = () => {
@@ -322,7 +359,8 @@ export default function Home() {
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(139,92,246,0.7)";
+          // MOBILE: nodi più visibili su mobile (opacità aumentata)
+          ctx.fillStyle = "rgba(139,92,246,0.9)";
           ctx.fill();
         });
 
@@ -336,7 +374,10 @@ export default function Home() {
               ctx.beginPath();
               ctx.moveTo(points[i].x, points[i].y);
               ctx.lineTo(points[j].x, points[j].y);
-              ctx.strokeStyle = `rgba(139,92,246,${1 - dist / 120})`;
+              // MOBILE: linee più visibili (opacità aumentata)
+              const alpha = (1 - dist / 120) * (window.innerWidth < 768 ? 1.0 : 1.0);
+              ctx.strokeStyle = `rgba(139,92,246,${alpha})`;
+              ctx.lineWidth = window.innerWidth < 768 ? 0.9 : 0.6;
               ctx.stroke();
             }
           }
@@ -380,7 +421,8 @@ export default function Home() {
       accent: 'bg-fuchsia-100 text-fuchsia-700',
       tag: '#AI',
       delay: 0,
-      enterFrom: { x: -25, y: 0 },
+      // MOBILE: always from bottom; DESKTOP: from left
+      enterFrom: { x: 0, y: 40 },
     },
     {
       id: 2,
@@ -393,6 +435,7 @@ export default function Home() {
       accent: 'bg-fuchsia-100 text-fuchsia-700',
       tag: '#Quantum',
       delay: 0.12,
+      // MOBILE: always from bottom; DESKTOP: from bottom (same)
       enterFrom: { x: 0, y: 40 },
     },
     {
@@ -406,7 +449,8 @@ export default function Home() {
       accent: 'bg-fuchsia-100 text-fuchsia-700',
       tag: '#Future',
       delay: 0.24,
-      enterFrom: { x: 25, y: 0 },
+      // MOBILE: always from bottom; DESKTOP: from right
+      enterFrom: { x: 0, y: 40 },
     },
   ];
 
@@ -417,7 +461,8 @@ export default function Home() {
       desc: 'Sviluppiamo algoritmi predittivi per trasformare i dati in decisioni automatizzate.',
       icon: <Cpu className="text-violet-400" size={28} />,
       size: 'md:col-span-2',
-      enterFrom: { x: -40, y: 0 },
+      // MOBILE: always from bottom; DESKTOP: from left
+      enterFrom: { x: isMobile ? 0 : -40, y: isMobile ? 40 : 0 },
     },
     {
       id: 2,
@@ -425,7 +470,8 @@ export default function Home() {
       desc: 'Visualizzazione avanzata dei flussi informativi aziendali.',
       icon: <BarChart3 className="text-violet-400" size={28} />,
       size: 'md:col-span-1',
-      enterFrom: { x: 20, y: 0 },
+      // MOBILE: always from bottom; DESKTOP: from right
+      enterFrom: { x: isMobile ? 0 : 20, y: isMobile ? 40 : 0 },
     },
     {
       id: 3,
@@ -433,7 +479,8 @@ export default function Home() {
       desc: 'Infrastrutture scalabili e resilienti per il business moderno.',
       icon: <Zap className="text-violet-400" size={28} />,
       size: 'md:col-span-1',
-      enterFrom: { x: -30, y: 0 },
+      // MOBILE: always from bottom; DESKTOP: from left
+      enterFrom: { x: isMobile ? 0 : -30, y: isMobile ? 40 : 0 },
     },
     {
       id: 4,
@@ -441,6 +488,7 @@ export default function Home() {
       desc: 'Protezione end-to-end degli asset digitali e conformità normativa.',
       icon: <ShieldCheck className="text-violet-400" size={28} />,
       size: 'md:col-span-2',
+      // MOBILE: always from bottom; DESKTOP: from bottom (same)
       enterFrom: { x: 0, y: 40 },
     },
   ];
@@ -495,16 +543,16 @@ export default function Home() {
       </header>
 
       {/* ─── HERO ──────────────────────────────────────────────────────────────── */}
-      <section className="pt-28 sm:pt-32 pb-16 min-h-[60vh] sm:min-h-[90vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 relative overflow-hidden bg-black">
+      <section className="pt-45 sm:pt-32 pb-[6rem] min-h-[60vh] sm:min-h-[90vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 relative overflow-hidden bg-black">
 
         {/* Glow background */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-violet-700/25 blur-[140px] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-fuchsia-800/10 blur-[120px] pointer-events-none" />
 
-        {/* ── NETWORK LAYER ──
-            MODIFICA LCP: rimossa l'animazione blur iniziale (filter: blur(0px) → blur(2px))
-            che ritardava il rendering. Il canvas ora appare immediatamente senza transizione
-            sul filter, che bloccava il browser per ~2s prima di poter calcolare l'LCP. */}
+        {/* MOBILE: overlay viola più visibile sul network background */}
+        <div className="absolute inset-0 z-[1] pointer-events-none md:hidden bg-violet-900/10" />
+
+        {/* NETWORK LAYER */}
         <div className="absolute inset-0 z-0 opacity-90">
           <NetworkBackground />
         </div>
@@ -522,7 +570,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.85, filter: 'blur(20px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             transition={{ duration: 1.2, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.05] mb-8"
+            className="text-center text-[12vw] sm:text-7xl font-black text-white tracking-tighter leading-none mb-8 whitespace-nowrap"
           >
             NVision{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-violet-500 to-violet-300">
@@ -530,27 +578,33 @@ export default function Home() {
             </span>
           </motion.h2>
 
-          {/* ── PARAGRAFO ── */}
+          {/* ── PARAGRAFO — MOBILE: testo leggermente più piccolo ── */}
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1.2 }}
-            className="text-lg sm:text-xl text-white max-w-2xl mx-auto mb-10 leading-relaxed font-light"
+            className="text-[1.12rem] sm:text-xl text-white max-w-2xl mx-auto mb-20 leading-relaxed font-light"
           >
             Tecnologia, divulgazione e innovazione progettate per la prossima generazione di leader digitali.
           </motion.p>
         </motion.div>
 
-        {/* ── CAROSELLO ── */}
+        {/* ── CAROSELLO — MOBILE: più grande, touch drag funzionante ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
+          // MOBILE: w-full con overflow hidden per evitare scroll orizzontale della pagina
           className="overflow-hidden w-full max-w-full py-6 select-none z-10"
+          // Mouse events (desktop)
           onMouseDown={onHeroMouseDown}
           onMouseMove={onHeroMouseMove}
           onMouseUp={onHeroMouseUpOrLeave}
           onMouseLeave={onHeroMouseUpOrLeave}
+          // Touch events (mobile)
+          onTouchStart={onHeroTouchStart}
+          onTouchMove={onHeroTouchMove}
+          onTouchEnd={onHeroTouchEnd}
           style={{ cursor: isDraggingHero.current ? 'grabbing' : 'grab' }}
         >
           <div ref={trackRef} className="flex gap-4 w-max will-change-transform">
@@ -558,22 +612,15 @@ export default function Home() {
               <div
                 key={index}
                 onClick={handleImageClick}
-                className="min-w-[70vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.22)] transition-all duration-300 hover:scale-[1.03] hover:shadow-violet-700/80 cursor-pointer ring-1 ring-white/5"
+                // MOBILE: min-w aumentato da 70vw a 80vw per card più grandi su mobile
+                className="min-w-[0vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.22)] transition-all duration-300 hover:scale-[1.03] hover:shadow-violet-700/80 cursor-pointer ring-1 ring-white/5"
               >
-                {/*
-                  ─── FIX LCP ───────────────────────────────────────────────────
-                  index === 0 → prima immagine visibile all'utente al caricamento:
-                    • fetchPriority="high"  → il browser la scarica prima di tutto
-                    • loading="eager"       → nessun lazy load (default browser)
-                    • decoding="sync"       → decodifica sincrona, appare prima
-                  Tutti gli altri indici → lazy load per non sprecare banda.
-                  ───────────────────────────────────────────────────────────────
-                */}
                 <img
                   src={`/carousel/img${i}.jpg`}
                   alt={`Immagine ${i}`}
                   draggable={false}
-                  className="w-full h-44 sm:h-52 md:h-75 object-cover pointer-events-none"
+                  // MOBILE: altezza leggermente aumentata (h-52 su mobile)
+                  className="w-full h-72 sm:h-56 md:h-75 object-cover pointer-events-none"
                   fetchPriority={index === 0 ? 'high' : 'low'}
                   loading={index === 0 ? 'eager' : 'lazy'}
                   decoding={index === 0 ? 'sync' : 'async'}
@@ -596,13 +643,12 @@ export default function Home() {
 
           {/* Header */}
           <div className="text-center mb-16">
-            <AnimatedTitle className="text-5xl md:text-7xl font-black text-zinc-950 tracking-tighter mb-4 leading-none">
+            <AnimatedTitle className="text-5xl md:text-7xl font-black text-zinc-950 tracking-tighter mb-4 leading-none whitespace-nowrap">
               Ultimi{' '}
               <span className="relative inline-block">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-fuchsia-500">
                   Articoli
                 </span>
-                
               </span>
             </AnimatedTitle>
             <AnimatedParagraph className="text-black/70 max-w-xl mx-auto text-lg leading-relaxed font-light">
@@ -610,12 +656,12 @@ export default function Home() {
             </AnimatedParagraph>
           </div>
 
-          {/* Cards */}
+          {/* Cards — MOBILE: animazioni sempre dal basso */}
           <div className="grid md:grid-cols-3 gap-8">
             {articoli.map((art) => (
               <motion.div
                 key={art.id}
-                initial={{ opacity: 0, ...art.enterFrom }}
+                initial={{ opacity: 0, x: art.enterFrom.x, y: art.enterFrom.y }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: false, amount: 0.15 }}
                 transition={{ duration: 0.75, delay: art.delay, ease: [0.16, 1, 0.3, 1] }}
@@ -734,17 +780,16 @@ export default function Home() {
           {/* Header + pulsante */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl">
-              <AnimatedTitle className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-6">
+              <AnimatedTitle className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-none mb-6 whitespace-nowrap">
                 Le Nostre{' '}
                 <span className="relative inline-block">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-fuchsia-400">
                     Soluzioni
                   </span>
-                
                 </span>
               </AnimatedTitle>
 
-              <AnimatedParagraph className="text-white/90 text-lg md:text-xl leading-relaxed font-light">
+              <AnimatedParagraph className="text-white/90 md:text-xl leading-relaxed font-light">
                 Uniamo visione strategica e conoscenza tecnica d&apos;eccellenza.
               </AnimatedParagraph>
             </div>
@@ -776,12 +821,12 @@ export default function Home() {
             Tecnologia &amp; Innovazione
           </motion.div>
 
-          {/* Grid soluzioni */}
+          {/* Grid soluzioni — MOBILE: animazioni sempre dal basso */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {soluzioni.map((item, i) => (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, ...item.enterFrom }}
+                initial={{ opacity: 0, x: item.enterFrom.x, y: item.enterFrom.y }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: false, amount: 0.15 }}
                 transition={{ duration: 0.75, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -832,22 +877,34 @@ export default function Home() {
 
       {/* ─── FOOTER ────────────────────────────────────────────────────────────── */}
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
-        <div className="max-w-6xl mx-auto px-6 pt-20 pb-5 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="max-w-6xl mx-auto px-6 pt-16 pb-6 relative z-10">
 
-            {/* Brand + Socials */}
-            <div className="space-y-6">
+          {/*
+            ─── MOBILE FOOTER: layout completamente ridisegnato ────────────────
+            Su mobile: stack verticale con separatori chiari, spaziatura generosa,
+            testo leggibile, social ben visibili, newsletter in fondo.
+            Su desktop: grid a 4 colonne identico a prima.
+          */}
+
+          {/* ── MOBILE LAYOUT (block md:hidden) ── */}
+          <div className="md:hidden space-y-10">
+
+            {/* Brand */}
+            <div className="text-center space-y-4 pb-8 border-b border-zinc-200">
               <motion.h3
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={vpS}
-                transition={{ duration: 0.6 }}
-                className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600"
+                transition={{ duration: 0.5 }}
+                className="text-3xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600"
               >
                 NVision Insights™
               </motion.h3>
-
-              <div className="flex space-x-3">
+              <p className="text-zinc-500 text-sm font-light max-w-xs mx-auto">
+                Tecnologia, divulgazione e innovazione per la prossima generazione di leader digitali.
+              </p>
+              {/* Socials centrati e grandi su mobile */}
+              <div className="flex justify-center space-x-4 pt-2">
                 {footerSocials.map(({ Icon }, i) => (
                   <motion.a
                     key={i}
@@ -855,111 +912,51 @@ export default function Home() {
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={vpS}
-                    transition={{
-                      duration: 0.5,
-                      delay: i * 0.1,
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 13,
-                    }}
-                    className="p-2 bg-zinc-100 rounded-full hover:bg-purple-600 hover:text-white text-zinc-500 transition-all duration-200"
+                    transition={{ duration: 0.5, delay: i * 0.1, type: "spring", stiffness: 260, damping: 13 }}
+                    className="p-3 bg-zinc-100 rounded-full hover:bg-purple-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm"
                   >
-                    <Icon size={18} />
+                    <Icon size={20} />
                   </motion.a>
                 ))}
               </div>
             </div>
 
-            {/* Navigazione */}
-            <div>
-              <motion.h4
-                initial={{ opacity: 0, y: -10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={vpS}
-                transition={{ duration: 0.4 }}
-                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
-              >
-                Navigazione
-              </motion.h4>
-
-              <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                {footerNavLinks.map((item, i) => (
-                  <motion.li
-                    key={item.href}
-                    initial={{ opacity: 0, x: -18 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={vpS}
-                    transition={{ duration: 0.4, delay: i * 0.07 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="text-black hover:text-violet-600 transition-colors duration-200"
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.li>
-                ))}
-              </ul>
+            {/* Navigazione + Policy su due colonne affiancate */}
+            <div className="grid grid-cols-2 gap-8 pb-8 border-b border-zinc-200">
+              <div>
+                <h4 className="text-black font-bold mb-4 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
+                <ul className="space-y-3 text-sm">
+                  {footerNavLinks.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="text-zinc-600 hover:text-violet-600 transition-colors duration-200 font-light">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-black font-bold mb-4 text-xs uppercase tracking-[0.15em]">Policy</h4>
+                <ul className="space-y-3 text-sm">
+                  {[
+                    { href: "/privacy", label: "Privacy Policy" },
+                    { href: "/cookies", label: "Cookie Policy" },
+                    { href: "/terms", label: "Termini" },
+                  ].map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="text-zinc-600 hover:text-purple-600 transition-colors duration-200 font-light">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li>
+                </ul>
+              </div>
             </div>
 
-            {/* Legal */}
-            <div>
-              <motion.h4
-                initial={{ opacity: 0, y: -10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={vpS}
-                transition={{ duration: 0.4 }}
-                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
-              >
-                Policy &amp; Cookies
-              </motion.h4>
-
-              <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                {[
-                  { href: "/privacy", label: "Privacy Policy" },
-                  { href: "/cookies", label: "Cookie Policy" },
-                  { href: "/terms", label: "Termini" },
-                ].map((item, i) => (
-                  <motion.li
-                    key={item.href}
-                    initial={{ opacity: 0, x: -18 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={vpS}
-                    transition={{ duration: 0.4, delay: i * 0.07 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="text-black hover:text-purple-600 transition-colors duration-200"
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.li>
-                ))}
-
-                <motion.li
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={vpS}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="text-black pt-2 text-xs font-mono"
-                >
-                  P.IVA IT 01234567890
-                </motion.li>
-              </ul>
-            </div>
-
-            {/* Newsletter */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={vpS}
-              transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-6"
-            >
-              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
-                Contattaci
-              </h4>
-
+            {/* Contatti + Newsletter */}
+            <div className="space-y-5 pb-8 border-b border-zinc-200">
+              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
               <div className="relative">
                 <input
                   type="email"
@@ -970,49 +967,218 @@ export default function Home() {
                   <ArrowRight size={16} />
                 </button>
               </div>
-
-              <div className="space-y-3 pt-1">
-                <div className="flex items-center space-x-3 text-sm text-black font-light">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <Mail size={15} className="text-purple-600 shrink-0" />
                   <span>info@nvisioninsights.it</span>
                 </div>
-
-                <div className="flex items-center space-x-3 text-sm text-black font-light">
+                <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-purple-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
 
-          {/* Divider */}
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
-
-          {/* Copyright centrato vero */}
-          <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
-            <div />
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.8 }}
-              transition={{ duration: 0.8 }}
-              className="text-center"
-            >
-              © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-            </motion.p>
-
-            {/* Right aligned */}
-            <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
-              <span className="flex items-center gap-1.5">
-                <Globe size={12} className="text-violet-500" />
-                Italiano
-              </span>
-              <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
-                Supporto
-              </span>
+            {/* Copyright mobile */}
+            <div className="flex flex-col items-center gap-3 text-xs text-zinc-500">
+              <p className="text-center font-light">
+                © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+              </p>
+              <div className="flex items-center gap-4">
+                <span className="flex items-center gap-1.5">
+                  <Globe size={12} className="text-violet-500" />
+                  Italiano
+                </span>
+                <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
+                  Supporto
+                </span>
+              </div>
             </div>
           </div>
+
+          {/* ── DESKTOP LAYOUT (hidden md:block) — IDENTICO ALL'ORIGINALE ── */}
+          <div className="hidden md:block">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+              {/* Brand + Socials */}
+              <div className="space-y-6">
+                <motion.h3
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.6 }}
+                  className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-fuchsia-600"
+                >
+                  NVision Insights™
+                </motion.h3>
+
+                <div className="flex space-x-3">
+                  {footerSocials.map(({ Icon }, i) => (
+                    <motion.a
+                      key={i}
+                      href="#"
+                      initial={{ scale: 0, opacity: 0, rotate: -180 }}
+                      whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                      viewport={vpS}
+                      transition={{
+                        duration: 0.5,
+                        delay: i * 0.1,
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 13,
+                      }}
+                      className="p-2 bg-zinc-100 rounded-full hover:bg-purple-600 hover:text-white text-zinc-500 transition-all duration-200"
+                    >
+                      <Icon size={18} />
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigazione */}
+              <div>
+                <motion.h4
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.4 }}
+                  className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+                >
+                  Navigazione
+                </motion.h4>
+
+                <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                  {footerNavLinks.map((item, i) => (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: -18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={vpS}
+                      transition={{ duration: 0.4, delay: i * 0.07 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="text-black hover:text-violet-600 transition-colors duration-200"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Legal */}
+              <div>
+                <motion.h4
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.4 }}
+                  className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+                >
+                  Policy &amp; Cookies
+                </motion.h4>
+
+                <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                  {[
+                    { href: "/privacy", label: "Privacy Policy" },
+                    { href: "/cookies", label: "Cookie Policy" },
+                    { href: "/terms", label: "Termini" },
+                  ].map((item, i) => (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: -18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={vpS}
+                      transition={{ duration: 0.4, delay: i * 0.07 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="text-black hover:text-purple-600 transition-colors duration-200"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+
+                  <motion.li
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="text-black pt-2 text-xs font-mono"
+                  >
+                    P.IVA IT 01234567890
+                  </motion.li>
+                </ul>
+              </div>
+
+              {/* Newsletter */}
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-6"
+              >
+                <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
+                  Contattaci
+                </h4>
+
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="La tua email"
+                    className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
+                  />
+                  <button className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
+
+                <div className="space-y-3 pt-1">
+                  <div className="flex items-center space-x-3 text-sm text-black font-light">
+                    <Mail size={15} className="text-purple-600 shrink-0" />
+                    <span>info@nvisioninsights.it</span>
+                  </div>
+
+                  <div className="flex items-center space-x-3 text-sm text-black font-light">
+                    <MapPin size={15} className="text-purple-600 shrink-0" />
+                    <span>Innovations Hub, Milano, IT</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Divider */}
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-violet-200 to-transparent mb-8" />
+
+            {/* Copyright centrato */}
+            <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
+              <div />
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false, amount: 0.8 }}
+                transition={{ duration: 0.8 }}
+                className="text-center"
+              >
+                © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+              </motion.p>
+
+              <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
+                <span className="flex items-center gap-1.5">
+                  <Globe size={12} className="text-violet-500" />
+                  Italiano
+                </span>
+                <span className="hover:text-violet-600 transition-colors duration-200 cursor-pointer">
+                  Supporto
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </footer>
 
