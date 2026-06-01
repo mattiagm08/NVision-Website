@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Twitter, Linkedin, Share2, ArrowRight, Facebook, Youtube, Instagram, Mail, MapPin, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Menu, X, Share2, ArrowRight, Facebook, Instagram, Mail, MapPin, Globe } from 'lucide-react';
 import Link from 'next/link';
 import articlesData from '../../../resources/articles.json';
 {/* ---------------------------------------------------------

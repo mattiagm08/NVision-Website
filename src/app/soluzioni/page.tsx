@@ -2,8 +2,8 @@
 
 // IMPORTAZIONI
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Facebook, Globe, Instagram, Mail, MapPin, Menu, Share2, X, Youtube } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Facebook, Globe, Instagram, Mail, MapPin, Menu, Share2, X } from 'lucide-react';
 import Link from 'next/link';
 
 const vpS = { once: false, amount: 0.2 };

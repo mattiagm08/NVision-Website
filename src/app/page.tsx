@@ -6,8 +6,6 @@ import { motion } from 'framer-motion';
 import {
   Menu,
   X,
-  Linkedin,
-  Twitter,
   Instagram,
   ArrowRight,
   Mail,
@@ -18,7 +16,6 @@ import {
   Zap,
   ShieldCheck,
   Facebook,
-  Youtube,
   Share2,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -265,7 +262,6 @@ export default function Home() {
   useEffect(() => {
     startAnimation();
     return () => stopAnimation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── Mouse handlers ──

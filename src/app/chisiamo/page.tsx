@@ -5,14 +5,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Menu, X, Rocket, ShieldCheck, Target,
-  Zap, Globe, Cpu, ArrowRight, CheckCircle2,
+  Zap, Globe, Cpu, ArrowRight,
   LineChart, Users, Award, Briefcase, Linkedin, Twitter, Mail,
   Sparkles, Code2, MapPin,
   Share2
 } from 'lucide-react';
 import Link from 'next/link';
 import NBold from '../components/NBold';
-import { Youtube, Facebook, Instagram } from 'lucide-react';
+import { Facebook, Instagram } from 'lucide-react';
 
 // ─── VIEWPORT CONFIG (once: false = re-triggers ogni volta) ──────────────────
 const vp  = { once: false, amount: 0.2 } as const;

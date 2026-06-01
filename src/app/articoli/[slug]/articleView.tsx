@@ -23,6 +23,7 @@ const AdPlaceholder = ({ label }: { label: string }) => (
 export default function ArticleView({ article, readTime }: Props) {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const articleContentClass = `article-content article-content-${article.contentStyle ?? 'default'}`;
 
   // Logica Articoli Correlati: prendiamo 3 articoli escludendo quello attuale
   const relatedArticles = articles
@@ -128,8 +129,11 @@ export default function ArticleView({ article, readTime }: Props) {
       </div>
 
       {/* CONTENUTO */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 prose prose-lg md:prose-xl text-slate-700 prose-a:text-blue-500">
-        <div dangerouslySetInnerHTML={{ __html: article.content }} />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div
+          className={articleContentClass}
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
       </div>
 
       {/* ADS: End */}

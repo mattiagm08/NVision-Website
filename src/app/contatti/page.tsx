@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, Mail, MessageSquare, Phone, Tag, Send, CheckCircle2, Facebook, Youtube, Instagram, MapPin, ArrowRight, Globe, Share2 } from 'lucide-react';
+import { Menu, X, User, Mail, MessageSquare, Phone, Tag, Send, CheckCircle2, Facebook, Instagram, MapPin, ArrowRight, Globe, Share2 } from 'lucide-react';
 import Link from 'next/link';
 
 const vpS = { once: false, amount: 0.2 } as const;
