@@ -581,7 +581,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 1.2 }}
             className="text-[1.12rem] sm:text-xl text-white max-w-2xl mx-auto mb-20 leading-relaxed font-light"
           >
-            Tecnologia, divulgazione e innovazione progettate per la prossima generazione di leader digitali.
+            Tecnologia, divulgazione e innovazione progettate per la <b>prossima generazione di leader digitali.</b>
           </motion.p>
         </motion.div>
 
@@ -1127,9 +1127,14 @@ export default function Home() {
                     placeholder="La tua email"
                     className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
                   />
-                  <button className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
-                    <ArrowRight size={16} />
-                  </button>
+                  return (
+                    <button
+                      onClick={() => router.push("/contatti")}
+                      className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                    >
+                      <ArrowRight size={16} />
+                    </button>
+                  );
                 </div>
 
                 <div className="space-y-3 pt-1">

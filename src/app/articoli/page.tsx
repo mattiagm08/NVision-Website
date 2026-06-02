@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { Menu, X, Share2, ArrowRight, Facebook, Instagram, Mail, MapPin, Globe } from 'lucide-react';
 import Link from 'next/link';
 import articlesData from '../../../resources/articles.json';
+import { useRouter } from "next/navigation";
 {/* ---------------------------------------------------------
     FOOTER (tema blu + animazioni da footer viola)
 --------------------------------------------------------- */}
@@ -26,6 +27,7 @@ const footerSocials = [
 ];
 
 export default function Articoli() {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const sortedArticles = useMemo(() => {
@@ -306,9 +308,14 @@ export default function Articoli() {
                   placeholder="La tua email"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
-                  <ArrowRight size={16} />
-                </button>
+                return (
+                                    <button
+                                      onClick={() => router.push("/contatti")}
+                                      className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                                    >
+                                      <ArrowRight size={16} />
+                                    </button>
+                                  );
               </div>
 
               <div className="space-y-3 pt-1">

@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Facebook, Globe, Instagram, Mail, MapPin, Menu, Share2, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
+
 
 const vpS = { once: false, amount: 0.2 };
 
@@ -25,6 +27,7 @@ export default function Soluzioni() {
 
   // STATI PER IL MENU MOBILE
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-br from-green-950 via-black to-green-950 text-white font-sans">
@@ -286,9 +289,14 @@ export default function Soluzioni() {
                   placeholder="La tua email"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-green-600 hover:bg-green-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
-                  <ArrowRight size={16} />
-                </button>
+                return (
+                                                    <button
+                                                      onClick={() => router.push("/contatti")}
+                                                      className="absolute right-2 top-2 bg-green-600 hover:bg-green-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                                                    >
+                                                      <ArrowRight size={16} />
+                                                    </button>
+                                                  );
               </div>
 
               <div className="space-y-3 pt-1">

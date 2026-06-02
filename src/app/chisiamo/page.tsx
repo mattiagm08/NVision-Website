@@ -13,6 +13,8 @@ import {
 import Link from 'next/link';
 import NBold from '../components/NBold';
 import { Facebook, Instagram } from 'lucide-react';
+import { useRouter } from "next/navigation";
+
 
 // ─── VIEWPORT CONFIG (once: false = re-triggers ogni volta) ──────────────────
 const vp  = { once: false, amount: 0.2 } as const;
@@ -203,6 +205,7 @@ const AnimatedParagraph = ({
 export default function ChiSiamo() {
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   const missionCards = [
     { icon: Rocket, title: "Innovazione", bg: "from-purple-600 to-violet-700", text: "Non seguiamo i trend, li definiamo attraverso analisi critiche e R&D costante.", enterFrom: { x: -40, y: 0 } },
@@ -929,9 +932,14 @@ export default function ChiSiamo() {
                   placeholder="La tua email"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
-                  <ArrowRight size={16} />
-                </button>
+                return (
+                                    <button
+                                      onClick={() => router.push("/contatti")}
+                                      className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                                    >
+                                      <ArrowRight size={16} />
+                                    </button>
+                                  );
               </div>
 
               <div className="space-y-3 pt-1">

@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 import React from 'react';
 
 export default function TermsPage() {
@@ -5,7 +9,7 @@ export default function TermsPage() {
     <main className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Termini e Condizioni</h1>
-        <p className="text-gray-500 mb-8 leading-relaxed">
+        <p className="text-gray-500 leading-relaxed">
           Condizioni generali che disciplinano l&apos;accesso, la consultazione e l&apos;utilizzo del sito NVision Insights,
           dei suoi contenuti editoriali e dei servizi informativi messi a disposizione degli utenti.
         </p>
@@ -109,7 +113,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold text-gray-800 mb-3">Limitazione di responsabilità</h2>
             <p className="text-gray-600 leading-relaxed">
               NVision Insights si impegna a mantenere il sito accessibile, sicuro e aggiornato, ma non garantisce che il
-              servizio sia sempre privo di interruzioni, errori, vulnerabilità o indisponibilità temporanee. Nei limiti
+              servizio sia sempre privo di interruzioni, errors, vulnerabilità o indisponibilità temporanee. Nei limiti
               consentiti dalla legge, NVision Insights non risponde di danni diretti o indiretti derivanti dall&apos;uso o
               dall&apos;impossibilità di utilizzare il sito, dall&apos;affidamento esclusivo sui contenuti pubblicati o da
               attività svolte da terzi.
@@ -136,7 +140,22 @@ export default function TermsPage() {
             </p>
           </section>
 
-          <div className="mt-8 pt-6 border-t border-gray-200">
+          <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="h-fit w-fit"
+            >
+              <Link 
+                href="/" 
+                className="bg-black text-white px-12 py-4 rounded-full font-bold hover:bg-purple-500 hover:text-white transition-all duration-300 flex items-center shadow-lg text-sm"
+              >
+                Homepage
+              </Link>
+            </motion.div>
+
+          <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
             <p className="text-sm text-gray-500">Ultimo aggiornamento: 2 giugno 2026</p>
           </div>
         </div>
