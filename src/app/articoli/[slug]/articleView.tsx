@@ -3,7 +3,20 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Clock, Calendar, Share2, ChevronLeft, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { 
+  Clock, 
+  Calendar, 
+  Share2, 
+  ChevronLeft, 
+  ArrowRight, 
+  Mail, 
+  MapPin, 
+  Globe, 
+  Twitter, 
+  Instagram, 
+  Linkedin 
+} from 'lucide-react';
 import type { Article } from '../../../../types/article';
 import articles from '../../../../resources/articles.json';
 
@@ -11,6 +24,22 @@ interface Props {
   article: Article;
   readTime: number;
 }
+
+// Configurazioni e Dati per il nuovo Footer
+const vpS = { once: true, amount: 0.1 };
+
+const footerNavLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/articoli', label: 'Articoli' },
+  { href: '/chi-siamo', label: 'Chi Siamo' },
+  { href: '/contatti', label: 'Contatti' },
+];
+
+const footerSocials = [
+  { Icon: Twitter },
+  { Icon: Instagram },
+  { Icon: Linkedin },
+];
 
 // Semplice componente Placeholder per le Ads
 const AdPlaceholder = ({ label }: { label: string }) => (
@@ -21,6 +50,7 @@ const AdPlaceholder = ({ label }: { label: string }) => (
 );
 
 export default function ArticleView({ article, readTime }: Props) {
+  const router = useRouter();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
   const articleContentClass = `article-content article-content-${article.contentStyle ?? 'default'}`;
@@ -62,7 +92,7 @@ export default function ArticleView({ article, readTime }: Props) {
       {/* NAVBAR */}
       <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center">
-          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-black to-black/70 select-none">
+          <h1 className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text whitespace-nowrap shrink-0 bg-gradient-to-r from-black to-black/70 select-none">
             <Link href="/" >NVision Insights™</Link>
           </h1>
           <Link
@@ -78,7 +108,7 @@ export default function ArticleView({ article, readTime }: Props) {
       {/* HERO */}
       <section className="relative pt-28 sm:pt-32 pb-10 sm:pb-12 md:pt-40 md:pb-20 px-4 sm:px-6 bg-blue-800 overflow-hidden">
         <div className="relative max-w-4xl mx-auto text-center z-10">
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-4">
             {article.title}
           </h1>
 
@@ -202,14 +232,306 @@ export default function ArticleView({ article, readTime }: Props) {
         </div>
       </div>
 
-      {/* FOOTER */}
-      <footer className="bg-blue-800/90 text-white py-6 sm:py-10 mt-8 sm:mt-12 border-t border-blue-300/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center text-xs sm:text-sm">
-          ©{new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-          <br />
-          <a href="mailto:info@nvisioninsights.it" className="underline hover:text-blue-200 transition-colors">
-            info@nvisioninsights.it
-          </a>
+      {/* NUOVO FOOTER RICHIESTO */}
+      <footer className="relative mt-auto border-t border-zinc-100 bg-white">
+        <div className="max-w-6xl mx-auto px-6 pt-16 pb-6 relative z-10">
+
+          {/* ── MOBILE LAYOUT (block md:hidden) ── */}
+          <div className="md:hidden space-y-10">
+
+            {/* Brand */}
+            <div className="text-center space-y-4 pb-8 border-b border-zinc-200">
+              <motion.h3
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.5 }}
+                className="text-3xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400"
+              >
+                NVision Insights™
+              </motion.h3>
+              <p className="text-zinc-500 text-sm font-light max-w-xs mx-auto">
+                Tecnologia, divulgazione e innovazione per la prossima generazione di leader digitali.
+              </p>
+              {/* Socials centrati e grandi su mobile */}
+              <div className="flex justify-center space-x-4 pt-2">
+                {footerSocials.map(({ Icon }, i) => (
+                  <motion.a
+                    key={i}
+                    href="#"
+                    initial={{ scale: 0, opacity: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.5, delay: i * 0.1, type: "spring", stiffness: 260, damping: 13 }}
+                    className="p-3 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm"
+                  >
+                    <Icon size={20} />
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigazione + Policy su due colonne affiancate */}
+            <div className="grid grid-cols-2 gap-8 pb-8 border-b border-zinc-200">
+              <div>
+                <h4 className="text-black font-bold mb-4 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
+                <ul className="space-y-3 text-sm">
+                  {footerNavLinks.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="text-zinc-600 hover:text-blue-600 transition-colors duration-200 font-light">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-black font-bold mb-4 text-xs uppercase tracking-[0.15em]">Policy</h4>
+                <ul className="space-y-3 text-sm">
+                  {[
+                    { href: "/privacy", label: "Privacy Policy" },
+                    { href: "/cookies", label: "Cookie Policy" },
+                    { href: "/terms", label: "Termini" },
+                  ].map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="text-zinc-600 hover:text-blue-600 transition-colors duration-200 font-light">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Contatti + Newsletter */}
+            <div className="space-y-5 pb-8 border-b border-zinc-200">
+              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="La tua email"
+                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                />
+                <button className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
+                  <Mail size={15} className="text-blue-600 shrink-0" />
+                  <span>info@nvisioninsights.it</span>
+                </div>
+                <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
+                  <MapPin size={15} className="text-blue-600 shrink-0" />
+                  <span>Innovations Hub, Milano, IT</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Copyright mobile */}
+            <div className="flex flex-col items-center gap-3 text-xs text-zinc-500">
+              <p className="text-center font-light">
+                © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+              </p>
+              <div className="flex items-center gap-4">
+                <span className="flex items-center gap-1.5">
+                  <Globe size={12} className="text-blue-500" />
+                  Italiano
+                </span>
+                <span className="hover:text-blue-600 transition-colors duration-200 cursor-pointer">
+                  Supporto
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ── DESKTOP LAYOUT (hidden md:block) ── */}
+          <div className="hidden md:block">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+              {/* Brand + Socials */}
+              <div className="space-y-6">
+                <motion.h3
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.6 }}
+                  className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400"
+                >
+                  NVision Insights™
+                </motion.h3>
+
+                <div className="flex space-x-3">
+                  {footerSocials.map(({ Icon }, i) => (
+                    <motion.a
+                      key={i}
+                      href="#"
+                      initial={{ scale: 0, opacity: 0, rotate: -180 }}
+                      whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                      viewport={vpS}
+                      transition={{
+                        duration: 0.5,
+                        delay: i * 0.1,
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 13,
+                      }}
+                      className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200"
+                    >
+                      <Icon size={18} />
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigazione */}
+              <div>
+                <motion.h4
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.4 }}
+                  className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+                >
+                  Navigazione
+                </motion.h4>
+
+                <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                  {footerNavLinks.map((item, i) => (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: -18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={vpS}
+                      transition={{ duration: 0.4, delay: i * 0.07 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="text-black hover:text-blue-600 transition-colors duration-200"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Legal */}
+              <div>
+                <motion.h4
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.4 }}
+                  className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+                >
+                  Policy &amp; Cookies
+                </motion.h4>
+
+                <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                  {[
+                    { href: "/privacy", label: "Privacy Policy" },
+                    { href: "/cookies", label: "Cookie Policy" },
+                    { href: "/terms", label: "Termini" },
+                  ].map((item, i) => (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: -18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={vpS}
+                      transition={{ duration: 0.4, delay: i * 0.07 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="text-black hover:text-blue-600 transition-colors duration-200"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+
+                  <motion.li
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="text-black pt-2 text-xs font-mono"
+                  >
+                    P.IVA IT 01234567890
+                  </motion.li>
+                </ul>
+              </div>
+
+              {/* Newsletter */}
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-6"
+              >
+                <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
+                  Contattaci
+                </h4>
+
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="La tua email"
+                    className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                  />
+                  <button
+                    onClick={() => router.push("/contatti")}
+                    className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                  >
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
+
+                <div className="space-y-3 pt-1">
+                  <div className="flex items-center space-x-3 text-sm text-black font-light">
+                    <Mail size={15} className="text-blue-600 shrink-0" />
+                    <span>info@nvisioninsights.it</span>
+                  </div>
+
+                  <div className="flex items-center space-x-3 text-sm text-black font-light">
+                    <MapPin size={15} className="text-blue-600 shrink-0" />
+                    <span>Innovations Hub, Milano, IT</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Divider */}
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-8" />
+
+            {/* Copyright centrato */}
+            <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
+              <div />
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false, amount: 0.8 }}
+                transition={{ duration: 0.8 }}
+                className="text-center"
+              >
+                © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+              </motion.p>
+
+              <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
+                <span className="flex items-center gap-1.5">
+                  <Globe size={12} className="text-blue-500" />
+                  Italiano
+                </span>
+                <span className="hover:text-blue-600 transition-colors duration-200 cursor-pointer">
+                  Supporto
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </footer>
     </main>

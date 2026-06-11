@@ -158,9 +158,9 @@ export default function Articoli() {
                     </Link>
 
                     <div className="flex items-center gap-4 text-slate-400">
-                      <Facebook size={18} className="hover:text-purple-400 cursor-pointer transition-colors" />
-                      <Instagram size={18} className="hover:text-purple-700 cursor-pointer transition-colors" />
-                      <Share2 size={18} className="hover:text-slate-600 cursor-pointer transition-colors" />
+                      <Facebook size={18} className="hover:text-blue-700 cursor-pointer transition-colors" />
+                      <Instagram size={18} className="hover:text-blue-700 cursor-pointer transition-colors" />
+                      <Share2 size={18} className="hover:text-blue-700 cursor-pointer transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -174,22 +174,34 @@ export default function Articoli() {
           FOOTER
       --------------------------------------------------------- */}
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
-        <div className="max-w-6xl mx-auto px-6 pt-20 pb-5 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="max-w-6xl mx-auto px-6 pt-16 pb-6 relative z-10">
 
-            {/* Brand + Socials */}
-            <div className="space-y-6">
+          {/*
+            ─── MOBILE FOOTER: layout completamente ridisegnato ────────────────
+            Su mobile: stack verticale con separatori chiari, spaziatura generosa,
+            testo leggibile, social ben visibili, newsletter in fondo.
+            Su desktop: grid a 4 colonne identico a prima.
+          */}
+
+          {/* ── MOBILE LAYOUT (block md:hidden) ── */}
+          <div className="md:hidden space-y-10">
+
+            {/* Brand */}
+            <div className="text-center space-y-4 pb-8 border-b border-zinc-200">
               <motion.h3
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={vpS}
-                transition={{ duration: 0.6 }}
-                className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400"
+                transition={{ duration: 0.5 }}
+                className="text-3xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400"
               >
                 NVision Insights™
               </motion.h3>
-
-              <div className="flex space-x-3">
+              <p className="text-zinc-500 text-sm font-light max-w-xs mx-auto">
+                Tecnologia, divulgazione e innovazione per la prossima generazione di leader digitali.
+              </p>
+              {/* Socials centrati e grandi su mobile */}
+              <div className="flex justify-center space-x-4 pt-2">
                 {footerSocials.map(({ Icon }, i) => (
                   <motion.a
                     key={i}
@@ -197,168 +209,278 @@ export default function Articoli() {
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={vpS}
-                    transition={{
-                      duration: 0.5,
-                      delay: i * 0.1,
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 13,
-                    }}
-                    className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200"
+                    transition={{ duration: 0.5, delay: i * 0.1, type: "spring", stiffness: 260, damping: 13 }}
+                    className="p-3 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm"
                   >
-                    <Icon size={18} />
+                    <Icon size={20} />
                   </motion.a>
                 ))}
               </div>
             </div>
 
-            {/* Navigazione */}
-            <div>
-              <motion.h4
-                initial={{ opacity: 0, y: -10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={vpS}
-                transition={{ duration: 0.4 }}
-                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
-              >
-                Navigazione
-              </motion.h4>
-
-              <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                {footerNavLinks.map((item, i) => (
-                  <motion.li
-                    key={item.href}
-                    initial={{ opacity: 0, x: -18 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={vpS}
-                    transition={{ duration: 0.4, delay: i * 0.07 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="text-black hover:text-blue-600 transition-colors duration-200"
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.li>
-                ))}
-              </ul>
+            {/* Navigazione + Policy su due colonne affiancate */}
+            <div className="grid grid-cols-2 gap-8 pb-8 border-b border-zinc-200">
+              <div>
+                <h4 className="text-black font-bold mb-4 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
+                <ul className="space-y-3 text-sm">
+                  {footerNavLinks.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="text-zinc-600 hover:text-blue-600 transition-colors duration-200 font-light">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-black font-bold mb-4 text-xs uppercase tracking-[0.15em]">Policy</h4>
+                <ul className="space-y-3 text-sm">
+                  {[
+                    { href: "/privacy", label: "Privacy Policy" },
+                    { href: "/cookies", label: "Cookie Policy" },
+                    { href: "/terms", label: "Termini" },
+                  ].map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="text-zinc-600 hover:text-blue-600 transition-colors duration-200 font-light">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li>
+                </ul>
+              </div>
             </div>
 
-            {/* Legal */}
-            <div>
-              <motion.h4
-                initial={{ opacity: 0, y: -10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={vpS}
-                transition={{ duration: 0.4 }}
-                className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
-              >
-                Policy &amp; Cookies
-              </motion.h4>
-
-              <ul className="space-y-4 text-sm text-zinc-400 font-light">
-                {[
-                  { href: "/privacy", label: "Privacy Policy" },
-                  { href: "/cookies", label: "Cookie Policy" },
-                  { href: "/terms", label: "Termini" },
-                ].map((item, i) => (
-                  <motion.li
-                    key={item.href}
-                    initial={{ opacity: 0, x: -18 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={vpS}
-                    transition={{ duration: 0.4, delay: i * 0.07 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="text-black hover:text-blue-600 transition-colors duration-200"
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.li>
-                ))}
-
-                <motion.li
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={vpS}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="text-black pt-2 text-xs font-mono"
-                >
-                  P.IVA IT 01234567890
-                </motion.li>
-              </ul>
-            </div>
-
-            {/* Newsletter / Contattaci */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={vpS}
-              transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-6"
-            >
-              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
-                Contattaci
-              </h4>
-
+            {/* Contatti + Newsletter */}
+            <div className="space-y-5 pb-8 border-b border-zinc-200">
+              <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">Contattaci</h4>
               <div className="relative">
                 <input
                   type="email"
                   placeholder="La tua email"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
                 />
-                return (
-                                    <button
-                                      onClick={() => router.push("/contatti")}
-                                      className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
-                                    >
-                                      <ArrowRight size={16} />
-                                    </button>
-                                  );
+                <button className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                  <ArrowRight size={16} />
+                </button>
               </div>
-
-              <div className="space-y-3 pt-1">
-                <div className="flex items-center space-x-3 text-sm text-black font-light">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <Mail size={15} className="text-blue-600 shrink-0" />
                   <span>info@nvisioninsights.it</span>
                 </div>
-
-                <div className="flex items-center space-x-3 text-sm text-black font-light">
+                <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-blue-600 shrink-0" />
                   <span>Innovations Hub, Milano, IT</span>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
 
-          {/* Divider */}
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-8" />
-
-          {/* Copyright centrato */}
-          <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
-            <div />
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.8 }}
-              transition={{ duration: 0.8 }}
-              className="text-center"
-            >
-              © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
-            </motion.p>
-
-            <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
-              <span className="flex items-center gap-1.5">
-                <Globe size={12} className="text-blue-500" />
-                Italiano
-              </span>
-              <span className="hover:text-blue-600 transition-colors duration-200 cursor-pointer">
-                Supporto
-              </span>
+            {/* Copyright mobile */}
+            <div className="flex flex-col items-center gap-3 text-xs text-zinc-500">
+              <p className="text-center font-light">
+                © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+              </p>
+              <div className="flex items-center gap-4">
+                <span className="flex items-center gap-1.5">
+                  <Globe size={12} className="text-blue-500" />
+                  Italiano
+                </span>
+                <span className="hover:text-blue-600 transition-colors duration-200 cursor-pointer">
+                  Supporto
+                </span>
+              </div>
             </div>
           </div>
+
+          {/* ── DESKTOP LAYOUT (hidden md:block) — IDENTICO ALL'ORIGINALE ── */}
+          <div className="hidden md:block">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+              {/* Brand + Socials */}
+              <div className="space-y-6">
+                <motion.h3
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.6 }}
+                  className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400"
+                >
+                  NVision Insights™
+                </motion.h3>
+
+                <div className="flex space-x-3">
+                  {footerSocials.map(({ Icon }, i) => (
+                    <motion.a
+                      key={i}
+                      href="#"
+                      initial={{ scale: 0, opacity: 0, rotate: -180 }}
+                      whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                      viewport={vpS}
+                      transition={{
+                        duration: 0.5,
+                        delay: i * 0.1,
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 13,
+                      }}
+                      className="p-2 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-500 transition-all duration-200"
+                    >
+                      <Icon size={18} />
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigazione */}
+              <div>
+                <motion.h4
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.4 }}
+                  className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+                >
+                  Navigazione
+                </motion.h4>
+
+                <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                  {footerNavLinks.map((item, i) => (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: -18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={vpS}
+                      transition={{ duration: 0.4, delay: i * 0.07 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="text-black hover:text-blue-600 transition-colors duration-200"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Legal */}
+              <div>
+                <motion.h4
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={vpS}
+                  transition={{ duration: 0.4 }}
+                  className="text-black font-bold mb-6 text-xs uppercase tracking-[0.15em]"
+                >
+                  Policy &amp; Cookies
+                </motion.h4>
+
+                <ul className="space-y-4 text-sm text-zinc-400 font-light">
+                  {[
+                    { href: "/privacy", label: "Privacy Policy" },
+                    { href: "/cookies", label: "Cookie Policy" },
+                    { href: "/terms", label: "Termini" },
+                  ].map((item, i) => (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: -18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={vpS}
+                      transition={{ duration: 0.4, delay: i * 0.07 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="text-black hover:text-blue-600 transition-colors duration-200"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+
+                  <motion.li
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={vpS}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="text-black pt-2 text-xs font-mono"
+                  >
+                    P.IVA IT 01234567890
+                  </motion.li>
+                </ul>
+              </div>
+
+              {/* Newsletter */}
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={vpS}
+                transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-6"
+              >
+                <h4 className="text-black font-bold text-xs uppercase tracking-[0.15em]">
+                  Contattaci
+                </h4>
+
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="La tua email"
+                    className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                  />
+                  return (
+                    <button
+                      onClick={() => router.push("/contatti")}
+                      className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                    >
+                      <ArrowRight size={16} />
+                    </button>
+                  );
+                </div>
+
+                <div className="space-y-3 pt-1">
+                  <div className="flex items-center space-x-3 text-sm text-black font-light">
+                    <Mail size={15} className="text-blue-600 shrink-0" />
+                    <span>info@nvisioninsights.it</span>
+                  </div>
+
+                  <div className="flex items-center space-x-3 text-sm text-black font-light">
+                    <MapPin size={15} className="text-blue-600 shrink-0" />
+                    <span>Innovations Hub, Milano, IT</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Divider */}
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-8" />
+
+            {/* Copyright centrato */}
+            <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
+              <div />
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false, amount: 0.8 }}
+                transition={{ duration: 0.8 }}
+                className="text-center"
+              >
+                © {new Date().getFullYear()} NVision Insights™ — Tutti i diritti riservati.
+              </motion.p>
+
+              <div className="flex justify-end items-center space-x-6 text-xs text-zinc-400">
+                <span className="flex items-center gap-1.5">
+                  <Globe size={12} className="text-blue-500" />
+                  Italiano
+                </span>
+                <span className="hover:text-blue-600 transition-colors duration-200 cursor-pointer">
+                  Supporto
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </footer>
     </main>
