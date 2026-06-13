@@ -10,7 +10,7 @@ import {
   Globe, Share2, AlertCircle, Check, Building2, Loader2, DollarSign 
 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from 'next/navigation';
 
 
 const vpS = { once: false, amount: 0.2 } as const;
@@ -21,6 +21,14 @@ const footerNavLinks = [
   { href: '/soluzioni', label: 'Soluzioni' },
   { href: '/chisiamo', label: 'Chi Siamo' },
 ];
+
+const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/articoli', label: 'Articoli' },
+    { href: '/soluzioni', label: 'Soluzioni' },
+    { href: '/chisiamo', label: 'Chi Siamo' },
+    { href: '/contatti', label: 'Contatti' },
+  ];
 
 const footerSocials = [
   { Icon: Facebook },
@@ -36,7 +44,9 @@ const budgetOptions = [
 ];
 
 export default function Contatti() {
+
   const router = useRouter();
+    const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -105,6 +115,32 @@ export default function Contatti() {
   const handleBlur = (name: string) => {
     setTouched(prev => ({ ...prev, [name]: true }));
     validateField(name, formData[name as keyof typeof formData]);
+  };
+
+  const mobileNavContainer = {
+    hidden: { opacity: 0, y: -16, scale: 0.98 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.06,
+        delayChildren: 0.05,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 0.98,
+      transition: { duration: 0.2, ease: 'easeIn' },
+    },
+  };
+
+  const mobileNavItem = {
+    hidden: { opacity: 0, x: -12 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } },
   };
 
   const handleBudgetSelect = (id: string) => {
@@ -192,16 +228,62 @@ export default function Contatti() {
 
         {menuOpen && (
           <motion.nav
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:hidden absolute top-full left-0 w-full bg-zinc-950/98 backdrop-blur-xl px-6 py-8 space-y-5 border-t border-white/10 shadow-2xl z-40 rounded-b-2xl"
-          >
-            <Link href="/" className="block text-white text-xl hover:text-violet-300 transition">Home</Link>
-            <Link href="/articoli" className="block text-white text-xl hover:text-violet-300 transition">Articoli</Link>
-            <Link href="/soluzioni" className="block text-white text-xl hover:text-violet-300 transition">Soluzioni</Link>
-            <Link href="/chisiamo" className="block text-white text-xl hover:text-violet-300 transition">Chi Siamo</Link>
-            <Link href="/contatti" className="block text-violet-400 text-xl font-bold">Contatti</Link>
-          </motion.nav>
+              variants={mobileNavContainer}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="md:hidden absolute top-full left-0 w-full px-3 pb-3 z-40"
+            >
+              <div
+                className="
+                  relative overflow-hidden
+                  bg-black/95 backdrop-blur-2xl backdrop-saturate-100
+                  border border-white/10
+                  rounded-3xl
+                  shadow-[0_20px_50px_-15px_rgba(0,0,0,0.9)]
+                  px-3 py-4 mt-2
+                "
+              >
+                {/* glow di sfondo sottile, in tema col resto della pagina */}
+                <div className="pointer-events-none absolute -top-20 -right-16 w-40 h-40 bg-violet-600/20 rounded-full blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-24 -left-16 w-48 h-48 bg-fuchsia-600/10 rounded-full blur-3xl" />
+
+                <ul className="relative flex flex-col gap-1">
+                  {navLinks.map((link) => {
+                    const isActive =
+                      link.href === '/'
+                        ? pathname === '/'
+                        : pathname?.startsWith(link.href);
+
+                    return (
+                      <motion.li key={link.href} variants={mobileNavItem}>
+                        <Link
+                          href={link.href}
+                          onClick={() => setMenuOpen(false)}
+                          className={`
+                            relative flex items-center justify-between
+                            px-4 py-3.5 rounded-2xl
+                            text-lg font-medium
+                            transition-colors duration-300
+                            ${
+                              isActive
+                                ? 'bg-white text-black shadow-lg shadow-white/10'
+                                : 'text-white/70 hover:text-white hover:bg-white/5'
+                            }
+                          `}
+                        >
+                          <span>{link.label}</span>
+                        </Link>
+                      </motion.li>
+                    );
+                  })}
+                </ul>
+
+                {/* linea decorativa in basso */}
+                <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-center">
+                </div>
+              </div>
+            </motion.nav>
         )}
       </header>
 
@@ -222,7 +304,7 @@ export default function Contatti() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h3 className="text-5xl md:text-7xl font-black text-slate-950 tracking-tighter leading-tight mb-4">
+            <h3 className="text-4xl md:text-7xl font-black text-slate-950 tracking-tighter leading-tight mb-4 whitespace-nowrap">
               Invia una <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-fuchsia-500">richiesta</span>
             </h3>
             <p className="max-w-2xl mx-auto text-slate-500 text-lg md:text-xl font-light leading-relaxed">
@@ -395,30 +477,31 @@ export default function Contatti() {
 
                 {/* OGGETTO */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-purple-600 ml-1">Oggetto della richiesta</label>
-                  <div className="relative group">
-                    <Tag className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${touched.oggetto && errors.oggetto ? 'text-red-400' : 'text-slate-300 group-focus-within:text-purple-500'}`} size={18} />
-                    <select
-                      name="oggetto" value={formData.oggetto}
-                      onChange={handleChange} onBlur={() => handleBlur('oggetto')}
-                      className={`w-full bg-slate-50 p-4 pl-12 pr-10 rounded-2xl border transition-all appearance-none text-slate-700 outline-none ${touched.oggetto && errors.oggetto ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-500/10'}`}
-                    >
-                      <option value="">Seleziona un&apos;opzione</option>
-                      <option value="consulenza">Consulenza Strategica &amp; AI</option>
-                      <option value="tech">Integrazione Cloud &amp; Cybersecurity</option>
-                      <option value="partnership">Proposta di Partnership Commerciale</option>
-                      <option value="altro">Altro / Informazioni Generali</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
-                      <ArrowRight size={16} className="rotate-90" />
-                    </div>
+                <label className="text-xs font-bold uppercase tracking-widest text-purple-600 ml-1">Oggetto della richiesta</label>
+                <div className="relative group">
+                  <Tag className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors pointer-events-none ${touched.oggetto && errors.oggetto ? 'text-red-400' : 'text-slate-300 group-focus-within:text-purple-500'}`} size={18} />
+                  <select
+                    name="oggetto" value={formData.oggetto}
+                    onChange={handleChange} onBlur={() => handleBlur('oggetto')}
+                    style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                    className={`w-full h-14 bg-slate-50 pl-12 pr-10 rounded-2xl border transition-all appearance-none text-slate-700 outline-none leading-none [&::-ms-expand]:hidden ${touched.oggetto && errors.oggetto ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-500/10'}`}
+                  >
+                    <option value="">Seleziona un&apos;opzione</option>
+                    <option value="consulenza">Consulenza Strategica &amp; AI</option>
+                    <option value="tech">Integrazione Cloud &amp; Cybersecurity</option>
+                    <option value="partnership">Proposta di Partnership Commerciale</option>
+                    <option value="altro">Altro / Informazioni Generali</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
+                    <ArrowRight size={16} className="rotate-90" />
                   </div>
-                  <AnimatePresence>
-                    {touched.oggetto && errors.oggetto && (
-                      <motion.p initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="text-xs text-red-500 font-medium pl-1">{errors.oggetto}</motion.p>
-                    )}
-                  </AnimatePresence>
                 </div>
+                <AnimatePresence>
+                  {touched.oggetto && errors.oggetto && (
+                    <motion.p initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="text-xs text-red-500 font-medium pl-1">{errors.oggetto}</motion.p>
+                  )}
+                </AnimatePresence>
+              </div>
 
                 {/* BUDGET */}
                 <div className="space-y-3">

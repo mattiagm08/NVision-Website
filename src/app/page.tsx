@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
   X,
@@ -19,7 +19,7 @@ import {
   Share2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 // ─── VIEWPORT CONFIG (once: false = re-triggers ogni volta) ──────────────────
 const vp  = { once: false, amount: 0.2 } as const;
@@ -222,7 +222,44 @@ const AnimatedParagraph = ({
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const isMobile = useIsMobile();
+
+  // ─── LINK DI NAVIGAZIONE (mobile, con stato attivo) ──────────────────────────
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/articoli', label: 'Articoli' },
+    { href: '/soluzioni', label: 'Soluzioni' },
+    { href: '/chisiamo', label: 'Chi Siamo' },
+    { href: '/contatti', label: 'Contatti' },
+  ];
+
+  // ─── VARIANTI ANIMAZIONE NAVBAR MOBILE ──────────────────────────────────────
+  const mobileNavContainer = {
+    hidden: { opacity: 0, y: -16, scale: 0.98 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.06,
+        delayChildren: 0.05,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 0.98,
+      transition: { duration: 0.2, ease: 'easeIn' },
+    },
+  };
+
+  const mobileNavItem = {
+    hidden: { opacity: 0, x: -12 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+  };
 
   // ─── CAROSELLO HERO ─────────────────────────────────────────────────────────
   const trackRef       = useRef<HTMLDivElement>(null);
@@ -523,19 +560,68 @@ export default function Home() {
           </nav>
         </div>
 
-        {menuOpen && (
-          <motion.nav
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:hidden absolute top-full left-0 w-full bg-zinc-950/98 backdrop-blur-xl px-6 py-8 space-y-5 border-t border-white/10 shadow-2xl z-40 rounded-b-2xl"
-          >
-            <Link href="/" className="block text-violet-400 text-xl font-bold">Home</Link>
-            <Link href="/articoli" className="block text-white text-xl hover:text-violet-300 transition">Articoli</Link>
-            <Link href="/soluzioni" className="block text-white text-xl hover:text-violet-300 transition">Soluzioni</Link>
-            <Link href="/chisiamo" className="block text-white text-xl hover:text-violet-300 transition">Chi Siamo</Link>
-            <Link href="/contatti" className="block text-white text-xl hover:text-violet-300 transition">Contatti</Link>
-          </motion.nav>
-        )}
+        {/* ─── MOBILE NAV — vetro nero opaco, stato attivo bianco ─────────────── */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.nav
+              variants={mobileNavContainer}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="md:hidden absolute top-full left-0 w-full px-3 pb-3 z-40"
+            >
+              <div
+                className="
+                  relative overflow-hidden
+                  bg-black/95 backdrop-blur-2xl backdrop-saturate-100
+                  border border-white/10
+                  rounded-3xl
+                  shadow-[0_20px_50px_-15px_rgba(0,0,0,0.9)]
+                  px-3 py-4 mt-2
+                "
+              >
+                {/* glow di sfondo sottile, in tema col resto della pagina */}
+                <div className="pointer-events-none absolute -top-20 -right-16 w-40 h-40 bg-violet-600/20 rounded-full blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-24 -left-16 w-48 h-48 bg-fuchsia-600/10 rounded-full blur-3xl" />
+
+                <ul className="relative flex flex-col gap-1">
+                  {navLinks.map((link) => {
+                    const isActive =
+                      link.href === '/'
+                        ? pathname === '/'
+                        : pathname?.startsWith(link.href);
+
+                    return (
+                      <motion.li key={link.href} variants={mobileNavItem}>
+                        <Link
+                          href={link.href}
+                          onClick={() => setMenuOpen(false)}
+                          className={`
+                            relative flex items-center justify-between
+                            px-4 py-3.5 rounded-2xl
+                            text-lg font-medium
+                            transition-colors duration-300
+                            ${
+                              isActive
+                                ? 'bg-white text-black shadow-lg shadow-white/10'
+                                : 'text-white/70 hover:text-white hover:bg-white/5'
+                            }
+                          `}
+                        >
+                          <span>{link.label}</span>
+                        </Link>
+                      </motion.li>
+                    );
+                  })}
+                </ul>
+
+                {/* linea decorativa in basso */}
+                <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-center">
+                </div>
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* ─── HERO ──────────────────────────────────────────────────────────────── */}
@@ -959,7 +1045,10 @@ export default function Home() {
                   placeholder="La tua email"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
                 />
-                <button className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white">
+                <button
+                  onClick={() => router.push("/contatti")}
+                  className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                >
                   <ArrowRight size={16} />
                 </button>
               </div>
@@ -1127,14 +1216,12 @@ export default function Home() {
                     placeholder="La tua email"
                     className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-200"
                   />
-                  return (
-                    <button
-                      onClick={() => router.push("/contatti")}
-                      className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
-                    >
-                      <ArrowRight size={16} />
-                    </button>
-                  );
+                  <button
+                    onClick={() => router.push("/contatti")}
+                    className="absolute right-2 top-2 bg-purple-600 hover:bg-purple-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                  >
+                    <ArrowRight size={16} />
+                  </button>
                 </div>
 
                 <div className="space-y-3 pt-1">
