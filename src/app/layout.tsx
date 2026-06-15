@@ -13,17 +13,61 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NVision Insights",
-  description: "Benvenuto su Nvision, la tua piattaforma tech.",
+  metadataBase: new URL("https://www.nvisioninsights.it"),
+
+  title: {
+    default: "NVision Insights",
+    template: "%s | NVision Insights",
+  },
+
+  description:
+    "Tecnologia, divulgazione e innovazione per la nuova generazione digitale.",
+
+  alternates: {
+    canonical: "https://www.nvisioninsights.it",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  openGraph: {
+    title: "NVision Insights",
+    description: "Tecnologia, divulgazione e innovazione.",
+    url: "https://www.nvisioninsights.it",
+    siteName: "NVision Insights",
+    locale: "it_IT",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+
   icons: {
     icon: [
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon.ico", sizes: "any" },
+      {
+        url: "/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+        type: "image/x-icon",
+      }
     ],
-    apple: "/apple-touch-icon.png",
-    shortcut: "/favicon.ico", 
   },
+
   manifest: "/site.webmanifest",
 };
 

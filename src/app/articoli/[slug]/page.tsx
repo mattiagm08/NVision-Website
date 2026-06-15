@@ -8,20 +8,17 @@ import { Metadata } from 'next';
 const articleList = articles as Article[];
 
 interface ArticlePageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
-// 1. GENERATE STATIC PARAMS (Abilita SSG)
-// Questa funzione dice a Next.js quali pagine generare al momento del build
 export async function generateStaticParams() {
   return articleList.map((article) => ({
     slug: article.slug,
   }));
 }
 
-// 2. METADATA DINAMICI (Fondamentali per SEO/Social)
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const article = articleList.find((a) => a.slug === slug);
 
   if (!article) return { title: "Articolo non trovato" };
@@ -34,7 +31,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       description: article.excerpt,
       images: article.image ? [article.image] : undefined,
       type: 'article',
-      publishedTime: article.date,
+      publishedTime: article.dateISO, // ← era article.date (DD/MM/YYYY)
     },
     twitter: {
       card: 'summary_large_image',
@@ -46,7 +43,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   const article = articleList.find((a) => a.slug === slug);
 
   if (!article) {

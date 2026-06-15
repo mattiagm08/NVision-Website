@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     const recipient    = process.env.EMAIL_RECIPIENT ?? FALLBACK_RECIPIENT;
 
     // ─── Oggetto email: contiene tipo di richiesta + Nome Cognome ───
-    const subjectLine = `[NVision] ${oggettoLabel} — ${nome} ${cognome}`;
+    const subjectLine = `[NVision Insights] ${oggettoLabel} | ${nome} ${cognome}`;
 
     const htmlBody = `
 <!DOCTYPE html>
@@ -70,18 +70,18 @@ export async function POST(req: Request) {
 <body>
   <div class="card">
     <div class="badge">Nuova richiesta</div>
-    <h2>📩 ${oggettoLabel}</h2>
+    <h2>${oggettoLabel}</h2>
     <table>
-      <tr><td>Nome e Cognome</td><td>${nome} ${cognome}</td></tr>
-      <tr><td>Email</td><td><a href="mailto:${email}" style="color:#7c3aed">${email}</a></td></tr>
-      <tr><td>Telefono</td><td>${telefono || '—'}</td></tr>
-      <tr><td>Azienda</td><td>${azienda || '—'}</td></tr>
-      <tr><td>Oggetto</td><td>${oggettoLabel}</td></tr>
-      <tr><td>Budget stimato</td><td>${budgetLabel}</td></tr>
-      <tr><td>Newsletter</td><td>${newsletter ? '✅ Sì' : '❌ No'}</td></tr>
+      <tr><td>Nome & Cognome:</td><td>${nome} ${cognome}</td></tr>
+      <tr><td>Email:</td><td><a href="mailto:${email}" style="color:#7c3aed">${email}</a></td></tr>
+      <tr><td>Telefono:</td><td>${telefono || '—'}</td></tr>
+      <tr><td>Azienda:</td><td>${azienda || '—'}</td></tr>
+      <tr><td>Oggetto:</td><td>${oggettoLabel}</td></tr>
+      <tr><td>Budget:</td><td>${budgetLabel}</td></tr>
+      <tr><td>Newsletter:</td><td>${newsletter ? '✅ Sì' : '❌ No'}</td></tr>
     </table>
     <div class="message-box">${messaggio}</div>
-    <div class="footer">NVision Insights™ — richiesta ricevuta automaticamente dal form di contatto</div>
+    <div class="footer">NVision Insights™</div>
   </div>
 </body>
 </html>

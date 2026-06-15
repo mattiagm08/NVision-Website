@@ -3,7 +3,7 @@ import articles from '../../resources/articles.json';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Quando avrai il dominio, cambialo qui.
-  const baseUrl = 'https://www.nvisioninsights.it';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
   // Funzione per convertire la data "DD/MM/YYYY" in un oggetto Date valido
   const parseDate = (dateStr: string) => {

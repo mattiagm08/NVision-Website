@@ -25,7 +25,6 @@ interface Props {
   readTime: number;
 }
 
-// Configurazioni e Dati per il nuovo Footer
 const vpS = { once: true, amount: 0.1 };
 
 const footerNavLinks = [
@@ -41,7 +40,6 @@ const footerSocials = [
   { Icon: Linkedin },
 ];
 
-// Semplice componente Placeholder per le Ads
 const AdPlaceholder = ({ label }: { label: string }) => (
   <div className="w-full my-8 py-10 bg-slate-100 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center">
     <span className="text-[10px] uppercase tracking-widest text-slate-400 mb-2 font-bold">Annuncio Pubblicitario</span>
@@ -55,7 +53,6 @@ export default function ArticleView({ article, readTime }: Props) {
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
   const articleContentClass = `article-content article-content-${article.contentStyle ?? 'default'}`;
 
-  // Logica Articoli Correlati: prendiamo 3 articoli escludendo quello attuale
   const relatedArticles = articles
     .filter((a) => a.slug !== article.slug)
     .slice(0, 3);
@@ -66,7 +63,7 @@ export default function ArticleView({ article, readTime }: Props) {
     "headline": article.title,
     "description": article.excerpt,
     "image": [article.image],
-    "datePublished": new Date(article.date.split('/').reverse().join('-')).toISOString(),
+    "datePublished": new Date(article.dateISO).toISOString(), // ← era: new Date(article.date.split('/').reverse().join('-')).toISOString()
     "author": [{
         "@type": "Organization",
         "name": "NVision Insights",
@@ -232,11 +229,11 @@ export default function ArticleView({ article, readTime }: Props) {
         </div>
       </div>
 
-      {/* NUOVO FOOTER RICHIESTO */}
+      {/* FOOTER */}
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
         <div className="max-w-6xl mx-auto px-6 pt-16 pb-6 relative z-10">
 
-          {/* ── MOBILE LAYOUT (block md:hidden) ── */}
+          {/* ── MOBILE LAYOUT ── */}
           <div className="md:hidden space-y-10">
 
             {/* Brand */}
@@ -253,7 +250,6 @@ export default function ArticleView({ article, readTime }: Props) {
               <p className="text-zinc-500 text-sm font-light max-w-xs mx-auto">
                 Tecnologia, divulgazione e innovazione per la prossima generazione di leader digitali.
               </p>
-              {/* Socials centrati e grandi su mobile */}
               <div className="flex justify-center space-x-4 pt-2">
                 {footerSocials.map(({ Icon }, i) => (
                   <motion.a
@@ -271,7 +267,7 @@ export default function ArticleView({ article, readTime }: Props) {
               </div>
             </div>
 
-            {/* Navigazione + Policy su due colonne affiancate */}
+            {/* Navigazione + Policy */}
             <div className="grid grid-cols-2 gap-8 pb-8 border-b border-zinc-200">
               <div>
                 <h4 className="text-black font-bold mb-4 text-xs uppercase tracking-[0.15em]">Navigazione</h4>
@@ -346,7 +342,7 @@ export default function ArticleView({ article, readTime }: Props) {
             </div>
           </div>
 
-          {/* ── DESKTOP LAYOUT (hidden md:block) ── */}
+          {/* ── DESKTOP LAYOUT ── */}
           <div className="hidden md:block">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
@@ -506,7 +502,7 @@ export default function ArticleView({ article, readTime }: Props) {
             {/* Divider */}
             <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-8" />
 
-            {/* Copyright centrato */}
+            {/* Copyright */}
             <div className="grid grid-cols-3 items-center text-xs text-black font-light mb-4">
               <div />
 
