@@ -3,6 +3,7 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Clock, 
@@ -50,6 +51,54 @@ const AdPlaceholder = ({ label }: { label: string }) => (
     <div className="text-slate-400 font-medium">{label}</div>
   </div>
 );
+
+/**
+ * Estrae il pattern {#id} dalla fine del testo dei children di un heading.
+ * Restituisce l'id da usare come attributo HTML e i children "puliti" senza il suffisso {#id}.
+ *
+ * Esempio:
+ *   children = "Cos'è Swiperest? {#cosè-swiperest}"
+ *   → { id: "cosè-swiperest", cleanChildren: "Cos'è Swiperest?" }
+ */
+function extractHeadingId(children: React.ReactNode): {
+  id: string | undefined;
+  cleanChildren: React.ReactNode;
+} {
+  const processString = (text: string): { id?: string; clean: string } => {
+    const match = text.match(/^([\s\S]*?)\s*\{#([^}]+)\}\s*$/);
+    if (match) {
+      return { id: match[2], clean: match[1].trim() };
+    }
+    return { clean: text };
+  };
+
+  // Caso più comune: stringa diretta
+  if (typeof children === 'string') {
+    const { id, clean } = processString(children);
+    return { id, cleanChildren: clean || children };
+  }
+
+  // Array di ReactNode (es. testo misto con bold/em)
+  if (Array.isArray(children)) {
+    const arr = [...(children as React.ReactNode[])];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      if (typeof arr[i] === 'string') {
+        const { id, clean } = processString(arr[i] as string);
+        if (id !== undefined) {
+          arr[i] = clean;
+          // Rimuove stringhe vuote che rimangono dopo la pulizia
+          const filtered = arr.filter((c) => c !== '');
+          return {
+            id,
+            cleanChildren: filtered.length === 1 ? filtered[0] : filtered,
+          };
+        }
+      }
+    }
+  }
+
+  return { id: undefined, cleanChildren: children };
+}
 
 export default function ArticleView({ article, readTime }: Props) {
   const router = useRouter();
@@ -165,6 +214,92 @@ export default function ArticleView({ article, readTime }: Props) {
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeSanitize]}
+            components={{
+              h1: ({ children }) => {
+                const { id, cleanChildren } = extractHeadingId(children);
+                return (
+                  <h1
+                    id={id}
+                    className="!text-blue-600 text-4xl font-extrabold mt-14 mb-14 leading-tight scroll-mt-24"
+                  >
+                    {cleanChildren}
+                  </h1>
+                );
+              },
+
+              h2: ({ children }) => {
+                const { id, cleanChildren } = extractHeadingId(children);
+                return (
+                  <h2
+                    id={id}
+                    className="!text-blue-600 text-3xl font-bold mt-10 mb-10 leading-tight scroll-mt-24"
+                  >
+                    {cleanChildren}
+                  </h2>
+                );
+              },
+
+              h3: ({ children }) => {
+                const { id, cleanChildren } = extractHeadingId(children);
+                return (
+                  <h3
+                    id={id}
+                    className="!text-blue-600 text-2xl font-bold mt-7 mb-5 scroll-mt-24"
+                  >
+                    {cleanChildren}
+                  </h3>
+                );
+              },
+
+              p: ({ children }) => (
+                <p className="!text-slate-700 text-lg leading-8 !mb-12">
+                  {children}
+                </p>
+              ),
+
+              ul: ({ children }) => (
+                <ul className="list-disc pl-6 mb-8 space-y-3 text-slate-700">
+                  {children}
+                </ul>
+              ),
+
+              ol: ({ children }) => (
+                <ol className="list-decimal pl-6 mb-8 space-y-3 text-slate-700">
+                  {children}
+                </ol>
+              ),
+
+              li: ({ children }) => (
+                <li className="leading-7">
+                  {children}
+                </li>
+              ),
+
+              blockquote: ({ children }) => (
+                <blockquote className="border-l-4 border-blue-500 pl-5 my-8 italic text-slate-600">
+                  {children}
+                </blockquote>
+              ),
+
+              hr: () => (
+                <hr className="my-12 border-slate-200" />
+              ),
+
+              strong: ({ children }) => (
+                <strong className="!text-slate-900 font-bold">
+                  {children}
+                </strong>
+              ),
+
+              a: ({ children, href }) => (
+                <a
+                  href={href}
+                  className="!text-blue-600 underline hover:text-blue-800"
+                >
+                  {children}
+                </a>
+              ),
+            }}
           >
             {markdown}
           </ReactMarkdown>

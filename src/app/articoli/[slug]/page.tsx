@@ -5,8 +5,7 @@ import type { Article } from '../../../../types/article';
 import ArticleView from './articleView';
 import { Metadata } from 'next';
 
-import fs from 'fs/promises';
-import path from 'path';
+import { getMarkdown } from '../../lib/markdownCache';
 
 const articleList = articles as Article[];
 
@@ -52,13 +51,9 @@ export async function generateMetadata({
  */
 async function getArticleContent(article: Article): Promise<string> {
   try {
-    const filePath = path.join(process.cwd(), article.content);
-
-    const content = await fs.readFile(filePath, 'utf-8');
-
-    return content;
+    return await getMarkdown(article.content);
   } catch (err) {
-    console.error('Errore lettura file markdown:', err);
+    console.error('Errore lettura markdown:', err);
     return '';
   }
 }
