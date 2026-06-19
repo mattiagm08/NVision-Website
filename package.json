@@ -16,8 +16,12 @@
     "nodemailer": "^8.0.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
     "react-slick": "^0.30.3",
     "react-tsparticles": "^2.12.2",
+    "rehype-sanitize": "^6.0.0",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^4.0.1",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.2.6",
     "tsparticles": "^3.9.1"

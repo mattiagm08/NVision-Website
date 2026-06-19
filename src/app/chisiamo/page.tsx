@@ -298,7 +298,7 @@ export default function ChiSiamo() {
     { href: '/articoli', label: 'Articoli' },
     { href: '/soluzioni', label: 'Soluzioni' },
     { href: '/chisiamo', label: 'Chi Siamo' },
-    { href: '/contatti', label: 'Contatti' },
+    { href: '/contatti', label: 'Contattaci' },
   ];
 
   const footerSocials = [
@@ -324,7 +324,7 @@ export default function ChiSiamo() {
             <Link href="/articoli" className="text-white/70 hover:text-white transition-colors duration-300">Articoli</Link>
             <Link href="/soluzioni" className="text-white/70 hover:text-white transition-colors duration-300">Soluzioni</Link>
             <Link href="/chisiamo" className="text-white/90 font-semibold">Chi Siamo</Link>
-            <Link href="/contatti" className="text-white/70 hover:text-white transition-colors duration-300">Contatti</Link>
+            <Link href="/contatti" className="text-white/70 hover:text-white transition-colors duration-300">Contattaci</Link>
           </nav>
         </div>
 
@@ -862,10 +862,10 @@ export default function ChiSiamo() {
             />
 
             <div className="relative z-10">
-              <AnimatedTitle className="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">
-                Collabora con noi.
+              <AnimatedTitle className="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">
+                Collabora con noi
               </AnimatedTitle>
-              <AnimatedParagraph className="text-purple-100/80 font-light text-lg max-w-lg leading-relaxed">
+              <AnimatedParagraph className="text-white font-light text-lg max-w-lg leading-relaxed">
                 Siamo sempre aperti a nuove collaborazioni con professionisti e aziende che condividono la nostra visione. Costruiamo insieme il futuro.
               </AnimatedParagraph>
             </div>
@@ -948,7 +948,7 @@ export default function ChiSiamo() {
                       </Link>
                     </li>
                   ))}
-                  <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li>
+                  {/* <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li> */}
                 </ul>
               </div>
             </div>
@@ -976,7 +976,7 @@ export default function ChiSiamo() {
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-purple-600 shrink-0" />
-                  <span>Innovations Hub, Milano, IT</span>
+                  <span>Catania, Sicily, IT</span>
                 </div>
               </div>
             </div>
@@ -1110,7 +1110,7 @@ export default function ChiSiamo() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="text-black pt-2 text-xs font-mono"
                   >
-                    P.IVA IT 01234567890
+                    {/* P.IVA IT 01234567890 */}
                   </motion.li>
                 </ul>
               </div>
@@ -1149,7 +1149,7 @@ export default function ChiSiamo() {
 
                   <div className="flex items-center space-x-3 text-sm text-black font-light">
                     <MapPin size={15} className="text-purple-600 shrink-0" />
-                    <span>Innovations Hub, Milano, IT</span>
+                    <span>Catania, Sicily, IT</span>
                   </div>
                 </div>
               </motion.div>

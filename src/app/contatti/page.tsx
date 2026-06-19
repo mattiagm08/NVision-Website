@@ -27,7 +27,7 @@ const navLinks = [
     { href: '/articoli', label: 'Articoli' },
     { href: '/soluzioni', label: 'Soluzioni' },
     { href: '/chisiamo', label: 'Chi Siamo' },
-    { href: '/contatti', label: 'Contatti' },
+    { href: '/contatti', label: 'Contattaci' },
   ];
 
 const footerSocials = [
@@ -222,7 +222,7 @@ export default function Contatti() {
             <Link href="/articoli" className="text-white/70 hover:text-white transition-colors duration-300">Articoli</Link>
             <Link href="/soluzioni" className="text-white/70 hover:text-white transition-colors duration-300">Soluzioni</Link>
             <Link href="/chisiamo" className="text-white/70 hover:text-white transition-colors duration-300">Chi Siamo</Link>
-            <Link href="/contatti" className="text-white/90 font-semibold">Contatti</Link>
+            <Link href="/contatti" className="text-white/90 font-semibold">Contattaci</Link>
           </nav>
         </div>
 
@@ -679,7 +679,7 @@ export default function Contatti() {
                       </Link>
                     </li>
                   ))}
-                  <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li>
+                  {/* <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li> */}
                 </ul>
               </div>
             </div>
@@ -707,7 +707,7 @@ export default function Contatti() {
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-purple-600 shrink-0" />
-                  <span>Innovations Hub, Milano, IT</span>
+                  <span>Catania, Sicily, IT</span>
                 </div>
               </div>
             </div>
@@ -841,7 +841,7 @@ export default function Contatti() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="text-black pt-2 text-xs font-mono"
                   >
-                    P.IVA IT 01234567890
+                    {/* P.IVA IT 01234567890 */}
                   </motion.li>
                 </ul>
               </div>
@@ -880,7 +880,7 @@ export default function Contatti() {
 
                   <div className="flex items-center space-x-3 text-sm text-black font-light">
                     <MapPin size={15} className="text-purple-600 shrink-0" />
-                    <span>Innovations Hub, Milano, IT</span>
+                    <span>Catania, Sicily, IT</span>
                   </div>
                 </div>
               </motion.div>

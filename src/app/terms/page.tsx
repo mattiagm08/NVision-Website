@@ -131,7 +131,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-3">Contatti</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-3">Contattaci</h2>
             <p className="text-gray-600 leading-relaxed">
               Per richieste relative ai presenti Termini e Condizioni è possibile scrivere a
               <a href="mailto:info@nvisioninsights.it" className="text-purple-600 underline ml-1">

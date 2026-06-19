@@ -13,12 +13,16 @@ import {
   Mail, 
   MapPin, 
   Globe, 
-  Twitter, 
   Instagram, 
-  Linkedin 
+  Facebook
 } from 'lucide-react';
+
 import type { Article } from '../../../../types/article';
 import articles from '../../../../resources/articles.json';
+
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 
 interface Props {
   article: Article;
@@ -31,13 +35,13 @@ const footerNavLinks = [
   { href: '/', label: 'Home' },
   { href: '/articoli', label: 'Articoli' },
   { href: '/chi-siamo', label: 'Chi Siamo' },
-  { href: '/contatti', label: 'Contatti' },
+  { href: '/contatti', label: 'Contattaci' },
 ];
 
 const footerSocials = [
-  { Icon: Twitter },
+  { Icon: Facebook },
   { Icon: Instagram },
-  { Icon: Linkedin },
+  { Icon: Share2 },
 ];
 
 const AdPlaceholder = ({ label }: { label: string }) => (
@@ -51,7 +55,10 @@ export default function ArticleView({ article, readTime }: Props) {
   const router = useRouter();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
   const articleContentClass = `article-content article-content-${article.contentStyle ?? 'default'}`;
+
+  const markdown = article.content;
 
   const relatedArticles = articles
     .filter((a) => a.slug !== article.slug)
@@ -63,24 +70,22 @@ export default function ArticleView({ article, readTime }: Props) {
     "headline": article.title,
     "description": article.excerpt,
     "image": [article.image],
-    "datePublished": new Date(article.dateISO).toISOString(), // ← era: new Date(article.date.split('/').reverse().join('-')).toISOString()
+    "datePublished": new Date(article.dateISO).toISOString(),
     "author": [{
-        "@type": "Organization",
-        "name": "NVision Insights",
-        "url": "https://www.nvisioninsights.it" 
+      "@type": "Organization",
+      "name": "NVision Insights",
+      "url": "https://www.nvisioninsights.it"
     }]
   };
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans selection:bg-blue-200 selection:text-blue-900">
-      
-      {/* JSON-LD SCHEMA MARKUP */}
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* PROGRESS BAR */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1.5 bg-blue-300 origin-left z-[60]"
         style={{ scaleX }}
@@ -89,7 +94,7 @@ export default function ArticleView({ article, readTime }: Props) {
       {/* NAVBAR */}
       <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center">
-          <h1 className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text whitespace-nowrap shrink-0 bg-gradient-to-r from-black to-black/70 select-none">
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text whitespace-nowrap shrink-0 bg-gradient-to-r from-black to-black/70 select-none">
             <Link href="/" >NVision Insights™</Link>
           </h1>
           <Link
@@ -97,7 +102,7 @@ export default function ArticleView({ article, readTime }: Props) {
             className="flex items-center gap-1 sm:gap-2 text-slate-600 hover:text-blue-400 text-xs sm:text-sm transition-colors"
           >
             <ChevronLeft size={14} />
-            Torna Agli Articoli
+            Indietro
           </Link>
         </div>
       </header>
@@ -116,12 +121,12 @@ export default function ArticleView({ article, readTime }: Props) {
               </div>
               <span className="font-medium text-xs sm:text-sm">NVision Insights</span>
             </div>
-            <span className="hidden sm:inline w-1 h-1 bg-white/40 rounded-full"></span>
+
             <div className="flex items-center gap-1 sm:gap-2">
               <Calendar size={14} className="text-blue-300" />
               <span className="text-xs sm:text-sm">{article.date}</span>
             </div>
-            <span className="hidden sm:inline w-1 h-1 bg-white/40 rounded-full"></span>
+
             <div className="flex items-center gap-1 sm:gap-2">
               <Clock size={14} className="text-blue-300" />
               <span className="text-xs sm:text-sm">{readTime} min lettura</span>
@@ -130,9 +135,9 @@ export default function ArticleView({ article, readTime }: Props) {
         </div>
       </section>
 
-      {/* IMMAGINE ARTICOLO */}
+      {/* IMMAGINE */}
       {article.image && (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-6 md:-mt-6 relative z-20">
+        <div className="max-w-5xl mx-auto px-2 sm:px-6 -mt-6 md:-mt-6 relative z-0">
           <motion.div
             className="relative w-full rounded-3xl shadow-2xl ring-1 ring-black/10 overflow-hidden aspect-[16/9]"
             initial={{ opacity: 0, y: 20 }}
@@ -150,20 +155,22 @@ export default function ArticleView({ article, readTime }: Props) {
         </div>
       )}
 
-      {/* ADS: Top */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-8">
         <AdPlaceholder label="Top Article Ad - 728x90" />
       </div>
 
-      {/* CONTENUTO */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <div
-          className={articleContentClass}
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
+      {/* CONTENUTO MARKDOWN */}
+      <div className="max-w-3xl mx-auto px-7 sm:px-6 py-8 sm:py-12">
+        <div className={articleContentClass}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeSanitize]}
+          >
+            {markdown}
+          </ReactMarkdown>
+        </div>
       </div>
 
-      {/* ADS: End */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <AdPlaceholder label="End Content Ad - Native/Banner" />
       </div>
@@ -179,17 +186,13 @@ export default function ArticleView({ article, readTime }: Props) {
           <span className="w-10 h-1 bg-blue-400 rounded-full"></span>
           Continua a leggere
         </h3>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {relatedArticles.map((rel) => (
             <Link key={rel.slug} href={`/articoli/${rel.slug}`} className="group">
               <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-200 h-full flex flex-col">
                 <div className="relative aspect-video overflow-hidden">
-                  <Image 
-                    src={rel.image} 
-                    alt={rel.title} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
-                  />
+                  <Image src={rel.image} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-4 flex flex-col flex-grow">
                   <h4 className="font-bold text-slate-900 group-hover:text-blue-500 transition-colors line-clamp-2 mb-2">
@@ -208,28 +211,6 @@ export default function ArticleView({ article, readTime }: Props) {
         </div>
       </section>
 
-      {/* CALL TO ACTION */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-8 max-w-3xl mx-auto flex flex-col items-center md:flex-row md:items-center gap-4 sm:gap-8 text-center md:text-left my-8 sm:my-12 shadow-sm">
-        <div className="w-16 h-16 sm:w-24 sm:h-24 relative flex-shrink-0 rounded-full overflow-hidden">
-          <Image src="/logos/logo2_lite.png" alt="Logo NVision" fill className="object-cover" />
-        </div>
-        <div>
-          <h4 className="text-sm sm:text-lg font-bold text-slate-900 mb-2">Ti è piaciuto questo articolo?</h4>
-          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-            Scopri altri approfondimenti tecnologici e resta aggiornato con NVision Insights™.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-3 sm:mt-4 justify-center md:justify-start">
-            <Link href="/articoli" className="px-4 py-1 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-full hover:bg-blue-400 transition-all shadow-md shadow-blue-200 text-xs sm:text-base">
-              Scopri di più
-            </Link>
-            <Link href="/contatti" className="px-4 py-1 sm:px-6 sm:py-2 border border-slate-300 text-slate-700 rounded-full hover:bg-slate-50 transition-all text-xs sm:text-base">
-              Contattaci
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* FOOTER */}
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
         <div className="max-w-6xl mx-auto px-6 pt-16 pb-6 relative z-10">
 
@@ -295,7 +276,7 @@ export default function ArticleView({ article, readTime }: Props) {
                       </Link>
                     </li>
                   ))}
-                  <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li>
+                  {/* <li className="text-zinc-400 text-xs font-mono pt-1">P.IVA IT 01234567890</li> */}
                 </ul>
               </div>
             </div>
@@ -320,7 +301,7 @@ export default function ArticleView({ article, readTime }: Props) {
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-blue-600 shrink-0" />
-                  <span>Innovations Hub, Milano, IT</span>
+                  <span>Catania, Sicily, IT</span>
                 </div>
               </div>
             </div>
@@ -454,7 +435,7 @@ export default function ArticleView({ article, readTime }: Props) {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="text-black pt-2 text-xs font-mono"
                   >
-                    P.IVA IT 01234567890
+                    {/* P.IVA IT 01234567890 */}
                   </motion.li>
                 </ul>
               </div>
@@ -493,7 +474,7 @@ export default function ArticleView({ article, readTime }: Props) {
 
                   <div className="flex items-center space-x-3 text-sm text-black font-light">
                     <MapPin size={15} className="text-blue-600 shrink-0" />
-                    <span>Innovations Hub, Milano, IT</span>
+                    <span>Catania, Sicily, IT</span>
                   </div>
                 </div>
               </motion.div>
@@ -530,6 +511,7 @@ export default function ArticleView({ article, readTime }: Props) {
 
         </div>
       </footer>
+      
     </main>
   );
 }
