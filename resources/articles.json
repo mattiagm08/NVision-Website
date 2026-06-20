@@ -1,12 +1,37 @@
 [
   {
-  "slug": "swiperest-app-per-guadagnare-nel-2026",
-  "title": "Swiperest: La Nuova App Italiana Che ti Paga per Guardare Pubblicità (Funziona Davvero?)",
-  "date": "19/06/2026",
-  "dateISO": "2026-06-19",
-  "excerpt": "Si chiama Swiperest e funziona davvero: basta scorrere tra le campagne pubblicitarie dei brand per accumulare punti, convertirli in euro e spenderli con una carta di debito gratuita. Scopri come funziona, quanto puoi guadagnare e perché tutti ne parlano.",
-  "image": "/images/articles/swiperest-app-paga-swipe-guadagnare-2026.jpg",
-  "contentStyle": "default",
-  "content": "content/articles/swiperest-app-per-guadagnare-nel-2026.md"
+    "slug": "swiperest-app-per-guadagnare-nel-2026",
+    "title": "Swiperest: l’App Italiana che ti Paga per Fare Swipe, Come Funziona e Quanto Si Può Guadagnare",
+    "date": "19/06/2026",
+    "dateISO": "2026-06-19",
+    "excerpt": "Si chiama Swiperest e funziona davvero: basta scorrere tra le campagne pubblicitarie dei brand per accumulare punti, convertirli in euro e spenderli con una carta di debito gratuita. Scopri come funziona, quanto puoi guadagnare e perché tutti ne parlano.",
+    "image": "/images/articles/swiperest-app-paga-swipe-guadagnare-2026.webp",
+    "contentStyle": "default",
+    "content": "content/articles/swiperest-app-per-guadagnare-nel-2026.md",
+    "keywords": [
+      "Swiperest",
+      "app per guadagnare swipe",
+      "Swiperest recensione",
+      "come funziona Swiperest",
+      "guadagnare con smartphone"
+    ],
+    "faq": [
+      {
+        "question": "Swiperest è gratuita?",
+        "answer": "Sì, Swiperest è completamente gratuita, senza costi di iscrizione o abbonamenti."
+      },
+      {
+        "question": "Quanto si guadagna con Swiperest?",
+        "answer": "Si tratta di micro-guadagni che dipendono dall’uso dell’app e dalle campagne disponibili, generalmente nell’ordine di pochi euro fino a decine di euro al mese."
+      },
+      {
+        "question": "Swiperest è una truffa?",
+        "answer": "No, è un’app legittima sviluppata da una società italiana e disponibile sugli store ufficiali Apple e Google."
+      },
+      {
+        "question": "Come si guadagnano i punti?",
+        "answer": "Facendo swipe sulle campagne pubblicitarie all’interno dell’app, accumulando punti nel wallet digitale."
+      }
+    ]
   }
 ]

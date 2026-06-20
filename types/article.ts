@@ -1,10 +1,17 @@
 export interface Article {
   slug: string;
   title: string;
-  date: string;        // formato DD/MM/YYYY
-  dateISO: string;     // formato YYYY-MM-DD
+  date: string;
+  dateISO: string;
   excerpt: string;
-  content: string;     // HTML string
+  content: string;
   image?: string;
   contentStyle?: 'default' | 'report' | 'editorial' | 'briefing';
+
+  keywords?: string[];
+
+  faq?: {
+    question: string;
+    answer: string;
+  }[];
 }

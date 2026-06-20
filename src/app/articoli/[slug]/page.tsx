@@ -8,6 +8,7 @@ import { Metadata } from 'next';
 import { getMarkdown } from '../../lib/markdownCache';
 
 const articleList = articles as Article[];
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!;
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -30,18 +31,48 @@ export async function generateMetadata({
   return {
     title: `${article.title} | NVision Insights`,
     description: article.excerpt,
+
+    alternates: {
+      canonical: `${baseUrl}/articoli/${article.slug}`
+    },
+
+    keywords: article.keywords ?? [
+    article.title,
+    article.slug,
+    article.excerpt
+   ],
+
+    robots: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
+
     openGraph: {
       title: article.title,
       description: article.excerpt,
-      images: article.image ? [article.image] : undefined,
       type: 'article',
       publishedTime: article.dateISO,
+
+      images: article.image
+        ? [
+            {
+              url: `${baseUrl}${article.image}`,
+              width: 1920,
+              height: 1080,
+            },
+          ]
+        : undefined,
     },
+
     twitter: {
       card: 'summary_large_image',
       title: article.title,
       description: article.excerpt,
-      images: article.image ? [article.image] : undefined,
+
+      images: article.image
+        ? [`${baseUrl}${article.image}`]
+        : undefined,
     },
   };
 }

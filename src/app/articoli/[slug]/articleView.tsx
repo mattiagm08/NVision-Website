@@ -31,6 +31,7 @@ interface Props {
 }
 
 const vpS = { once: true, amount: 0.1 };
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!;
 
 const footerNavLinks = [
   { href: '/', label: 'Home' },
@@ -113,18 +114,57 @@ export default function ArticleView({ article, readTime }: Props) {
     .filter((a) => a.slug !== article.slug)
     .slice(0, 3);
 
+  const faqSchema =
+  article.faq?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": article.faq.map((f) => ({
+          "@type": "Question",
+          "name": f.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.answer,
+          },
+        })),
+      }
+    : null;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
+
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${baseUrl}/articoli/${article.slug}`
+    },
+
     "headline": article.title,
     "description": article.excerpt,
-    "image": [article.image],
+
+    "image": [
+      `${baseUrl}${article.image}`
+    ],
+
     "datePublished": new Date(article.dateISO).toISOString(),
-    "author": [{
+    "dateModified": new Date(article.dateISO).toISOString(),
+
+    "author": {
       "@type": "Organization",
       "name": "NVision Insights",
-      "url": "https://www.nvisioninsights.it"
-    }]
+      "url": baseUrl
+    },
+
+    "publisher": {
+      "@type": "Organization",
+      "name": "NVision Insights",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/logo.png`
+      }
+    },
+
+    "keywords": article.keywords ?? []
   };
 
   return (
@@ -132,8 +172,19 @@ export default function ArticleView({ article, readTime }: Props) {
 
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
       />
+
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
+          }}
+        />
+      )}
 
       <motion.div
         className="fixed top-0 left-0 right-0 h-1.5 bg-blue-300 origin-left z-[60]"
