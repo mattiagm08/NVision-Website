@@ -206,7 +206,7 @@ export default function Articoli() {
                 {/* Immagine con Overlay */}
                 <div className="relative h-56 overflow-hidden">
                   <img
-                    src={article.image}
+                    src={article.images?.[0]?.src}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />

@@ -54,10 +54,10 @@ export async function generateMetadata({
       type: 'article',
       publishedTime: article.dateISO,
 
-      images: article.image
+      images: article.images?.[0]?.src
         ? [
             {
-              url: `${baseUrl}${article.image}`,
+              url: `${baseUrl}${article.images?.[0]?.src}`,
               width: 1920,
               height: 1080,
             },
@@ -70,8 +70,8 @@ export async function generateMetadata({
       title: article.title,
       description: article.excerpt,
 
-      images: article.image
-        ? [`${baseUrl}${article.image}`]
+      images: article.images?.[0]?.src
+        ? [`${baseUrl}${article.images?.[0]?.src}`]
         : undefined,
     },
   };

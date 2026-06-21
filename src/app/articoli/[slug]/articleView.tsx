@@ -33,6 +33,7 @@ interface Props {
 const vpS = { once: true, amount: 0.1 };
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!;
 
+
 const footerNavLinks = [
   { href: '/', label: 'Home' },
   { href: '/articoli', label: 'Articoli' },
@@ -108,7 +109,23 @@ export default function ArticleView({ article, readTime }: Props) {
 
   const articleContentClass = `article-content article-content-${article.contentStyle ?? 'default'}`;
 
-  const markdown = article.content;
+  const markdown = React.useMemo(() => {
+  let content = article.content ?? '';
+
+    // Sostituisce {{IMAGE_MID}}, {{IMAGE_HERO}}, ecc. con la sintassi markdown ![alt](src),
+    // pescando l'immagine corrispondente da article.images in base a "position".
+    content = content.replace(/\{\{IMAGE_(\w+)\}\}/g, (_match, posRaw) => {
+      const position = posRaw.toLowerCase();
+      const img = article.images?.find((i) => i.position === position);
+      if (!img?.src) return '';
+      const alt = img.alt || 'Immagine articolo';
+      return `![${alt}](${img.src})`;
+    });
+
+    return content;
+  }, [article.content, article.images]);
+
+   const heroImage = article.images?.[0];
 
   const relatedArticles = articles
     .filter((a) => a.slug !== article.slug)
@@ -142,9 +159,7 @@ export default function ArticleView({ article, readTime }: Props) {
     "headline": article.title,
     "description": article.excerpt,
 
-    "image": [
-      `${baseUrl}${article.image}`
-    ],
+    "image": heroImage?.src ? [`${baseUrl}${heroImage.src}`] : [],
 
     "datePublished": new Date(article.dateISO).toISOString(),
     "dateModified": new Date(article.dateISO).toISOString(),
@@ -236,7 +251,7 @@ export default function ArticleView({ article, readTime }: Props) {
       </section>
 
       {/* IMMAGINE */}
-      {article.image && (
+      {heroImage?.src && (
         <div className="max-w-5xl mx-auto px-2 sm:px-6 -mt-6 md:-mt-6 relative z-0">
           <motion.div
             className="relative w-full rounded-3xl shadow-2xl ring-1 ring-black/10 overflow-hidden aspect-[16/9]"
@@ -245,8 +260,8 @@ export default function ArticleView({ article, readTime }: Props) {
             transition={{ duration: 0.8 }}
           >
             <Image
-              src={article.image}
-              alt={article.title}
+              src={heroImage.src}
+              alt={heroImage.alt || article.title}
               fill
               className="object-cover"
               priority
@@ -260,12 +275,53 @@ export default function ArticleView({ article, readTime }: Props) {
       </div>
 
       {/* CONTENUTO MARKDOWN */}
-      <div className="max-w-3xl mx-auto px-7 sm:px-6 py-8 sm:py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className={articleContentClass}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeSanitize]}
             components={{
+
+              text: ({ children }) => {
+                const value = String(children);
+
+                if (value.includes("{{IMAGE_MID}}")) {
+                  const img = article.images?.find(i => i.position === "mid");
+                  if (!img) return null;
+
+                  return (
+                    <div className="my-10">
+                      <Image
+                        src={img.src}
+                        alt={img.alt || "Immagine articolo"}
+                        width={1200}
+                        height={675}
+                        className="rounded-2xl shadow-md w-full h-auto"
+                      />
+                    </div>
+                  );
+                }
+
+                if (value.includes("{{IMAGE_HERO}}")) {
+                  const img = article.images?.find(i => i.position === "hero");
+                  if (!img) return null;
+
+                  return (
+                    <div className="my-10">
+                      <Image
+                        src={img.src}
+                        alt={img.alt || "Immagine articolo"}
+                        width={1200}
+                        height={675}
+                        className="rounded-2xl shadow-md w-full h-auto"
+                      />
+                    </div>
+                  );
+                }
+
+                return children;
+              },
+
               h1: ({ children }) => {
                 const { id, cleanChildren } = extractHeadingId(children);
                 return (
@@ -302,11 +358,24 @@ export default function ArticleView({ article, readTime }: Props) {
                 );
               },
 
-              p: ({ children }) => (
-                <p className="!text-slate-700 text-lg leading-8 !mb-12">
-                  {children}
-                </p>
-              ),
+              p: ({ children, node }) => {
+                // Se il paragrafo contiene solo un'immagine, evita di wrapparla in <p>
+                // (altrimenti il <div> dentro img produce HTML non valido e hydration error)
+                const hasOnlyImage =
+                  node?.children?.length === 1 &&
+                  node.children[0].type === 'element' &&
+                  node.children[0].tagName === 'img';
+
+                if (hasOnlyImage) {
+                  return <>{children}</>;
+                }
+
+                return (
+                  <p className="!text-slate-700 text-lg leading-8 !mb-12">
+                    {children}
+                  </p>
+                );
+              },
 
               ul: ({ children }) => (
                 <ul className="list-disc pl-6 mb-8 space-y-3 text-slate-700">
@@ -340,6 +409,68 @@ export default function ArticleView({ article, readTime }: Props) {
                 <strong className="!text-slate-900 font-bold">
                   {children}
                 </strong>
+              ),
+
+              img: ({ src, alt }) => {
+                if (!src) return null;
+
+                const imageSrc =
+                  typeof src === 'string'
+                    ? src
+                    : URL.createObjectURL(src);
+
+                return (
+                  <div className="my-10">
+                    <Image
+                      src={imageSrc}
+                      alt={alt || "Immagine articolo"}
+                      width={1200}
+                      height={675}
+                      className="rounded-2xl shadow-md w-full h-auto"
+                    />
+                  </div>
+                );
+              },
+
+              table: ({ children }) => (
+                <div className="w-full overflow-x-auto my-10 rounded-2xl border border-slate-200 shadow-sm bg-white">
+                  <table className="w-full min-w-[700px] border-collapse text-left">
+                    {children}
+                  </table>
+                </div>
+              ),
+
+              thead: ({ children }) => (
+                <thead className="bg-slate-50/80 backdrop-blur border-b border-slate-200">
+                  {children}
+                </thead>
+              ),
+
+              tbody: ({ children }) => (
+                <tbody className="divide-y divide-slate-100">
+                  {children}
+                </tbody>
+              ),
+
+              tr: ({ children }) => (
+                <tr className="hover:bg-slate-50/60 transition-colors">
+                  {children}
+                </tr>
+              ),
+
+              th: ({ children }) => (
+                <th className="px-6 py-4 text-sm font-bold text-slate-900 uppercase tracking-wider">
+                  {children}
+                </th>
+              ),
+
+              td: ({ children }) => (
+                <td className="
+                  px-6 py-4 text-sm text-slate-700 align-top
+                  first:font-bold first:text-slate-900 first:text-base
+                ">
+                  {children}
+                </td>
               ),
 
               a: ({ children, href }) => (
@@ -378,7 +509,7 @@ export default function ArticleView({ article, readTime }: Props) {
             <Link key={rel.slug} href={`/articoli/${rel.slug}`} className="group">
               <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-200 h-full flex flex-col">
                 <div className="relative aspect-video overflow-hidden">
-                  <Image src={rel.image} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <Image src={rel.images?.[0]?.src ?? heroImage?.src} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-4 flex flex-col flex-grow">
                   <h4 className="font-bold text-slate-900 group-hover:text-blue-500 transition-colors line-clamp-2 mb-2">
@@ -396,6 +527,27 @@ export default function ArticleView({ article, readTime }: Props) {
           ))}
         </div>
       </section>
+
+      {/* CALL TO ACTION */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-8 max-w-3xl mx-auto flex flex-col items-center md:flex-row md:items-center gap-4 sm:gap-8 text-center md:text-left my-8 sm:my-12 shadow-sm">
+        <div className="w-16 h-16 sm:w-24 sm:h-24 relative flex-shrink-0 rounded-full overflow-hidden">
+          <Image src="/logos/logo2_lite.png" alt="Logo NVision" fill className="object-cover" />
+        </div>
+        <div>
+          <h4 className="text-sm sm:text-lg font-bold text-slate-900 mb-2">Ti è piaciuto questo articolo?</h4>
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            Scopri altri approfondimenti tecnologici e resta aggiornato con NVision Insights™.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-3 sm:mt-4 justify-center md:justify-start">
+            <Link href="/articoli" className="px-4 py-1 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-full hover:bg-blue-400 transition-all shadow-md shadow-blue-200 text-xs sm:text-base">
+              Scopri di più
+            </Link>
+            <Link href="/contatti" className="px-4 py-1 sm:px-6 sm:py-2 border border-slate-300 text-slate-700 rounded-full hover:bg-slate-50 transition-all text-xs sm:text-base">
+              Contattaci
+            </Link>
+          </div>
+        </div>
+      </div>
 
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
         <div className="max-w-6xl mx-auto px-6 pt-16 pb-6 relative z-10">
