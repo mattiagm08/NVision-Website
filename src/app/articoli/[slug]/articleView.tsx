@@ -217,7 +217,7 @@ export default function ArticleView({ article, readTime }: Props) {
             className="flex items-center gap-1 sm:gap-2 text-slate-600 hover:text-blue-400 text-xs sm:text-sm transition-colors"
           >
             <ChevronLeft size={14} />
-            Indietro
+            Torna Indietro
           </Link>
         </div>
       </header>
@@ -246,6 +246,12 @@ export default function ArticleView({ article, readTime }: Props) {
               <Clock size={14} className="text-blue-300" />
               <span className="text-xs sm:text-sm">{readTime} min lettura</span>
             </div>
+
+            {article.category && (
+            <span className="bg-white/15 border border-white/30 text-white text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+              {article.category}
+            </span>
+          )}
           </div>
         </div>
       </section>

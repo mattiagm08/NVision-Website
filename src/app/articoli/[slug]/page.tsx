@@ -53,6 +53,8 @@ export async function generateMetadata({
       description: article.excerpt,
       type: 'article',
       publishedTime: article.dateISO,
+      section: article.category,
+      tags: article.keywords,
 
       images: article.images?.[0]?.src
         ? [

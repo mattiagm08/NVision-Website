@@ -11,6 +11,7 @@ export interface Article {
   dateISO: string;
   excerpt: string;
   content: string;
+  category?: string;
 
   // ✔️ nuovo sistema immagini (UNICO)
   images: ArticleImage[];

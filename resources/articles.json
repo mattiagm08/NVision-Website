@@ -1,6 +1,7 @@
 [
   {
     "slug": "swiperest-app-per-guadagnare-nel-2026",
+    "category": "Guadagnare Online",
     "title": "Swiperest: l’App Italiana che ti Paga per Fare Swipe, Come Funziona e Quanto Si Può Guadagnare",
     "date": "19/06/2026",
     "dateISO": "2026-06-19",
@@ -46,49 +47,63 @@
     ]
   },
   {
-    "slug": "porco-dio",
-    "title": "Swiperest: l’App Italiana che ti Paga per Fare Swipe, Come Funziona e Quanto Si Può Guadagnare",
-    "date": "19/06/2026",
-    "dateISO": "2026-06-19",
-    "excerpt": "Si chiama Swiperest e funziona davvero: basta scorrere tra le campagne pubblicitarie dei brand per accumulare punti, convertirli in euro e spenderli con una carta di debito gratuita. Scopri come funziona, quanto puoi guadagnare e perché tutti ne parlano.",
+    "slug": "segnali-manipolazione-psicologica",
+    "category": "Psicologia & Relazioni",
+    "title": "I 15 Segnali che una Persona ti sta Manipolando Senza che Tu te ne Accorga: La Psicologia Spiega Perché",
+    "date": "28/06/2026",
+    "dateISO": "2026-06-28",
+    "excerpt": "Senti spesso di essere tu il problema, anche quando non sai bene perché? La manipolazione psicologica è silenziosa e progressiva. Scopri i 15 segnali più studiati dalla psicologia, con esempi reali, ricerche scientifiche e strategie concrete per riconoscerla e difenderti.",
     "images": [
       {
-        "src": "/images/articles/sciopero-28-novembre.webp",
+        "src": "/images/articles/segnali-manipolazione-psicologica.webp",
         "position": "hero",
-        "alt": "Swiperest app interfaccia principale"
+        "alt": "Sagoma di due persone con fili che le collegano, simbolo di manipolazione psicologica"
       },
       {
-        "src": "/images/articles/sciopero-28-novembre.webp",
+        "src": "/images/articles/manipolazione-psicologica-tecniche.webp",
         "position": "mid",
-        "alt": "Interfaccia app Swiperest con wallet digitale e saldo punti accumulati"
+        "alt": "Rappresentazione visiva delle tecniche di manipolazione emotiva nelle relazioni"
       }
     ],
     "contentStyle": "default",
-    "content": "content/articles/swiperest-app-per-guadagnare-nel-2026.md",
+    "content": "content/articles/segnali-manipolazione-psicologica.md",
     "keywords": [
-      "Swiperest",
-      "app per guadagnare swipe",
-      "Swiperest recensione",
-      "come funziona Swiperest",
-      "guadagnare con smartphone"
+      "segnali manipolazione psicologica",
+      "come riconoscere un manipolatore",
+      "gaslighting significato",
+      "manipolazione emotiva relazioni",
+      "psicologia della manipolazione",
+      "come difendersi dalla manipolazione",
+      "relazione tossica segnali",
+      "love bombing",
+      "silent treatment significato"
     ],
     "faq": [
       {
-        "question": "Swiperest è gratuita?",
-        "answer": "Sì, Swiperest è completamente gratuita, senza costi di iscrizione o abbonamenti."
+        "question": "Come si riconosce una persona manipolatrice?",
+        "answer": "Una persona manipolatrice tende a farti sentire sempre in colpa, nega la tua percezione della realtà, usa il silenzio come punizione e alterna momenti di grande affetto a periodi di svalutazione. Il segnale più comune è la sensazione ricorrente di essere tu il problema, senza riuscire a capire esattamente perché."
       },
       {
-        "question": "Quanto si guadagna con Swiperest?",
-        "answer": "Si tratta di micro-guadagni che dipendono dall’uso dell’app e dalle campagne disponibili, generalmente nell’ordine di pochi euro fino a decine di euro al mese."
+        "question": "Cos'è il gaslighting?",
+        "answer": "Il gaslighting è una forma di manipolazione in cui una persona nega sistematicamente la realtà dell'altra: nega conversazioni avvenute, distorce i ricordi e mette in discussione le percezioni altrui fino a far dubitare chi lo subisce della propria sanità mentale."
       },
       {
-        "question": "Swiperest è una truffa?",
-        "answer": "No, è un’app legittima sviluppata da una società italiana e disponibile sugli store ufficiali Apple e Google."
+        "question": "La manipolazione psicologica è sempre intenzionale?",
+        "answer": "Non sempre. Alcune persone manipolano come riflesso di pattern appresi nell'infanzia o per meccanismi difensivi inconsapevoli. Che sia intenzionale o meno, però, il danno prodotto su chi la subisce è reale e merita attenzione."
       },
       {
-        "question": "Come si guadagnano i punti?",
-        "answer": "Facendo swipe sulle campagne pubblicitarie all’interno dell’app, accumulando punti nel wallet digitale."
+        "question": "Cos'è il love bombing?",
+        "answer": "Il love bombing è una tecnica di manipolazione con cui si avvia una relazione con un'overdose di affetto, complimenti e attenzioni per creare un legame emotivo rapido e intenso. Quando questa fase si esaurisce, la persona manipolata fatica ad andarsene proprio per il forte contrasto con il periodo iniziale."
+      },
+      {
+        "question": "Dove posso chiedere aiuto se mi sento in una relazione manipolativa?",
+        "answer": "In Italia puoi chiamare il 1522, il numero nazionale antiviolenza e stalking, attivo 24 ore su 24 e completamente gratuito. Puoi anche rivolgerti ai Centri Antiviolenza presenti in ogni regione o a un professionista della salute mentale."
+      },
+      {
+        "question": "Quanti segnali devono essere presenti per parlare di manipolazione?",
+        "answer": "Non esiste una soglia numerica. Anche un solo comportamento, se sistematico e ricorrente, merita attenzione. Il vero indicatore è l'effetto che produce: se ti senti costantemente in colpa, confuso o in debito emotivo con una persona specifica, è già un dato significativo."
       }
     ]
   }
+  
 ]

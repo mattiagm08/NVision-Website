@@ -218,6 +218,13 @@ export default function Articoli() {
 
                 {/* Contenuto Card */}
                 <div className="p-8 flex flex-col flex-grow">
+
+                  {article.category && (
+                    <span className="inline-block mb-3 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-blue-100">
+                      {article.category}
+                    </span>
+                  )}
+                  
                   <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-blue-600 transition-colors leading-tight tracking-tight">
                     <Link href={`/articoli/${article.slug}`}>{article.title}</Link>
                   </h4>
