@@ -15,7 +15,7 @@ La manipolazione psicologica è una delle forme di influenza più difficili da r
 - [Manipolazione Nelle Relazioni Sentimentali](#manipolazione-nelle-relazioni-sentimentali)
 - [Le Tecniche Di Manipolazione Più Comuni](#le-tecniche-di-manipolazione-più-comuni)
 - [Come Difendersi ed Errori da Evitare](#come-difendersi-ed-errori-da-evitare)
-- [Domande Frequenti](#domande-frequenti)
+- [FAQ: Domande Frequenti](#domande-frequenti)
 
 ---
 
@@ -241,7 +241,7 @@ Il terzo errore è **isolarsi nel silenzio. La vergogna è uno dei meccanismi ch
 
 ---
 
-## Domande Frequenti {#domande-frequenti}
+## FAQ: Domande Frequenti {#domande-frequenti}
 
 ### La manipolazione è sempre intenzionale?
 
