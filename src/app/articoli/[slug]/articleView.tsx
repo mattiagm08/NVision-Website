@@ -217,7 +217,7 @@ export default function ArticleView({ article, readTime }: Props) {
             className="flex items-center gap-1 sm:gap-2 text-slate-600 hover:text-blue-400 text-xs sm:text-sm transition-colors"
           >
             <ChevronLeft size={14} />
-            Torna Indietro
+            Indietro
           </Link>
         </div>
       </header>
@@ -482,7 +482,7 @@ export default function ArticleView({ article, readTime }: Props) {
               a: ({ children, href }) => (
                 <a
                   href={href}
-                  className="!text-blue-600 underline hover:text-blue-800"
+                  className="!text-blue-600 underline hover:text-blue-800 break-all"
                 >
                   {children}
                 </a>
