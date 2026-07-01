@@ -222,5 +222,125 @@
         "answer": "No, la maggioranza non rinuncia. Secondo le indagini più recenti il 68% degli italiani prevede comunque almeno una vacanza, ma cambia il modo di organizzarla: soggiorni più brevi, micro vacanze distribuite nell'anno e una netta preferenza per le destinazioni italiane rispetto a quelle internazionali a lungo raggio."
       }
     ]
+  },
+  {
+    "slug": "verificare-dati-compromessi-hacker",
+    "category": "Sicurezza & Privacy Digitale",
+    "title": "Sei Stato Hackerato Senza Saperlo? Ecco Come Verificare se i Tuoi Dati Sono Stati Compromessi",
+    "date": "01/07/2026",
+    "dateISO": "2026-07-01",
+    "excerpt": "In media servono quasi nove mesi prima che una vittima scopra di essere stata coinvolta in una violazione di dati. Scopri come verificare gratuitamente se la tua email o le tue password sono state compromesse, quali strumenti usare e come proteggerti.",
+    "images": [
+      {
+        "src": "/images/articles/verificare-dati-compromessi-hacker.webp",
+        "position": "hero",
+        "alt": "Lucchetto digitale su schermo di computer, simbolo di verifica sicurezza dati e violazione informatica"
+      },
+      {
+        "src": "/images/articles/verificare-dati-compromessi-hacker-mid.webp",
+        "position": "mid",
+        "alt": "Persona che controlla la sicurezza dei propri account su smartphone e laptop"
+      }
+    ],
+    "contentStyle": "default",
+    "content": "content/articles/verificare-dati-compromessi-hacker.md",
+    "keywords": [
+      "come sapere se sono stato hackerato",
+      "verificare email compromessa gratis",
+      "have i been pwned italiano",
+      "controllare se la mia password è stata rubata",
+      "dati personali rubati cosa fare",
+      "data breach come proteggersi",
+      "furto identità digitale segnali",
+      "sicurezza account online",
+      "credential stuffing cosa significa",
+      "autenticazione a due fattori come attivarla"
+    ],
+    "faq": [
+      {
+        "question": "Come faccio a sapere se sono stato hackerato?",
+        "answer": "Il modo più semplice e gratuito è controllare la propria email su Have I Been Pwned. Se l'indirizzo compare in una o più violazioni note, il sito mostra quali servizi sono stati coinvolti e quali dati specifici sono stati esposti, permettendoti di agire di conseguenza."
+      },
+      {
+        "question": "Have I Been Pwned è davvero sicuro da usare?",
+        "answer": "Sì. Il servizio è gestito dal ricercatore di sicurezza Troy Hunt dal 2013 ed è ampiamente citato e utilizzato da testate giornalistiche, forze dell'ordine e aziende di sicurezza informatica in tutto il mondo. Per il controllo delle password utilizza tecniche crittografiche che impediscono l'invio della password in chiaro."
+      },
+      {
+        "question": "Cosa devo fare se scopro che la mia email è stata compromessa?",
+        "answer": "Cambia immediatamente la password del servizio coinvolto e di tutti gli altri account su cui avevi riutilizzato la stessa combinazione, attiva l'autenticazione a due fattori dove disponibile e monitora eventuali attività sospette sui tuoi account, in particolare quelli finanziari."
+      },
+      {
+        "question": "Posso controllare anche la password che uso di solito?",
+        "answer": "Sì, tramite la sezione Pwned Passwords di Have I Been Pwned. Molti esperti consigliano però di testare password simili ma non identiche a quella in uso, per un margine di prudenza aggiuntivo, anche se il meccanismo di verifica è progettato per non esporre mai la password completa."
+      },
+      {
+        "question": "Quanto tempo passa in media prima che una violazione venga scoperta?",
+        "answer": "Secondo i dati riportati da diversi rapporti di settore sul costo dei data breach, il tempo medio di identificazione e contenimento di una violazione si aggira intorno ai 277 giorni, quasi nove mesi."
+      },
+      {
+        "question": "A chi posso rivolgermi in Italia se sospetto un furto di identità legato ai miei dati?",
+        "answer": "È possibile rivolgersi alla Polizia Postale e delle Comunicazioni per segnalare un utilizzo fraudolento dei propri dati, oppure contattare il Garante per la protezione dei dati personali se si ritiene che un'azienda non abbia gestito correttamente la comunicazione di una violazione che ti riguarda."
+      }
+    ]
+  },
+  {
+    "slug": "guida-completa-finanza-personale-2026",
+    "category": "Finanza Personale",
+    "title": "Guida Completa alla Finanza Personale: Come Gestire il Denaro Oggi",
+    "date": "01/07/2026",
+    "dateISO": "2026-07-01",
+    "excerpt": "Tra inflazione, pressione fiscale in aumento e scarsa educazione finanziaria, gestire bene il proprio denaro è diventata una necessità concreta. Scopri come costruire un budget efficace, quanto deve valere il tuo fondo di emergenza, come uscire dai debiti e come iniziare a investire nel 2026 con dati reali su famiglie italiane e risparmio.",
+    "images": [
+      {
+        "src": "/images/articles/guida-completa-finanza-personale-2026.webp",
+        "position": "hero",
+        "alt": "Persona che organizza budget familiare e risparmi su un tavolo con calcolatrice e grafici"
+      },
+      {
+        "src": "/images/articles/finanza-personale-budget-risparmio.webp",
+        "position": "mid",
+        "alt": "Grafico che rappresenta la suddivisione del budget mensile tra spese, risparmio e investimenti"
+      }
+    ],
+    "contentStyle": "default",
+    "content": "content/articles/guida-completa-finanza-personale-2026.md",
+    "keywords": [
+      "finanza personale",
+      "come gestire i soldi",
+      "budget familiare",
+      "fondo di emergenza quanto deve essere",
+      "come iniziare a investire",
+      "risparmio e investimento differenza",
+      "come uscire dai debiti",
+      "regola del 50 30 20",
+      "educazione finanziaria italia",
+      "ETF per principianti"
+    ],
+    "faq": [
+      {
+        "question": "Quanto dovrei risparmiare ogni mese?",
+        "answer": "Non esiste una cifra fissa valida per tutti, ma un buon punto di partenza è destinare almeno il 20% del reddito netto al risparmio e agli investimenti, come previsto dalla regola del 50/30/20. In Italia il tasso medio di risparmio delle famiglie si attesta intorno al 10,6% del reddito netto, un dato utile come riferimento realistico da cui partire e migliorare progressivamente."
+      },
+      {
+        "question": "Meglio pagare i debiti o iniziare a investire?",
+        "answer": "Dipende dal tasso di interesse del debito. Se il debito ha un tasso di interesse elevato, superiore al rendimento atteso realistico di un investimento, conviene generalmente estinguerlo prima. Se invece si tratta di un debito a tasso contenuto, come un mutuo a condizioni vantaggiose, può avere senso proseguire in parallelo con un piano di investimento, soprattutto su orizzonti lunghi."
+      },
+      {
+        "question": "Quanto deve essere grande il fondo di emergenza?",
+        "answer": "La regola generale indica da tre a sei mesi di spese essenziali, da tenere su strumenti liquidi e facilmente accessibili, come un conto deposito senza vincolo. Chi ha entrate variabili o lavora come libero professionista dovrebbe orientarsi verso la parte alta di questo intervallo, o anche oltre."
+      },
+      {
+        "question": "Gli ETF sono adatti a chi inizia a investire?",
+        "answer": "Sì, gli ETF sono generalmente considerati uno strumento adatto a chi comincia, grazie alla diversificazione automatica e ai costi di gestione contenuti rispetto ai fondi attivi. È comunque importante comprendere il sottostante dell'ETF scelto e mantenere un orizzonte temporale adeguato, generalmente superiore ai cinque anni."
+      },
+      {
+        "question": "È vero che tenere i soldi sul conto corrente fa perdere valore nel tempo?",
+        "answer": "Sì. Con un'inflazione stimata intorno al 4% annuo e i conti correnti che offrono generalmente rendimenti nulli o trascurabili, il potere d'acquisto della liquidità ferma si riduce nel tempo. Per questo motivo si consiglia di mantenere sul conto corrente solo la liquidità necessaria per le spese correnti e il fondo di emergenza, spostando l'eccedenza verso strumenti più efficienti."
+      },
+      {
+        "question": "Serve un consulente finanziario per iniziare a gestire il proprio denaro?",
+        "answer": "Non è strettamente necessario per i primi passi, come impostare un budget o costruire un fondo di emergenza. Diventa invece utile quando il patrimonio cresce, gli obiettivi si moltiplicano, oppure quando si desidera una pianificazione fiscale e previdenziale più articolata. In questi casi è consigliabile rivolgersi a un consulente fee-only, iscritto all'Albo OCF, per evitare conflitti di interesse."
+      }
+    ]
   }
 ]
