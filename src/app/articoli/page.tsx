@@ -204,16 +204,22 @@ export default function Articoli() {
                 className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-slate-100"
               >
                 {/* Immagine con Overlay */}
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={article.images?.[0]?.src}
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
+                <div className="relative h-56 overflow-hidden group">
+
+                  <Link href={`/articoli/${article.slug}`} className="block h-full">
+                    <img
+                      src={article.images?.[0]?.src}
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </Link>
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent pointer-events-none" />
+
                   <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
                     {article.publicationDate}
                   </div>
+
                 </div>
 
                 {/* Contenuto Card */}
