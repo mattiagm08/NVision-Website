@@ -161,8 +161,8 @@ export default function ArticleView({ article, readTime }: Props) {
 
     "image": heroImage?.src ? [`${baseUrl}${heroImage.src}`] : [],
 
-    "datePublished": new Date(article.dateISO).toISOString(),
-    "dateModified": new Date(article.dateISO).toISOString(),
+    "datePublished": new Date(article.publicationDateISO).toISOString(),
+    "dateModified": new Date(article.updateDateISO).toISOString(),
 
     "author": {
       "@type": "Organization",
@@ -239,19 +239,32 @@ export default function ArticleView({ article, readTime }: Props) {
 
             <div className="flex items-center gap-1 sm:gap-2">
               <Calendar size={14} className="text-blue-300" />
-              <span className="text-xs sm:text-sm">{article.date}</span>
+
+              <span className="text-xs sm:text-sm">
+                {article.updateDate && article.updateDate !== article.publicationDate
+                  ? `${article.publicationDate} • Aggiornato il ${article.updateDate}`
+                  : article.publicationDate}
+              </span>
             </div>
 
-            <div className="flex items-center gap-1 sm:gap-2">
-              <Clock size={14} className="text-blue-300" />
-              <span className="text-xs sm:text-sm">{readTime} min lettura</span>
-            </div>
+            <div className="flex items-center justify-between gap-3">
+  
+              {/* Left side: read time */}
+              <div className="flex items-center gap-1 sm:gap-2">
+                <Clock size={14} className="text-blue-300" />
+                <span className="text-xs sm:text-sm">
+                  {readTime} min lettura
+                </span>
+              </div>
 
-            {article.category && (
-            <span className="bg-white/15 border border-white/30 text-white text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-              {article.category}
-            </span>
-          )}
+              {/* Right side: category */}
+              {article.category && (
+                <span className="bg-white/15 border border-white/30 text-white text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                  {article.category}
+                </span>
+              )}
+
+            </div>
           </div>
         </div>
       </section>

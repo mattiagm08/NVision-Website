@@ -80,7 +80,7 @@ Non esiste un unico modo giusto per gestire il proprio budget. Esistono però **
 
 **La regola generalmente indicata dai consulenti finanziari è coprire da tre a sei mesi di spese essenziali.** Per chi ha un lavoro dipendente stabile, tre mesi possono essere sufficienti. Per lavoratori autonomi, freelance o famiglie con una sola entrata, è preferibile orientarsi verso i sei mesi o anche oltre.
 
-In Italia, secondo i dati di Banca d'Italia, **circa il 70% delle famiglie mantiene già una liquidità extra come cuscinetto per le emergenze.** Il problema non è quindi la mancanza di prudenza, quanto piuttosto la gestione inefficiente di questa liquidità: **oltre 1.100 miliardi di euro restano fermi sui conti correnti degli italiani**, esposti a un'erosione reale del potere d'acquisto stimata intorno al 4% annuo per effetto dell'inflazione.
+In Italia, secondo i dati di Banca d'Italia, **circa il 70% delle famiglie mantiene già una liquidità extra come cuscinetto per le emergenze.** Il problema non è quindi la mancanza di prudenza, quanto piuttosto la gestione inefficiente di questa liquidità: **oltre 1.100 miliardi di euro restano fermi sui conti correnti degli italiani, esposti a un'erosione reale del potere d'acquisto stimata intorno al 4% annuo** per effetto dell'inflazione.
 
 **Il fondo di emergenza non va investito in strumenti rischiosi o poco liquidi.** Le soluzioni più indicate restano i conti deposito a basso vincolo o senza vincolo, che offrono un minimo di rendimento pur mantenendo la liquidità disponibile in tempi rapidi.
 
@@ -90,7 +90,7 @@ In Italia, secondo i dati di Banca d'Italia, **circa il 70% delle famiglie manti
 
 Non tutti i debiti sono uguali. **Distinguere tra debito buono e debito cattivo è il primo passo per gestire correttamente questa parte delle proprie finanze.**
 
-Un debito può essere considerato relativamente sostenibile quando serve a finanziare un bene che nel tempo genera valore, come un mutuo per la prima casa o un prestito per la formazione. Diventa invece un problema quando finanzia consumi che si esauriscono nel tempo, come acquisti rateizzati non necessari o l'uso ricorrente del credito revolving, che spesso applica tassi d'interesse molto elevati.
+Un debito può essere considerato relativamente **sostenibile quando serve a finanziare un bene che nel tempo genera valore, come un mutuo per la prima casa o un prestito per la formazione.** Diventa invece un **problema quando finanzia consumi che si esauriscono nel tempo, come acquisti rateizzati non necessari o l'uso ricorrente del credito revolving,** che spesso applica tassi d'interesse molto elevati.
 
 **Due strategie sono tra le più utilizzate per liberarsi dai debiti multipli:**
 
@@ -117,7 +117,7 @@ Secondo i dati più recenti, **la ricchezza finanziaria complessiva delle famigl
 
 ## Come Iniziare a Investire nel 2026 {#come-iniziare-a-investire}
 
-**Investire non richiede grandi capitali di partenza**, ma richiede metodo, orizzonte temporale definito e consapevolezza del proprio profilo di rischio. Ecco una panoramica degli strumenti più accessibili per chi comincia oggi.
+**Investire non richiede grandi capitali di partenza, ma richiede metodo,** orizzonte temporale definito e consapevolezza del proprio profilo di rischio. Ecco una panoramica degli strumenti più accessibili per chi comincia oggi.
 
 | Strumento | Livello di rischio | Orizzonte consigliato | Caratteristiche principali |
 |---|---|---|---|
@@ -223,4 +223,5 @@ I dati raccontano un'Italia che risparmia, ma spesso in modo poco efficiente, co
 4. **Confcommercio,** *Ufficio Studi, elaborazioni su dati Istat,* [confcommercio.it](https://www.confcommercio.it)
 5. **FABI,** *osservatorio sulla ricchezza finanziaria delle famiglie italiane,* [fabi.it](https://www.fabi.it)
 6. **ESMA e Morningstar,** *analisi comparativa sui costi di gestione di fondi ed ETF*
+7. **NVision Insights:** [www.nvisioninsights.it](https://www.nvisioninsights.it)
 

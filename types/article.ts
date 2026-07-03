@@ -7,8 +7,10 @@ export interface ArticleImage {
 export interface Article {
   slug: string;
   title: string;
-  date: string;
-  dateISO: string;
+  publicationDate: string;
+  publicationDateISO: string;
+  updateDate: string;
+  updateDateISO: string;
   excerpt: string;
   content: string;
   category?: string;

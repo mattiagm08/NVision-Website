@@ -3,8 +3,10 @@
     "slug": "swiperest-app-per-guadagnare-nel-2026",
     "category": "Guadagnare Online",
     "title": "Swiperest: l’App Italiana che ti Paga per Fare Swipe, Come Funziona e Quanto Si Può Guadagnare",
-    "date": "19/06/2026",
-    "dateISO": "2026-06-19",
+    "publicationDate": "19/06/2026",
+    "publicationDateISO": "2026-06-19T10:00:00+02:00",
+    "updateDate": "19/06/2026",
+    "updateDateISO": "2026-06-19T10:00:00+02:00",
     "excerpt": "Si chiama Swiperest e funziona davvero: basta scorrere tra le campagne pubblicitarie dei brand per accumulare punti, convertirli in euro e spenderli con una carta di debito gratuita. Scopri come funziona, quanto puoi guadagnare e perché tutti ne parlano.",
     "images": [
       {
@@ -50,8 +52,10 @@
     "slug": "segnali-manipolazione-psicologica",
     "category": "Psicologia & Relazioni",
     "title": "I 15 Segnali che una Persona ti sta Manipolando Senza che Tu te ne Accorga: La Psicologia Spiega Perché",
-    "date": "28/06/2026",
-    "dateISO": "2026-06-28",
+    "publicationDate": "28/06/2026",
+    "publicationDateISO": "2026-06-28T10:00:00+02:00",
+    "updateDate": "28/06/2026",
+    "updateDateISO": "2026-06-28T10:00:00+02:00",
     "excerpt": "Senti spesso di essere tu il problema, anche quando non sai bene perché? La manipolazione psicologica è silenziosa e progressiva. Scopri i 15 segnali più studiati dalla psicologia, con esempi reali, ricerche scientifiche e strategie concrete per riconoscerla e difenderti.",
     "images": [
       {
@@ -109,8 +113,10 @@
     "slug": "vacanze-estate-2026-italiani-spesa-mete",
     "category": "Turismo & Viaggi",
     "title": "Vacanze Estate 2026: Quanto Spenderanno gli Italiani, in Cosa e Quali Saranno le Mete Più Scelte",
-    "date": "30/06/2026",
-    "dateISO": "2026-06-30",
+    "publicationDate": "30/06/2026",
+    "publicationDateISO": "2026-06-30T10:00:00+02:00",
+    "updateDate": "30/06/2026",
+    "updateDateISO": "2026-06-30T10:00:00+02:00",
     "excerpt": "L'estate 2026 vede 36 milioni di italiani in viaggio, ma con vacanze più brevi e budget controllati. Scopri quanto costerà una settimana al mare o in montagna, come si distribuiscono le spese tra trasporti e ristorazione, e quali sono le mete più gettonate tra turismo di prossimità e regioni regine del mare.",
     "images": [
       {
@@ -168,9 +174,11 @@
     "slug": "caldo-estate-2026-abitudini-italiani",
     "category": "News & Trend",
     "title": "Caldo Estate 2026: Come le Temperature Record Stanno Cambiando le Abitudini degli Italiani",
-    "date": "30/06/2026",
-    "dateISO": "2026-06-30",
-    "excerpt": "Tra anomalie termiche di 10 12 gradi, bollini rossi in 25 città e una spesa fino a 600 euro in più al mese, l'estate 2026 sta ridisegnando le abitudini degli italiani. Scopri dati ufficiali, fonti verificate e strategie concrete per affrontare il caldo record senza rinunce e senza sprechi.",
+    "publicationDate": "30/06/2026",
+    "publicationDateISO": "2026-06-30T10:00:00+02:00",
+    "updateDate": "30/06/2026",
+    "updateDateISO": "2026-06-30T10:00:00+02:00",
+    "excerpt": "Tra anomalie termiche di 10/12 gradi, bollini rossi in 25 città e una spesa fino a 600 euro in più al mese, l'estate 2026 sta ridisegnando le abitudini degli italiani. Scopri dati ufficiali, fonti verificate e strategie concrete per affrontare il caldo record senza rinunce e senza sprechi.",
     "images": [
       {
         "src": "/images/articles/caldo-estate-2026-abitudini-italiani.webp",
@@ -227,8 +235,10 @@
     "slug": "verificare-dati-compromessi-hacker",
     "category": "Sicurezza & Privacy Digitale",
     "title": "Sei Stato Hackerato Senza Saperlo? Ecco Come Verificare se i Tuoi Dati Sono Stati Compromessi",
-    "date": "01/07/2026",
-    "dateISO": "2026-07-01",
+    "publicationDate": "01/07/2026",
+    "publicationDateISO": "2026-07-01T10:00:00+02:00",
+    "updateDate": "01/07/2026",
+    "updateDateISO": "2026-07-01T10:00:00+02:00",
     "excerpt": "In media servono quasi nove mesi prima che una vittima scopra di essere stata coinvolta in una violazione di dati. Scopri come verificare gratuitamente se la tua email o le tue password sono state compromesse, quali strumenti usare e come proteggerti.",
     "images": [
       {
@@ -287,8 +297,10 @@
     "slug": "guida-completa-finanza-personale-2026",
     "category": "Finanza Personale",
     "title": "Guida Completa alla Finanza Personale: Come Gestire il Denaro Oggi",
-    "date": "01/07/2026",
-    "dateISO": "2026-07-01",
+    "publicationDate": "01/07/2026",
+    "publicationDateISO": "2026-07-01T10:00:00+02:00",
+    "updateDate": "01/07/2026",
+    "updateDateISO": "2026-07-01T10:00:00+02:00",
     "excerpt": "Tra inflazione, pressione fiscale in aumento e scarsa educazione finanziaria, gestire bene il proprio denaro è diventata una necessità concreta. Scopri come costruire un budget efficace, quanto deve valere il tuo fondo di emergenza, come uscire dai debiti e come iniziare a investire nel 2026 con dati reali su famiglie italiane e risparmio.",
     "images": [
       {
@@ -340,6 +352,132 @@
       {
         "question": "Serve un consulente finanziario per iniziare a gestire il proprio denaro?",
         "answer": "Non è strettamente necessario per i primi passi, come impostare un budget o costruire un fondo di emergenza. Diventa invece utile quando il patrimonio cresce, gli obiettivi si moltiplicano, oppure quando si desidera una pianificazione fiscale e previdenziale più articolata. In questi casi è consigliabile rivolgersi a un consulente fee-only, iscritto all'Albo OCF, per evitare conflitti di interesse."
+      }
+    ]
+  },
+  {
+    "slug": "millennials-gen-z-gen-alpha-social-differenze",
+    "category": "Internet & Social Media",
+    "title": "Millennials, Gen Z e Gen Alpha: Quali Social Usano, Come Interagiscono con il Digitale e le Differenze Chiave Tra le Generazioni Nativamente Digitali",
+    "publicationDate": "03/07/2026",
+    "publicationDateISO": "2026-07-03T10:00:00+02:00",
+    "updateDate": "03/07/2026",
+    "updateDateISO": "2026-07-03T10:00:00+02:00",
+    "excerpt": "Millennials, Gen Z e Gen Alpha condividono gli stessi smartphone ma vivono il digitale in modi radicalmente diversi. Scopri quali social usa ogni generazione, quanto tempo trascorre online, come cambia il rapporto con l'informazione e i brand, con dati aggiornati al 2026 e un focus specifico sull'Italia.",
+    "images": [
+      {
+        "src": "/images/articles/millennials-gen-z-gen-alpha-social-differenze.webp",
+        "position": "hero",
+        "alt": "Tre generazioni, Millennials, Gen Z e Gen Alpha, che usano smartphone e social network in contesti diversi"
+      },
+      {
+        "src": "/images/articles/millennials-gen-z-gen-alpha-social-usage-comparison.webp",
+        "position": "mid",
+        "alt": "Tre generazioni a confronto nell'uso di smartphone e social network"
+      }
+    ],
+    "contentStyle": "default",
+    "content": "content/articles/millennials-gen-z-gen-alpha-social-differenze.md",
+    "keywords": [
+      "millennials gen z gen alpha social",
+      "differenze generazionali social media",
+      "quali social usa la gen z",
+      "gen alpha social media",
+      "social network per generazione",
+      "millennials social media abitudini",
+      "gen z tiktok invece di google",
+      "digitale nativo generazioni a confronto",
+      "social media italia 2026 giovani"
+    ],
+    "faq": [
+      {
+        "question": "Qual è la differenza principale tra Millennials, Gen Z e Gen Alpha nell'uso dei social?",
+        "answer": "I Millennials usano i social in modo trasversale su più piattaforme con un approccio più intenzionale alla propria identità digitale. La Gen Z li usa come strumento primario di informazione e scoperta, spesso al posto dei motori di ricerca. La Gen Alpha cresce con un'esposizione digitale precoce, orientata soprattutto verso contenuti video e gaming sociale."
+      },
+      {
+        "question": "Quale social network è più usato dalla Gen Z nel 2026?",
+        "answer": "Instagram, YouTube e TikTok formano il gruppo di testa, tutti con tassi di adozione superiori all'ottantacinque per cento tra i giovani adulti della Gen Z, con TikTok in particolare centrale per scoperta prodotti e tendenze."
+      },
+      {
+        "question": "I bambini della Gen Alpha usano davvero i social media?",
+        "answer": "Sì, anche se con modalità diverse rispetto agli adulti. Molti bambini iniziano a interagire con piattaforme come YouTube e Roblox prima dei dieci anni, spesso sotto supervisione dei genitori, mentre l'accesso a social più tradizionali come Instagram resta più limitato per le fasce d'età più basse."
+      },
+      {
+        "question": "Perché la Gen Z usa TikTok al posto di Google?",
+        "answer": "Perché percepisce i contenuti generati da creator e utenti reali come più immediati, visivi e affidabili rispetto ai risultati testuali di un motore di ricerca tradizionale, soprattutto per ricerche pratiche come recensioni, tutorial e consigli d'acquisto."
+      },
+      {
+        "question": "In Italia quale social network resta il più diffuso in assoluto?",
+        "answer": "WhatsApp, utilizzato in modo trasversale da tutte le generazioni per la messaggistica quotidiana, seguito da Facebook e Instagram, mentre TikTok guida la crescita tra le fasce più giovani."
+      },
+      {
+        "question": "Come cambiano le strategie di marketing tra le tre generazioni?",
+        "answer": "Le aziende devono differenziare linguaggio, formato e piattaforma: contenuti più curati e narrativi per i Millennials, video brevi e autentici guidati da creator per la Gen Z, e un'attenzione particolare alla sicurezza e alla supervisione familiare quando il target, seppur indiretto, coinvolge la Gen Alpha."
+      }
+    ]
+  },
+  {
+    "slug": "le-10-migliori-serie-tv-netflix-luglio-2026",
+    "category": "Serie TV & Streaming",
+    "title": "Le 10 Migliori Serie TV da Vedere su Netflix a Luglio 2026: Guida Definitiva per Scegliere Cosa Guardare",
+    "publicationDate": "03/07/2026",
+    "publicationDateISO": "2026-07-03T10:00:00+02:00",
+    "updateDate": "04/07/2026",
+    "updateDateISO": "2026-07-04T10:00:00+02:00",
+    "excerpt": "Da La Casa nella Prateria a Heartstopper Forever, passando per il ritorno di Heroes e Resident Alien: ecco la classifica completa delle 10 serie TV più interessanti da vedere su Netflix a luglio 2026, con date di uscita, trame e generi.",
+    "images": [
+      {
+        "src": "/images/articles/le-10-migliori-serie-tv-netflix-luglio-2026.webp",
+        "position": "hero",
+        "alt": "Telecomando davanti a uno schermo TV con il logo Netflix, simbolo delle nuove uscite serie tv di luglio 2026"
+      },
+      {
+        "src": "/images/articles/serie-tv-netflix-luglio-2026-catalogo.webp",
+        "position": "mid",
+        "alt": "Collage di locandine delle serie tv Netflix in uscita a luglio 2026"
+      }
+    ],
+    "contentStyle": "default",
+    "content": "content/articles/le-10-migliori-serie-tv-netflix-luglio-2026.md",
+    "keywords": [
+      "serie tv netflix luglio 2026",
+      "novità netflix luglio 2026",
+      "migliori serie tv netflix",
+      "cosa vedere su netflix luglio 2026",
+      "la casa nella prateria netflix",
+      "heartstopper forever data uscita",
+      "ransom canyon stagione 2",
+      "uscite netflix luglio",
+      "nuove serie tv streaming"
+    ],
+    "faq": [
+      {
+        "question": "Qual è la serie TV più attesa su Netflix a luglio 2026?",
+        "answer": "Le due uscite più attese del mese sono La Casa nella Prateria, in arrivo il 9 luglio, e Heartstopper Forever, il film conclusivo della saga in uscita il 17 luglio. Entrambe generano un alto volume di interesse, seppur per pubblici e motivazioni differenti: la prima per il legame con un classico della narrativa americana, la seconda per la conclusione di una delle saghe coming of age più amate degli ultimi anni."
+      },
+      {
+        "question": "Quante nuove serie TV arrivano su Netflix a luglio 2026?",
+        "answer": "Il mese porta diverse novità assolute, tra cui La Casa nella Prateria, The Hawk, Estate '36, Human Vapor e Yomi No Tsugai, oltre a nuove stagioni di titoli già amati dal pubblico come Ransom Canyon e Survival of the Thickest, e al recupero integrale di cult come Heroes e Resident Alien."
+      },
+      {
+        "question": "Heartstopper Forever è una nuova stagione o un film?",
+        "answer": "È un film, non una nuova stagione. Netflix ha scelto di concludere la saga di Nick e Charlie con un lungometraggio evento, in uscita il 17 luglio 2026, anziché con una quinta stagione episodica."
+      },
+      {
+        "question": "Da quando è disponibile Heroes su Netflix?",
+        "answer": "Le quattro stagioni della serie sono disponibili integralmente dal 1 luglio 2026, permettendo sia il recupero completo per i nuovi spettatori sia il rewatch per chi l'ha già seguita in passato."
+      },
+      {
+        "question": "Ransom Canyon è tratta da un libro?",
+        "answer": "Sì, la serie è ispirata ai romanzi di Jodi Thomas ambientati nella Texas Hill Country, e la seconda stagione, in uscita il 23 luglio 2026, prosegue le vicende sentimentali e familiari già introdotte nella prima."
+      },
+      {
+        "question": "Ci sono novità anime su Netflix a luglio 2026?",
+        "answer": "Sì, Yomi No Tsugai debutta dal 4 luglio 2026 con episodi settimanali, e si affianca a titoli anime già in corso sulla piattaforma come Akane Banashi e la ventiduesima stagione di One Piece, mantenendo un ritmo di uscite costante per tutto il mese."
+      },
+      {
+        "question": "Serve un abbonamento specifico per vedere queste serie?",
+        "answer": "No, tutti i titoli citati sono inclusi nei normali piani di abbonamento Netflix disponibili in Italia, senza costi aggiuntivi o abbonamenti premium dedicati a singoli contenuti."
       }
     ]
   }

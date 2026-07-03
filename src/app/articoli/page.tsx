@@ -69,8 +69,8 @@ export default function Articoli() {
 
   const sortedArticles = useMemo(() => {
     return [...articlesData].sort((a, b) => {
-      const [dayA, monthA, yearA] = a.date.split('/').map(Number);
-      const [dayB, monthB, yearB] = b.date.split('/').map(Number);
+      const [dayA, monthA, yearA] = a.publicationDate.split('/').map(Number);
+      const [dayB, monthB, yearB] = b.publicationDate.split('/').map(Number);
 
       const dateA = new Date(yearA, monthA - 1, dayA).getTime();
       const dateB = new Date(yearB, monthB - 1, dayB).getTime();
@@ -212,7 +212,7 @@ export default function Articoli() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
                   <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
-                    {article.date}
+                    {article.publicationDate}
                   </div>
                 </div>
 

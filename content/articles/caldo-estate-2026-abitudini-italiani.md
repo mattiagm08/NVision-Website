@@ -173,3 +173,4 @@ Per approfondire con informazioni sempre aggiornate si possono consultare le seg
 2. **Ministero della Salute** – *Bollettini ondate di calore*: [https://www.salute.gov.it/new/it/tema/ondate-di-calore/bollettini-sulle-ondate-di-calore-0/](https://www.salute.gov.it/new/it/tema/ondate-di-calore/bollettini-sulle-ondate-di-calore-0/)
 3. **Istituto Superiore di Sanità (ISS)** – Epicentro caldo: [https://www.epicentro.iss.it/caldo/aggiornamenti](https://www.epicentro.iss.it/caldo/aggiornamenti)
 4. **ARERA** – Autorità energia: [https://www.arera.it](https://www.arera.it)
+5. **NVision Insights:** [www.nvisioninsights.it](https://www.nvisioninsights.it)

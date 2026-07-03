@@ -191,3 +191,4 @@ L'estate 2026 conferma il turismo come una delle priorità di spesa delle famigl
 4. **Federconsumatori,** *Osservatorio Nazionale Federconsumatori,* [federconsumatori.it](https://federconsumatori.it)
 5. **ANSA,** *sezione Economia e Turismo,* [ansa.it](https://www.ansa.it)
 6. **Touring Club Italiano,** *Centro Studi, Osservatorio Vacanze,* [touringclub.it](https://www.touringclub.it)
+7. **NVision Insights:** [www.nvisioninsights.it](https://www.nvisioninsights.it)

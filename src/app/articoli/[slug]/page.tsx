@@ -52,7 +52,8 @@ export async function generateMetadata({
       title: article.title,
       description: article.excerpt,
       type: 'article',
-      publishedTime: article.dateISO,
+      publishedTime: article.publicationDateISO,
+      modifiedTime: article.updateDateISO,
       section: article.category,
       tags: article.keywords,
 
