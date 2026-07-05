@@ -28,19 +28,27 @@ export async function generateMetadata({
 
   if (!article) return { title: 'Articolo non trovato' };
 
+  const heroImage = article.images?.[0];
+  const canonicalUrl = `${baseUrl}/articoli/${article.slug}`;
+
   return {
+    metadataBase: new URL(baseUrl),
+
     title: `${article.title} | NVision Insights`,
     description: article.excerpt,
 
+    authors: [{ name: 'NVision Insights', url: baseUrl }],
+    category: article.category,
+
     alternates: {
-      canonical: `${baseUrl}/articoli/${article.slug}`
+      canonical: canonicalUrl,
     },
 
     keywords: article.keywords ?? [
-    article.title,
-    article.slug,
-    article.excerpt
-   ],
+      article.title,
+      article.slug,
+      article.excerpt
+    ],
 
     robots: {
       index: true,
@@ -51,18 +59,23 @@ export async function generateMetadata({
     openGraph: {
       title: article.title,
       description: article.excerpt,
+      url: canonicalUrl,
+      siteName: 'NVision Insights',
+      locale: 'it_IT',
       type: 'article',
       publishedTime: article.publicationDateISO,
       modifiedTime: article.updateDateISO,
       section: article.category,
       tags: article.keywords,
+      authors: ['NVision Insights'],
 
-      images: article.images?.[0]?.src
+      images: heroImage?.src
         ? [
             {
-              url: `${baseUrl}${article.images?.[0]?.src}`,
+              url: `${baseUrl}${heroImage.src}`,
               width: 1920,
               height: 1080,
+              alt: heroImage.alt || article.title,
             },
           ]
         : undefined,
@@ -72,9 +85,13 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: article.title,
       description: article.excerpt,
-
-      images: article.images?.[0]?.src
-        ? [`${baseUrl}${article.images?.[0]?.src}`]
+      images: heroImage?.src
+        ? [
+            {
+              url: `${baseUrl}${heroImage.src}`,
+              alt: heroImage.alt || article.title,
+            },
+          ]
         : undefined,
     },
   };

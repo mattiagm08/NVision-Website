@@ -703,7 +703,7 @@ export default function Contatti() {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <Mail size={15} className="text-purple-600 shrink-0" />
-                  <span>info@nvisioninsights.it</span>
+                  <span>info.nvisioninsights@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-purple-600 shrink-0" />
@@ -875,7 +875,7 @@ export default function Contatti() {
                 <div className="space-y-3 pt-1">
                   <div className="flex items-center space-x-3 text-sm text-black font-light">
                     <Mail size={15} className="text-purple-600 shrink-0" />
-                    <span>info@nvisioninsights.it</span>
+                    <span>info.nvisioninsights@gmail.com</span>
                   </div>
 
                   <div className="flex items-center space-x-3 text-sm text-black font-light">

@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { Menu, X, Share2, ArrowRight, Facebook, Instagram, Mail, MapPin, Globe } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Share2, ArrowRight, Facebook, Instagram, Mail, MapPin, Globe, Search, ListFilter, CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import articlesData from '../../../resources/articles.json';
 import { useRouter, usePathname } from 'next/navigation';
@@ -27,10 +27,30 @@ const footerSocials = [
   { Icon: Share2 },
 ];
 
+const searchFieldOptions = [
+  { value: 'titolo', label: 'Titolo' },
+  { value: 'categoria', label: 'Categoria' },
+  { value: 'data', label: 'Data' },
+];
+
+const monthNames = [
+  'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+  'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre',
+];
+
+const weekdayLabels = ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'];
+
 export default function Articoli() {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchField, setSearchField] = useState('titolo');
+
+  // Pannello a comparsa: lista categorie oppure mini calendario, in base al campo selezionato
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(() => new Date().getMonth());
+  const [calendarYear, setCalendarYear] = useState(() => new Date().getFullYear());
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -78,6 +98,75 @@ export default function Articoli() {
       return dateB - dateA;
     });
   }, []);
+
+  // Lista delle categorie disponibili, generata ad ogni render da tutti gli articoli presenti
+  const availableCategories = useMemo(() => {
+    const categories = articlesData.map((a) => a.category).filter(Boolean);
+    return Array.from(new Set(categories)).sort((a, b) => a.localeCompare(b));
+  }, []);
+
+  // Giorni del mese/anno attualmente mostrato nel mini calendario che contengono almeno un articolo
+  const articleDaysInMonth = useMemo(() => {
+    const set = new Set();
+    articlesData.forEach((article) => {
+      const [day, month, year] = article.publicationDate.split('/').map(Number);
+      if (month - 1 === calendarMonth && year === calendarYear) {
+        set.add(day);
+      }
+    });
+    return set;
+  }, [calendarMonth, calendarYear]);
+
+  const daysInMonthCount = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+  const firstWeekday = new Date(calendarYear, calendarMonth, 1).getDay();
+  const leadingBlanks = (firstWeekday + 6) % 7; // settimana che inizia di Lunedì
+
+  const handlePrevMonth = () => {
+    setCalendarMonth((prev) => {
+      if (prev === 0) {
+        setCalendarYear((y) => y - 1);
+        return 11;
+      }
+      return prev - 1;
+    });
+  };
+
+  const handleNextMonth = () => {
+    setCalendarMonth((prev) => {
+      if (prev === 11) {
+        setCalendarYear((y) => y + 1);
+        return 0;
+      }
+      return prev + 1;
+    });
+  };
+
+  const handleSelectDay = (day: number) => {
+    const dd = String(day).padStart(2, '0');
+    const mm = String(calendarMonth + 1).padStart(2, '0');
+    setSearchQuery(`${dd}/${mm}/${calendarYear}`);
+    setPanelOpen(false);
+  };
+
+  // Filtro di ricerca: per Titolo, Categoria o Data (in base al campo selezionato). Se la barra è vuota, mostra tutto.
+  const filteredArticles = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return sortedArticles;
+
+    return sortedArticles.filter((article) => {
+      if (searchField === 'categoria') {
+        const category = article.category?.toLowerCase() || '';
+        return category.includes(query);
+      }
+      if (searchField === 'data') {
+        const data = article.publicationDate?.toLowerCase() || '';
+        return data.includes(query);
+      }
+      // default: titolo
+      const title = article.title?.toLowerCase() || '';
+      return title.includes(query);
+    });
+  }, [searchQuery, searchField, sortedArticles]);
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-br from-purple-950 via-black to-purple-900 text-white font-sans">
@@ -195,8 +284,228 @@ export default function Articoli() {
           className="max-w-7xl mx-auto px-6"
         >
 
+          {/* ---------------------------------------------------------
+              BARRA DI RICERCA (Titolo / Categoria / Data)
+          --------------------------------------------------------- */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-14 flex justify-center"
+          >
+            <div className="relative w-full max-w-2xl group">
+              <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-200/40 via-blue-100/30 to-blue-200/40 blur-md opacity-0 group-focus-within:opacity-100 transition-opacity duration-300" />
+              <div className="relative flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 bg-white border border-slate-300 rounded-2xl shadow-sm hover:shadow-md focus-within:shadow-lg focus-within:border-blue-400 transition-all duration-300 overflow-hidden">
+
+                {/* Campo di input */}
+                <div className="flex items-center flex-grow px-5 py-4">
+                  <Search size={20} className="text-blue-500 shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={`Cerca per ${searchField === 'titolo' ? 'titolo' : searchField === 'categoria' ? 'categoria' : 'data (gg/mm/aaaa)'}...`}
+                    className="w-full bg-transparent outline-none border-none px-4 text-sm sm:text-base text-slate-800 placeholder-slate-400 font-light"
+                  />
+
+                  {/* Toggle lista categorie disponibili */}
+                  {searchField === 'categoria' && (
+                    <button
+                      type="button"
+                      onClick={() => setPanelOpen((prev) => !prev)}
+                      className={`shrink-0 p-1.5 rounded-lg transition-colors duration-200 mr-1 ${
+                        panelOpen ? 'bg-blue-100 text-blue-600' : 'text-slate-400 hover:text-blue-600'
+                      }`}
+                      aria-label="Mostra categorie disponibili"
+                    >
+                      <ListFilter size={18} />
+                    </button>
+                  )}
+
+                  {/* Toggle mini calendario */}
+                  {searchField === 'data' && (
+                    <button
+                      type="button"
+                      onClick={() => setPanelOpen((prev) => !prev)}
+                      className={`shrink-0 p-1.5 rounded-lg transition-colors duration-200 mr-1 ${
+                        panelOpen ? 'bg-blue-100 text-blue-600' : 'text-slate-400 hover:text-blue-600'
+                      }`}
+                      aria-label="Apri calendario"
+                    >
+                      <CalendarDays size={18} />
+                    </button>
+                  )}
+
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="text-slate-400 hover:text-blue-600 transition-colors duration-200 shrink-0"
+                      aria-label="Cancella ricerca"
+                    >
+                      <X size={18} />
+                    </button>
+                  )}
+                </div>
+
+                {/* Separatore verticale (solo desktop) */}
+                <div className="hidden sm:block w-px bg-slate-200 my-3" />
+
+                {/* Selettore campo di ricerca: Titolo / Categoria / Data (pillole animate) */}
+                <div className="flex items-center gap-1 px-2 py-2 sm:py-2 sm:pr-2">
+                  <div className="relative flex items-center gap-1 bg-slate-100 rounded-xl p-1">
+                    {searchFieldOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => {
+                          setSearchField(option.value);
+                          setPanelOpen(false);
+                        }}
+                        className={`relative z-10 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors duration-300 ${
+                          searchField === option.value
+                            ? 'text-white'
+                            : 'text-slate-500 hover:text-blue-600'
+                        }`}
+                      >
+                        {searchField === option.value && (
+                          <motion.div
+                            layoutId="searchFieldPill"
+                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                            className="absolute inset-0 bg-blue-600 rounded-lg -z-10"
+                          />
+                        )}
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* ---------------------------------------------------------
+                  PANNELLO A COMPARSA: lista categorie o mini calendario
+              --------------------------------------------------------- */}
+              <AnimatePresence>
+                {panelOpen && searchField === 'categoria' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-0 right-0 top-full mt-3 z-30 bg-white border border-slate-200 rounded-2xl shadow-xl p-5"
+                  >
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-3">
+                      Categorie disponibili
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {availableCategories.length === 0 && (
+                        <span className="text-sm text-slate-400 font-light">Nessuna categoria disponibile</span>
+                      )}
+                      {availableCategories.map((cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => {
+                            setSearchQuery(cat);
+                            setPanelOpen(false);
+                          }}
+                          className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-200 border ${
+                            searchQuery.toLowerCase() === cat.toLowerCase()
+                              ? 'bg-blue-600 text-white border-blue-600'
+                              : 'bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-100'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {panelOpen && searchField === 'data' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-0 right-0 sm:right-auto top-full mt-3 z-30 bg-white border border-slate-200 rounded-2xl shadow-xl p-5 w-full sm:w-80"
+                  >
+                    {/* Header mese/anno con navigazione */}
+                    <div className="flex items-center justify-between mb-4">
+                      <button
+                        type="button"
+                        onClick={handlePrevMonth}
+                        className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition-colors duration-200"
+                        aria-label="Mese precedente"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+                      <span className="text-sm font-bold text-slate-800 uppercase tracking-wide">
+                        {monthNames[calendarMonth]} {calendarYear}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleNextMonth}
+                        className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition-colors duration-200"
+                        aria-label="Mese successivo"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                    </div>
+
+                    {/* Giorni della settimana */}
+                    <div className="grid grid-cols-7 gap-1 mb-2">
+                      {weekdayLabels.map((wd) => (
+                        <span key={wd} className="text-[10px] font-bold text-slate-400 text-center uppercase">
+                          {wd}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Griglia giorni del mese */}
+                    <div className="grid grid-cols-7 gap-1">
+                      {Array.from({ length: leadingBlanks }).map((_, i) => (
+                        <div key={`blank-${i}`} />
+                      ))}
+                      {Array.from({ length: daysInMonthCount }).map((_, i) => {
+                        const day = i + 1;
+                        const hasArticle = articleDaysInMonth.has(day);
+                        const dd = String(day).padStart(2, '0');
+                        const mm = String(calendarMonth + 1).padStart(2, '0');
+                        const dateStr = `${dd}/${mm}/${calendarYear}`;
+                        const isSelected = searchQuery === dateStr;
+
+                        return (
+                          <button
+                            key={day}
+                            type="button"
+                            onClick={() => handleSelectDay(day)}
+                            className={`relative flex flex-col items-center justify-center h-9 rounded-lg text-xs font-medium transition-colors duration-200 ${
+                              isSelected
+                                ? 'bg-blue-600 text-white font-bold'
+                                : 'text-slate-700 hover:bg-blue-50'
+                            }`}
+                          >
+                            {day}
+                            {hasArticle && (
+                              <span
+                                className={`absolute bottom-1 w-1.5 h-1.5 rounded-full ${
+                                  isSelected ? 'bg-white' : 'bg-blue-500'
+                                }`}
+                              />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {sortedArticles.map((article) => (
+            {filteredArticles.map((article) => (
               <motion.div
                 key={article.slug}
                 whileHover={{ y: -10 }}
@@ -524,14 +833,12 @@ export default function Articoli() {
                     placeholder="La tua email"
                     className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
                   />
-                  return (
-                    <button
-                      onClick={() => router.push("/contatti")}
-                      className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
-                    >
-                      <ArrowRight size={16} />
-                    </button>
-                  );
+                  <button
+                    onClick={() => router.push("/contatti")}
+                    className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-500 p-1.5 rounded-lg transition-colors duration-200 text-white cursor-pointer"
+                  >
+                    <ArrowRight size={16} />
+                  </button>
                 </div>
 
                 <div className="space-y-3 pt-1">

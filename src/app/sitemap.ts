@@ -1,20 +1,26 @@
 import { MetadataRoute } from 'next';
 import articles from '../../resources/articles.json';
+import type { Article } from '../../types/article';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Quando avrai il dominio, cambialo qui.
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
+  const articleList = articles as Article[];
 
-  // 1. Genera gli ingressi per gli articoli in modo dinamico
-  const articleEntries = articles.map((article) => ({
-    url: `${baseUrl}/articoli/${article.slug}`,
-    lastModified: article.updateDateISO,
-    changeFrequency: 'weekly' as const,
-    priority: 0.8, // Gli articoli hanno priorità alta
-  }));
+  const articleEntries = articleList.map((article) => {
+    const imageUrls = (article.images ?? [])
+      .filter((img) => !!img?.src)
+      .map((img) => `${baseUrl}${img.src}`);
 
-  // 2. Pagine statiche del sito (viste nel tuo header)
+    return {
+      url: `${baseUrl}/articoli/${article.slug}`,
+      lastModified: article.updateDateISO,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+      ...(imageUrls.length > 0 ? { images: imageUrls } : {}),
+    };
+  });
+
   const staticPages = [
     {
       url: baseUrl,

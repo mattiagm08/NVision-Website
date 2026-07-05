@@ -159,7 +159,15 @@ export default function ArticleView({ article, readTime }: Props) {
     "headline": article.title,
     "description": article.excerpt,
 
-    "image": heroImage?.src ? [`${baseUrl}${heroImage.src}`] : [],
+    "image": (article.images ?? [])
+    .filter((img) => !!img?.src)
+    .map((img) => ({
+      "@type": "ImageObject",
+      "url": `${baseUrl}${img.src}`,
+      "width": 1920,
+      "height": 1080,
+      "caption": img.alt || article.title,
+    })),
 
     "datePublished": new Date(article.publicationDateISO).toISOString(),
     "dateModified": new Date(article.updateDateISO).toISOString(),
@@ -182,6 +190,31 @@ export default function ArticleView({ article, readTime }: Props) {
     "keywords": article.keywords ?? []
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": baseUrl,
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Articoli",
+        "item": `${baseUrl}/articoli`,
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": article.title,
+        "item": `${baseUrl}/articoli/${article.slug}`,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 font-sans selection:bg-blue-200 selection:text-blue-900">
 
@@ -200,6 +233,13 @@ export default function ArticleView({ article, readTime }: Props) {
           }}
         />
       )}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
 
       <motion.div
         className="fixed top-0 left-0 right-0 h-1.5 bg-blue-300 origin-left z-[60]"
@@ -654,7 +694,7 @@ export default function ArticleView({ article, readTime }: Props) {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <Mail size={15} className="text-blue-600 shrink-0" />
-                  <span>info@nvisioninsights.it</span>
+                  <span>info.nvisioninsights@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-blue-600 shrink-0" />
@@ -826,7 +866,7 @@ export default function ArticleView({ article, readTime }: Props) {
                 <div className="space-y-3 pt-1">
                   <div className="flex items-center space-x-3 text-sm text-black font-light">
                     <Mail size={15} className="text-blue-600 shrink-0" />
-                    <span>info@nvisioninsights.it</span>
+                    <span>info.nvisioninsights@gmail.com</span>
                   </div>
 
                   <div className="flex items-center space-x-3 text-sm text-black font-light">

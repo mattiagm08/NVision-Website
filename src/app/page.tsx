@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
+import articlesData from '../../resources/articles.json';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -442,50 +443,15 @@ export default function Home() {
   };
 
   // ─── DATI ───────────────────────────────────────────────────────────────────
-  const articoli = [
-    {
-      id: 1,
-      anno: 2025,
-      categoria: 'Intelligenza Artificiale',
-      titolo: "L'evoluzione dell'AI nel 2025",
-      desc: "Un'analisi dettagliata su come le nuove architetture trasformeranno il lavoro creativo.",
-      gradientFrom: 'from-fuchsia-600',
-      gradientTo: 'to-violet-800',
-      accent: 'bg-fuchsia-100 text-fuchsia-700',
-      tag: '#AI',
-      delay: 0,
-      // MOBILE: always from bottom; DESKTOP: from left
-      enterFrom: { x: 0, y: 40 },
-    },
-    {
-      id: 2,
-      anno: 2026,
-      categoria: 'Quantum Computing',
-      titolo: "L'evoluzione dell'AI nel 2026",
-      desc: 'Quantum computing e modelli neurali: la convergenza che ridefinirà ogni settore industriale.',
-      gradientFrom: 'from-fuchsia-600',
-      gradientTo: 'to-violet-800',
-      accent: 'bg-fuchsia-100 text-fuchsia-700',
-      tag: '#Quantum',
-      delay: 0.12,
-      // MOBILE: always from bottom; DESKTOP: from bottom (same)
-      enterFrom: { x: 0, y: 40 },
-    },
-    {
-      id: 3,
-      anno: 2027,
-      categoria: 'Future Tech',
-      titolo: "L'evoluzione dell'AI nel 2027",
-      desc: 'Scenari futuri e paradigmi emergenti: come prepararsi alla prossima rivoluzione tecnologica.',
-      gradientFrom: 'from-fuchsia-600',
-      gradientTo: 'to-violet-800',
-      accent: 'bg-fuchsia-100 text-fuchsia-700',
-      tag: '#Future',
-      delay: 0.24,
-      // MOBILE: always from bottom; DESKTOP: from right
-      enterFrom: { x: 0, y: 40 },
-    },
-  ];
+  // ─── ARTICOLI: ultimi 3 pubblicati, presi da resources/articles.json ────────
+  const parseItalianDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split('/').map(Number);
+    return new Date(year, month - 1, day).getTime();
+  };
+
+  const articoli = [...articlesData]
+    .sort((a, b) => parseItalianDate(b.publicationDate) - parseItalianDate(a.publicationDate))
+    .slice(0, 3);
 
   const soluzioni = [
     {
@@ -738,98 +704,67 @@ export default function Home() {
             </AnimatedParagraph>
           </div>
 
-          {/* Cards — MOBILE: animazioni sempre dal basso */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {articoli.map((art) => (
+          {/* Cards — identiche a quelle della pagina /articoli */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {articoli.map((article) => (
               <motion.div
-                key={art.id}
-                initial={{ opacity: 0, x: art.enterFrom.x, y: art.enterFrom.y }}
-                whileInView={{ opacity: 1, x: 0, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
-                transition={{ duration: 0.75, delay: art.delay, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-violet-200/60 transition-all duration-500 bg-white border border-zinc-100 flex flex-col"
+                key={article.slug}
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-slate-100"
               >
-                {/* ── Angoli-reticolo che appaiono poi svaniscono (targeting brackets) */}
-                <motion.div
-                  className="absolute top-3 left-3 w-6 h-6 pointer-events-none z-20"
-                  style={{ borderTop: '2px solid rgba(139,92,246,0.85)', borderLeft: '2px solid rgba(139,92,246,0.85)', borderTopLeftRadius: 4 }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
-                  viewport={{ once: false, amount: 0.15 }}
-                  transition={{ duration: 1.8, delay: art.delay + 0.25, times: [0, 0.1, 0.6, 1] }}
-                />
-                <motion.div
-                  className="absolute top-3 right-3 w-6 h-6 pointer-events-none z-20"
-                  style={{ borderTop: '2px solid rgba(232,121,249,0.85)', borderRight: '2px solid rgba(232,121,249,0.85)', borderTopRightRadius: 4 }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
-                  viewport={{ once: false, amount: 0.15 }}
-                  transition={{ duration: 1.8, delay: art.delay + 0.3, times: [0, 0.1, 0.6, 1] }}
-                />
-                <motion.div
-                  className="absolute bottom-3 left-3 w-6 h-6 pointer-events-none z-20"
-                  style={{ borderBottom: '2px solid rgba(139,92,246,0.6)', borderLeft: '2px solid rgba(139,92,246,0.6)', borderBottomLeftRadius: 4 }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
-                  viewport={{ once: false, amount: 0.15 }}
-                  transition={{ duration: 1.8, delay: art.delay + 0.32, times: [0, 0.1, 0.6, 1] }}
-                />
-                <motion.div
-                  className="absolute bottom-3 right-3 w-6 h-6 pointer-events-none z-20"
-                  style={{ borderBottom: '2px solid rgba(167,139,250,0.6)', borderRight: '2px solid rgba(167,139,250,0.6)', borderBottomRightRadius: 4 }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: [0, 1, 1, 0], scale: 1 }}
-                  viewport={{ once: false, amount: 0.15 }}
-                  transition={{ duration: 1.8, delay: art.delay + 0.35, times: [0, 0.1, 0.6, 1] }}
-                />
+                {/* Immagine con Overlay */}
+                <div className="relative h-56 overflow-hidden group">
 
-                {/* ── Linea di scansione sul banner */}
-                <motion.div
-                  className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none z-30`}
-                  initial={{ scaleX: 0, originX: 0, opacity: 0 }}
-                  whileInView={{ scaleX: 1, opacity: [0, 0.8, 0.8, 0] }}
-                  viewport={{ once: false, amount: 0.15 }}
-                  transition={{ duration: 1.0, delay: art.delay + 0.1, times: [0, 0.15, 0.6, 1] }}
-                />
-
-                {/* Banner superiore */}
-                <div className={`relative h-36 bg-gradient-to-br ${art.gradientFrom} ${art.gradientTo} flex items-end px-6 pb-5 overflow-hidden`}>
-                  <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
-                  <div className="absolute top-4 right-16 w-16 h-16 rounded-full bg-white/10" />
-                  <div className="absolute -bottom-4 left-1/2 w-24 h-24 rounded-full bg-black/10" />
-                  <span className="absolute top-3 right-4 text-white/15 font-black text-6xl leading-none select-none">
-                    {art.anno}
-                  </span>
-                  <span className="relative z-10 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-bold tracking-wider border border-white/25">
-                    {art.categoria}
-                  </span>
-                </div>
-
-                {/* Corpo */}
-                <div className="flex flex-col flex-1 p-7">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${art.accent}`}>
-                      {art.tag}
-                    </span>
-                    <span className="text-xs text-zinc-400 font-medium">Tecnologia</span>
-                  </div>
-                  <h4 className="text-xl font-black text-zinc-900 mb-3 leading-tight group-hover:text-fuchsia-600 transition-colors duration-300">
-                    {art.titolo}
-                  </h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed flex-1 mb-6 font-light">
-                    {art.desc}
-                  </p>
-                  <Link
-                    href="/articoli"
-                    className={`inline-flex items-center gap-2 text-sm font-bold bg-gradient-to-r ${art.gradientFrom} ${art.gradientTo} bg-clip-text text-transparent group/link`}
-                  >
-                    Scopri di più
-                    <ArrowRight size={16} className="text-violet-600 group-hover/link:translate-x-1.5 transition-transform duration-300" />
+                  <Link href={`/articoli/${article.slug}`} className="block h-full">
+                    <img
+                      src={article.images?.[0]?.src}
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
                   </Link>
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-violet-900/40 to-transparent pointer-events-none" />
+
+                  <div className="absolute top-4 right-4 bg-violet-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
+                    {article.publicationDate}
+                  </div>
+
                 </div>
 
-                <div className={`h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${art.gradientFrom} ${art.gradientTo} transition-all duration-500`} />
+                {/* Contenuto Card */}
+                <div className="p-8 flex flex-col flex-grow">
+
+                  {article.category && (
+                    <span className="inline-block mb-3 bg-violet-50 text-violet-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-violet-100">
+                      {article.category}
+                    </span>
+                  )}
+
+                  <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-violet-600 transition-colors leading-tight tracking-tight">
+                    <Link href={`/articoli/${article.slug}`}>{article.title}</Link>
+                  </h4>
+
+                  <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2 font-light">
+                    {article.excerpt}
+                  </p>
+
+                  {/* Footer Card */}
+                  <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
+                    <Link
+                      href={`/articoli/${article.slug}`}
+                      className="flex items-center gap-2 text-violet-600 hover:text-violet-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
+                    >
+                      Leggi di più <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
+
+                    <div className="flex items-center gap-4 text-slate-400">
+                      <Facebook size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
+                      <Instagram size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
+                      <Share2 size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -844,7 +779,7 @@ export default function Home() {
           >
             <Link
               href="/articoli"
-              className="inline-flex items-center gap-3 px-12 py-5 rounded-full bg-zinc-950 text-white font-bold text-sm hover:bg-purple-500 transition-all duration-300 shadow-xl hover:shadow-violet-400/30 hover:shadow-2xl"
+              className="inline-flex items-center gap-3 px-12 py-5 rounded-full bg-zinc-950 text-white font-bold text-sm hover:bg-violet-500 transition-all duration-300 shadow-xl hover:shadow-violet-400/30 hover:shadow-2xl"
             >
               Tutti Gli Articoli <ArrowRight size={18} />
             </Link>
@@ -1056,7 +991,7 @@ export default function Home() {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <Mail size={15} className="text-purple-600 shrink-0" />
-                  <span>info@nvisioninsights.it</span>
+                  <span>info.nvisioninsights@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-zinc-700 font-light">
                   <MapPin size={15} className="text-purple-600 shrink-0" />
@@ -1228,7 +1163,7 @@ export default function Home() {
                 <div className="space-y-3 pt-1">
                   <div className="flex items-center space-x-3 text-sm text-black font-light">
                     <Mail size={15} className="text-purple-600 shrink-0" />
-                    <span>info@nvisioninsights.it</span>
+                    <span>info.nvisioninsights@gmail.com</span>
                   </div>
 
                   <div className="flex items-center space-x-3 text-sm text-black font-light">

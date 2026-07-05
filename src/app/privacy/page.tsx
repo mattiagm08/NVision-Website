@@ -35,8 +35,8 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-gray-800 mb-3">Titolare del trattamento</h2>
             <p className="text-gray-600 leading-relaxed">
               Il titolare del trattamento dei dati personali è Mattia Filippo Gimmillaro, in qualità di gestore e creatore del progetto personale NVision Insights, contattabile all&apos;indirizzo email
-              <a href="mailto:info@nvisioninsights.it" className="text-purple-600 underline ml-1">
-                info@nvisioninsights.it
+              <a href="mailto:info.nvisioninsights@gmail.com" className="text-purple-600 underline ml-1">
+                info.nvisioninsights@gmail.com
               </a>.
             </p>
             <p className="text-gray-600 leading-relaxed mt-3">
@@ -150,8 +150,8 @@ export default function PrivacyPage() {
             </p>
             <p className="text-gray-600 leading-relaxed mt-3">
               Per esercitare tali diritti è possibile scrivere a
-              <a href="mailto:info@nvisioninsights.it" className="text-purple-600 underline ml-1">
-                info@nvisioninsights.it
+              <a href="mailto:info.nvisioninsights@gmail.com" className="text-purple-600 underline ml-1">
+                info.nvisioninsights@gmail.com
               </a>.
               Le richieste saranno valutate con attenzione e riscontrate entro tempi ragionevoli.
             </p>
