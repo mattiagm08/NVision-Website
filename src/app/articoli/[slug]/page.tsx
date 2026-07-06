@@ -8,7 +8,7 @@ import { Metadata } from 'next';
 import { getMarkdown } from '../../lib/markdownCache';
 
 const articleList = articles as Article[];
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!;
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -28,73 +28,92 @@ export async function generateMetadata({
 
   if (!article) return { title: 'Articolo non trovato' };
 
-  const heroImage = article.images?.[0];
-  const canonicalUrl = `${baseUrl}/articoli/${article.slug}`;
+  try {
+    // 🔒 Fallback difensivi: nessun campo opzionale mancante può più far
+    // fallire generateMetadata in produzione.
+    const heroImage = article.images?.[0];
+    const heroImageUrl =
+      heroImage?.src && typeof heroImage.src === 'string'
+        ? `${baseUrl}${heroImage.src}`
+        : undefined;
 
-  return {
-    metadataBase: new URL(baseUrl),
+    const safeExcerpt = article.excerpt ?? '';
+    const safeTitle = article.title ?? 'NVision Insights';
+    const safeKeywords = Array.isArray(article.keywords) && article.keywords.length > 0
+      ? article.keywords
+      : [safeTitle, article.slug, safeExcerpt].filter(Boolean);
 
-    title: `${article.title} | NVision Insights`,
-    description: article.excerpt,
+    const canonicalUrl = `${baseUrl}/articoli/${article.slug}`;
 
-    authors: [{ name: 'NVision Insights', url: baseUrl }],
-    category: article.category,
+    return {
+      metadataBase: new URL(baseUrl),
 
-    alternates: {
-      canonical: canonicalUrl,
-    },
+      title: `${safeTitle} | NVision Insights`,
+      description: safeExcerpt,
 
-    keywords: article.keywords ?? [
-      article.title,
-      article.slug,
-      article.excerpt
-    ],
+      authors: [{ name: 'NVision Insights', url: baseUrl }],
+      category: article.category ?? undefined,
 
-    robots: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-    },
+      alternates: {
+        canonical: canonicalUrl,
+      },
 
-    openGraph: {
-      title: article.title,
-      description: article.excerpt,
-      url: canonicalUrl,
-      siteName: 'NVision Insights',
-      locale: 'it_IT',
-      type: 'article',
-      publishedTime: article.publicationDateISO,
-      modifiedTime: article.updateDateISO,
-      section: article.category,
-      tags: article.keywords,
-      authors: ['NVision Insights'],
+      keywords: safeKeywords,
 
-      images: heroImage?.src
-        ? [
-            {
-              url: `${baseUrl}${heroImage.src}`,
-              width: 1920,
-              height: 1080,
-              alt: heroImage.alt || article.title,
-            },
-          ]
-        : undefined,
-    },
+      robots: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+      },
 
-    twitter: {
-      card: 'summary_large_image',
-      title: article.title,
-      description: article.excerpt,
-      images: heroImage?.src
-        ? [
-            {
-              url: `${baseUrl}${heroImage.src}`,
-              alt: heroImage.alt || article.title,
-            },
-          ]
-        : undefined,
-    },
-  };
+      openGraph: {
+        title: safeTitle,
+        description: safeExcerpt,
+        url: canonicalUrl,
+        siteName: 'NVision Insights',
+        locale: 'it_IT',
+        type: 'article',
+        publishedTime: article.publicationDateISO ?? undefined,
+        modifiedTime: article.updateDateISO ?? undefined,
+        section: article.category ?? undefined,
+        tags: safeKeywords,
+        authors: ['NVision Insights'],
+
+        images: heroImageUrl
+          ? [
+              {
+                url: heroImageUrl,
+                width: 1920,
+                height: 1080,
+                alt: heroImage?.alt || safeTitle,
+              },
+            ]
+          : undefined,
+      },
+
+      twitter: {
+        card: 'summary_large_image',
+        title: safeTitle,
+        description: safeExcerpt,
+        images: heroImageUrl
+          ? [
+              {
+                url: heroImageUrl,
+                alt: heroImage?.alt || safeTitle,
+              },
+            ]
+          : undefined,
+      },
+    };
+  } catch (err) {
+    // 🔒 Logga la slug che fallisce: in build normale il digest di Next
+    // nasconde il messaggio reale, questo log resta visibile nei log di build.
+    console.error(`[generateMetadata] Errore su slug "${slug}":`, err);
+    return {
+      title: `${article.title ?? 'Articolo'} | NVision Insights`,
+      description: article.excerpt ?? '',
+    };
+  }
 }
 
 /**
@@ -102,9 +121,10 @@ export async function generateMetadata({
  */
 async function getArticleContent(article: Article): Promise<string> {
   try {
-    return await getMarkdown(article.content);
+    const md = await getMarkdown(article.content);
+    return typeof md === 'string' ? md : '';
   } catch (err) {
-    console.error('Errore lettura markdown:', err);
+    console.error(`[getArticleContent] Errore lettura markdown per slug "${article.slug}" (path: ${article.content}):`, err);
     return '';
   }
 }
@@ -147,7 +167,13 @@ export default async function ArticlePage({
     );
   }
 
-  const content = await getArticleContent(article);
+  let content = '';
+  try {
+    content = await getArticleContent(article);
+  } catch (err) {
+    console.error(`[ArticlePage] Errore imprevisto su slug "${slug}":`, err);
+  }
+
   const readTime = estimateReadTime(content);
 
   const hydratedArticle = {

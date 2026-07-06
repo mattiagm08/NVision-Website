@@ -31,7 +31,7 @@ interface Props {
 }
 
 const vpS = { once: true, amount: 0.1 };
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!;
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 
 const footerNavLinks = [
@@ -112,14 +112,20 @@ export default function ArticleView({ article, readTime }: Props) {
   const markdown = React.useMemo(() => {
   let content = article.content ?? '';
 
-    // Sostituisce {{IMAGE_MID}}, {{IMAGE_HERO}}, ecc. con la sintassi markdown ![alt](src),
-    // pescando l'immagine corrispondente da article.images in base a "position".
+    // 🔒 Rete di sicurezza per articoli "legacy" scritti prima della migrazione
+    // al sistema di immagini markdown dirette: se nel testo sopravvive ancora
+    // un vecchio placeholder {{IMAGE_MID}} / {{IMAGE_HERO}}, lo convertiamo qui,
+    // PRIMA che arrivi a ReactMarkdown, in normale sintassi markdown ![alt](src).
+    // In questo modo l'immagine viene gestita dal componente `img` standard
+    // (già correttamente wrappato fuori dal <p> quando è l'unico figlio),
+    // invece che da un ramo custom che inseriva un <div> dentro un <p>
+    // e causava l'errore di prerendering in produzione.
     content = content.replace(/\{\{IMAGE_(\w+)\}\}/g, (_match, posRaw) => {
       const position = posRaw.toLowerCase();
       const img = article.images?.find((i) => i.position === position);
       if (!img?.src) return '';
       const alt = img.alt || 'Immagine articolo';
-      return `![${alt}](${img.src})`;
+      return `\n\n![${alt}](${img.src})\n\n`;
     });
 
     return content;
@@ -341,46 +347,6 @@ export default function ArticleView({ article, readTime }: Props) {
             rehypePlugins={[rehypeSanitize]}
             components={{
 
-              text: ({ children }) => {
-                const value = String(children);
-
-                if (value.includes("{{IMAGE_MID}}")) {
-                  const img = article.images?.find(i => i.position === "mid");
-                  if (!img) return null;
-
-                  return (
-                    <div className="my-10">
-                      <Image
-                        src={img.src}
-                        alt={img.alt || "Immagine articolo"}
-                        width={1200}
-                        height={675}
-                        className="rounded-2xl shadow-md w-full h-auto"
-                      />
-                    </div>
-                  );
-                }
-
-                if (value.includes("{{IMAGE_HERO}}")) {
-                  const img = article.images?.find(i => i.position === "hero");
-                  if (!img) return null;
-
-                  return (
-                    <div className="my-10">
-                      <Image
-                        src={img.src}
-                        alt={img.alt || "Immagine articolo"}
-                        width={1200}
-                        height={675}
-                        className="rounded-2xl shadow-md w-full h-auto"
-                      />
-                    </div>
-                  );
-                }
-
-                return children;
-              },
-
               h1: ({ children }) => {
                 const { id, cleanChildren } = extractHeadingId(children);
                 return (
@@ -471,17 +437,12 @@ export default function ArticleView({ article, readTime }: Props) {
               ),
 
               img: ({ src, alt }) => {
-                if (!src) return null;
-
-                const imageSrc =
-                  typeof src === 'string'
-                    ? src
-                    : URL.createObjectURL(src);
+                if (!src || typeof src !== 'string') return null;
 
                 return (
                   <div className="my-10">
                     <Image
-                      src={imageSrc}
+                      src={src}
                       alt={alt || "Immagine articolo"}
                       width={1200}
                       height={675}
@@ -564,26 +525,31 @@ export default function ArticleView({ article, readTime }: Props) {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {relatedArticles.map((rel) => (
-            <Link key={rel.slug} href={`/articoli/${rel.slug}`} className="group">
-              <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-200 h-full flex flex-col">
-                <div className="relative aspect-video overflow-hidden">
-                  <Image src={rel.images?.[0]?.src ?? heroImage?.src} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-4 flex flex-col flex-grow">
-                  <h4 className="font-bold text-slate-900 group-hover:text-blue-500 transition-colors line-clamp-2 mb-2">
-                    {rel.title}
-                  </h4>
-                  <p className="text-slate-500 text-xs line-clamp-2 mb-4 flex-grow">
-                    {rel.excerpt}
-                  </p>
-                  <div className="flex items-center text-blue-600 text-xs font-bold uppercase tracking-wider">
-                    Scopri di più <ArrowRight size={14} className="ml-1 group-hover:ml-2 transition-all" />
+          {relatedArticles.map((rel) => {
+            const relImage = rel.images?.[0]?.src ?? heroImage?.src;
+            return (
+              <Link key={rel.slug} href={`/articoli/${rel.slug}`} className="group">
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-200 h-full flex flex-col">
+                  <div className="relative aspect-video overflow-hidden">
+                    {relImage && (
+                      <Image src={relImage} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    )}
+                  </div>
+                  <div className="p-4 flex flex-col flex-grow">
+                    <h4 className="font-bold text-slate-900 group-hover:text-blue-500 transition-colors line-clamp-2 mb-2">
+                      {rel.title}
+                    </h4>
+                    <p className="text-slate-500 text-xs line-clamp-2 mb-4 flex-grow">
+                      {rel.excerpt}
+                    </p>
+                    <div className="flex items-center text-blue-600 text-xs font-bold uppercase tracking-wider">
+                      Scopri di più <ArrowRight size={14} className="ml-1 group-hover:ml-2 transition-all" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
 
