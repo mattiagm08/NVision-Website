@@ -81,6 +81,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it">
+      <head>
+        <Script
+          async
+          strategy="beforeInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2181909245129176"
+          crossOrigin="anonymous"
+        />
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -88,13 +97,6 @@ export default function RootLayout({
 
         <SpeedInsights />
         <Analytics />
-
-        <Script
-          async
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2181909245129176"
-          crossOrigin="anonymous"
-        />
       </body>
     </html>
   );
