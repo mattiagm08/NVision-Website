@@ -4,7 +4,6 @@
 import articlesData from '../../resources/articles.json';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -776,25 +775,18 @@ export default function Home() {
                 key={index}
                 onClick={handleImageClick}
                 // MOBILE: min-w aumentato da 70vw a 80vw per card più grandi su mobile
-                className="relative min-w-[0vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.22)] transition-all duration-300 hover:scale-[1.03] hover:shadow-violet-700/80 cursor-pointer ring-1 ring-white/5"
+                className="min-w-[0vw] sm:min-w-[55vw] md:min-w-[33vw] rounded-3xl overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.22)] transition-all duration-300 hover:scale-[1.03] hover:shadow-violet-700/80 cursor-pointer ring-1 ring-white/5"
               >
-                {/* Prima immagine = candidata LCP: usiamo next/image con
-                    priority per farla scaricare/decodificare prima e in
-                    dimensione ottimale per lo schermo (migliora LCP). */}
-                <Image
+                <img
                   src={`/carousel/img${i}.jpg`}
                   alt={`Immagine ${i}`}
-                  fill
                   draggable={false}
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 55vw, 33vw"
-                  className="object-cover pointer-events-none"
-                  priority={index === 0}
+                  // MOBILE: altezza leggermente aumentata (h-52 su mobile)
+                  className="w-full h-72 sm:h-56 md:h-75 object-cover pointer-events-none"
+                  fetchPriority={index === 0 ? 'high' : 'low'}
                   loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding={index === 0 ? 'sync' : 'async'}
                 />
-                {/* Spacer per mantenere l'altezza originale (h-72/h-56/h-75)
-                    dato che l'<Image fill> richiede un contenitore con
-                    altezza esplicita: nessun impatto visivo, CLS invariato. */}
-                <div className="w-full h-72 sm:h-56 md:h-75 pointer-events-none" aria-hidden="true" />
               </div>
             ))}
           </div>
