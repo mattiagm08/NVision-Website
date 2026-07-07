@@ -541,6 +541,67 @@
         "answer": "Non è necessario arrivare al cedimento muscolare in ogni serie. La letteratura scientifica indica che avvicinarsi al cedimento, restando a 1 3 ripetizioni di distanza da esso nella maggior parte delle serie, produce risultati simili in termini di ipertrofia, con un affaticamento complessivo e un rischio di infortunio inferiori."
       }
     ]
+  },
+  {
+    "slug": "algoritmo-youtube-2026",
+    "category": "Internet & Social Media",
+    "title": "Algoritmo YouTube 2026: Guida Completa al Sistema che Determina Quali Video Diventano Virali",
+    "publicationDate": "07/07/2026",
+    "publicationDateISO": "2026-07-07T18:00:00+02:00",
+    "updateDate": "07/07/2026",
+    "updateDateISO": "2026-07-07T18:00:00+02:00",
+    "excerpt": "Perché alcuni video esplodono e altri restano invisibili nonostante la qualità? L'algoritmo di YouTube nel 2026 unisce watch time, retention e intelligenza artificiale in un sistema sempre più raffinato. Scopri come funziona davvero e quali strategie concrete adottare per aumentare le probabilità di viralità.",
+    "images": [
+      {
+        "src": "/images/articles/algoritmo-youtube-2026.webp",
+        "position": "hero",
+        "alt": "Interfaccia di YouTube con grafici di crescita delle visualizzazioni e simbolo di algoritmo"
+      },
+      {
+        "src": "/images/articles/algoritmo-youtube-2026-fattori-ranking.webp",
+        "position": "mid",
+        "alt": "Schema visivo dei fattori di ranking dell'algoritmo YouTube come watch time e retention"
+      }
+    ],
+    "contentStyle": "default",
+    "content": "content/articles/algoritmo-youtube-2026.md",
+    "keywords": [
+      "algoritmo youtube 2026",
+      "come funziona algoritmo youtube",
+      "video virali youtube",
+      "watch time youtube",
+      "session time youtube",
+      "click through rate youtube",
+      "youtube shorts algoritmo",
+      "seo youtube video",
+      "come crescere su youtube 2026",
+      "retention video youtube"
+    ],
+    "faq": [
+      {
+        "question": "Qual è il fattore più importante per l'algoritmo di YouTube nel 2026?",
+        "answer": "Non esiste un singolo fattore decisivo, ma watch time e session time restano tra i segnali con il peso maggiore, insieme alla capacità del video di mantenere alta la retention lungo tutta la sua durata."
+      },
+      {
+        "question": "Gli Shorts aiutano davvero a far crescere un canale?",
+        "answer": "Sì, gli Shorts rappresentano un canale di scoperta importante, soprattutto se collegati in modo coerente ai video lunghi del canale attraverso continuità tematica e stilistica."
+      },
+      {
+        "question": "Quanto conta ancora il click through rate nel 2026?",
+        "answer": "Conta ancora molto, in particolare nella fase iniziale di test di un video, ma deve essere sempre accompagnato da una buona retention, altrimenti viene interpretato come segnale di clickbait."
+      },
+      {
+        "question": "L'intelligenza artificiale ha cambiato radicalmente l'algoritmo di YouTube?",
+        "answer": "Ha reso il sistema più capace di comprendere il contenuto effettivo dei video, riducendo l'efficacia delle tecniche basate solo su metadati e aumentando il peso della qualità intrinseca del contenuto."
+      },
+      {
+        "question": "Con quale frequenza conviene pubblicare per favorire l'algoritmo?",
+        "answer": "Non esiste una frequenza universale valida per tutti i canali, ma la regolarità nel tempo conta più della quantità assoluta di video pubblicati."
+      },
+      {
+        "question": "È possibile diventare virali senza un canale già affermato?",
+        "answer": "Sì, l'algoritmo valuta ogni singolo video anche indipendentemente dallo storico del canale, motivo per cui contenuti isolati di canali piccoli possono comunque raggiungere un pubblico molto ampio."
+    }
+    ]
   }
-  
 ]
