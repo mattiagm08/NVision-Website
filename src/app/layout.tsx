@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.nvisioninsights.it"),
+  metadataBase: new URL("https://nvisioninsights.it"),
 
   title: {
     default: "NVision Insights",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "Tecnologia, divulgazione e innovazione per la nuova generazione digitale.",
 
   alternates: {
-    canonical: "https://www.nvisioninsights.it",
+    canonical: "https://nvisioninsights.it",
   },
 
   robots: {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "NVision Insights",
     description: "Tecnologia, divulgazione e innovazione.",
-    url: "https://www.nvisioninsights.it",
+    url: "https://nvisioninsights.it",
     siteName: "NVision Insights",
     locale: "it_IT",
     type: "website",
