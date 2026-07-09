@@ -117,6 +117,25 @@ function useIsMobile() {
   return isMobile;
 }
 
+const handleShare = async () => {
+  const shareData = {
+    title: "NVision Insights",
+    text: "Scopri NVision Insights",
+    url: window.location.href,
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Link copiato negli appunti!");
+    }
+  } catch (error) {
+    console.log("Condivisione annullata", error);
+  }
+};
+
 /* ════════════════════════════════════════════════════════════════════════
    3. TITOLI E PARAGRAFI ANIMATI
    Stessa identica animazione grafica di prima. L'unica differenza è che ora
@@ -871,7 +890,11 @@ export default function Home() {
                     <div className="flex items-center gap-4 text-slate-400">
                       <Facebook size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
                       <Instagram size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
-                      <Share2 size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
+                      <Share2
+                        size={18}
+                        onClick={handleShare}
+                        className="hover:text-violet-700 cursor-pointer transition-colors"
+                      />
                     </div>
                   </div>
                 </div>

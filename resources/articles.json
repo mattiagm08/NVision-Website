@@ -603,5 +603,70 @@
         "answer": "Sì, l'algoritmo valuta ogni singolo video anche indipendentemente dallo storico del canale, motivo per cui contenuti isolati di canali piccoli possono comunque raggiungere un pubblico molto ampio."
     }
     ]
+  },
+  {
+      "slug": "social-media-influenza-opinioni-decisioni",
+      "category": "Internet & Social Media",
+      "title": "La Tua Opinione è Davvero Tua? Come i Social Media Influenzano Pensieri, Decisioni e Comportamenti",
+      "publicationDate": "09/07/2026",
+      "publicationDateISO": "2026-07-09T18:50:00+02:00",
+      "updateDate": "09/07/2026",
+      "updateDateISO": "2026-07-09T18:50:00+02:00",
+      "excerpt": "Ogni scroll sembra una scelta libera, ma dietro il feed c'è un sistema che seleziona, amplifica e orienta ciò che pensiamo. Scopri come algoritmi, bolle di filtraggio e influencer plasmano opinioni e decisioni, con dati aggiornati al 2026 su fiducia, dipendenza digitale e polarizzazione.",
+      "images": [
+        {
+          "src": "/images/articles/social-media-influenza-opinioni-decisioni.webp",
+          "position": "hero",
+          "alt": "Persona che scorre il feed di uno smartphone circondata da icone social, simbolo dell'influenza digitale sulle opinioni"
+        },
+        {
+          "src": "/images/articles/algoritmi-bolla-filtraggio-social.webp",
+          "position": "mid",
+          "alt": "Rappresentazione visiva di una bolla di filtraggio algoritmica che seleziona i contenuti mostrati agli utenti"
+        }
+      ],
+      "contentStyle": "default",
+      "content": "content/articles/social-media-influenza-opinioni-decisioni.md",
+      "keywords": [
+        "influenza social media opinioni",
+        "come i social media condizionano le decisioni",
+        "bolla di filtraggio social",
+        "echo chamber social media",
+        "algoritmi social media pensiero",
+        "psicologia manipolazione social media",
+        "fiducia social media italiani",
+        "dipendenza da smartphone",
+        "polarizzazione online"
+      ],
+      "faq": [
+        {
+          "question": "I social media influenzano davvero le nostre opinioni?",
+          "answer": "Sì, attraverso una combinazione di selezione algoritmica dei contenuti, dinamiche sociali di gruppo e tecniche di design pensate per massimizzare il coinvolgimento. L'influenza agisce spesso in modo silenzioso, perché il sistema è progettato per non farsi notare."
+        },
+        {
+          "question": "Cos'è la bolla di filtraggio?",
+          "answer": "La bolla di filtraggio è l'effetto prodotto dagli algoritmi di raccomandazione quando selezionano automaticamente i contenuti in base al comportamento passato dell'utente, restringendo progressivamente la varietà di punti di vista a cui si è esposti."
+        },
+        {
+          "question": "Quanti post servono per formare un'opinione stabile su un argomento nuovo?",
+          "answer": "Secondo una ricerca di Trinity Business School e NEOMA Business School del 2026, bastano da tre a cinque post coerenti tra loro perché una persona si formi un'opinione iniziale che poi tende a stabilizzarsi, con scarso impatto delle informazioni successive."
+        },
+        {
+          "question": "Gli italiani si fidano dei social media come fonte di informazione?",
+          "answer": "No, la fiducia dichiarata è molto bassa, appena il 3,6% secondo l'Osservatorio AGCOM, con gli influencer all'ultimo posto con l'1,2%. Nonostante questo, i social restano una delle fonti di notizie più utilizzate, con il 45% degli italiani che li ha usati nell'ultima settimana secondo il Digital News Report Italia 2026."
+        },
+        {
+          "question": "La polarizzazione online è causata solo dagli algoritmi?",
+          "answer": "Non del tutto. Il National Centre for Social Research britannico ha evidenziato che le prove di un effetto diretto e generalizzato dei social sulla polarizzazione dell'opinione pubblica restano limitate; contano molto anche fattori individuali, il tipo di piattaforma e le scelte attive di chi frequenta certi ambienti sociali online."
+        },
+        {
+          "question": "Come posso capire se un'opinione è davvero mia o è stata influenzata dai social?",
+          "answer": "Un buon indicatore è chiedersi se si conoscono argomenti a favore della posizione opposta e se si è verificata la fonte originale dell'informazione. Se un'opinione è sostenuta solo da contenuti visti passivamente nel feed, senza una verifica attiva, è probabile che sia stata almeno in parte guidata dall'algoritmo."
+        },
+        {
+          "question": "Esistono strumenti per limitare l'influenza degli algoritmi?",
+          "answer": "Sì. La maggior parte delle piattaforme consente di visualizzare un feed cronologico anziché algoritmico, di nascondere contenuti simili e di gestire le notifiche. Anche azioni semplici come diversificare gli account seguiti riducono l'effetto bolla."
+        }
+      ]
   }
 ]
