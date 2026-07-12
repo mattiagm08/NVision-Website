@@ -50,11 +50,65 @@ const navLinks = [
     visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } },
   };
 
+// Aggiunto "type" per agganciare la logica di condivisione corretta ad ogni icona
 const footerSocials = [
-  { Icon: Facebook },
-  { Icon: Instagram },
-  { Icon: Share2 },
+  { Icon: Facebook, type: "facebook" },
+  { Icon: Instagram, type: "instagram" },
+  { Icon: Share2, type: "share" },
 ];
+
+/* ---------------------------------------------------------
+    UTILITY DI CONDIVISIONE (stesse identiche della homepage)
+--------------------------------------------------------- */
+const copyToClipboard = async (text: string) => {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    const success = document.execCommand("copy");
+    document.body.removeChild(textarea);
+
+    return success;
+  } catch {
+    return false;
+  }
+};
+
+const handleShare = async (url: string, title?: string) => {
+  const shareData = {
+    title: title ?? "NVision Insights",
+    text: title
+      ? `Scopri questo articolo su NVision Insights`
+      : "Scopri NVision Insights",
+    url,
+  };
+
+  try {
+    if ("share" in navigator && typeof navigator.share === "function") {
+      await navigator.share(shareData);
+      return;
+    }
+
+    const copied = await copyToClipboard(url);
+
+    if (copied) {
+      alert("Link copiato negli appunti!");
+    }
+  } catch (error) {
+    console.log("Condivisione annullata", error);
+  }
+};
 
 export default function Soluzioni() {
 
@@ -202,10 +256,31 @@ export default function Soluzioni() {
               </p>
               {/* Socials centrati e grandi su mobile */}
               <div className="flex justify-center space-x-4 pt-2">
-                {footerSocials.map(({ Icon }, i) => (
-                  <motion.a
+                {footerSocials.map(({ Icon, type }, i) => (
+                  <motion.button
                     key={i}
-                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+
+                      const siteUrl = "https://nvisioninsights.it/";
+
+                      if (type === "facebook") {
+                        window.open(
+                          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`,
+                          "_blank",
+                          "noopener,noreferrer"
+                        );
+                      }
+
+                      if (type === "instagram") {
+                        copyToClipboard(siteUrl);
+                        window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+                      }
+
+                      if (type === "share") {
+                        handleShare(siteUrl);
+                      }
+                    }}
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={vpS}
@@ -213,7 +288,7 @@ export default function Soluzioni() {
                     className="p-3 bg-zinc-100 rounded-full hover:bg-green-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm"
                   >
                     <Icon size={20} />
-                  </motion.a>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -310,10 +385,30 @@ export default function Soluzioni() {
               </motion.h3>
 
                 <div className="flex space-x-3">
-                  {footerSocials.map(({ Icon }, i) => (
+                  {footerSocials.map(({ Icon, type }, i) => (
                     <motion.a
                       key={i}
-                      href="#"
+                      href={
+                        type === "facebook"
+                          ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                              "https://nvisioninsights.it/"
+                            )}`
+                          : "#"
+                      }
+                      target={type === "facebook" ? "_blank" : undefined}
+                      rel={type === "facebook" ? "noopener noreferrer" : undefined}
+                      onClick={(e) => {
+                        if (type === "instagram") {
+                          e.preventDefault();
+                          copyToClipboard("https://nvisioninsights.it/");
+                          window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+                        }
+
+                        if (type === "share") {
+                          e.preventDefault();
+                          handleShare("https://nvisioninsights.it/");
+                        }
+                      }}
                       initial={{ scale: 0, opacity: 0, rotate: -180 }}
                       whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                       viewport={vpS}
