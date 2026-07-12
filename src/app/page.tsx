@@ -1122,18 +1122,52 @@ export default function Home() {
               </p>
               {/* Socials centrati e grandi su mobile */}
               <div className="flex justify-center space-x-4 pt-2">
-                {FOOTER_SOCIALS.map(({ Icon }, i) => (
-                  <motion.a
+                {FOOTER_SOCIALS.map(({ Icon, type }, i) => (
+                  <motion.button
                     key={i}
-                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+
+                      const siteUrl = "https://nvisioninsights.it/";
+
+                      if (type === "facebook") {
+                        window.open(
+                          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            siteUrl
+                          )}`,
+                          "_blank",
+                          "noopener,noreferrer"
+                        );
+                      }
+
+                      if (type === "instagram") {
+                        copyToClipboard(siteUrl);
+
+                        window.open(
+                          "https://www.instagram.com/",
+                          "_blank",
+                          "noopener,noreferrer"
+                        );
+                      }
+
+                      if (type === "share") {
+                        handleShare(siteUrl);
+                      }
+                    }}
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={VP_SOFT}
-                    transition={{ duration: 0.5, delay: i * 0.1, type: 'spring', stiffness: 260, damping: 13 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.1,
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 13,
+                    }}
                     className="p-3 bg-zinc-100 rounded-full hover:bg-purple-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm"
                   >
                     <Icon size={20} />
-                  </motion.a>
+                  </motion.button>
                 ))}
               </div>
             </div>
