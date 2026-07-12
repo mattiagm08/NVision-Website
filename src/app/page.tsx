@@ -929,25 +929,16 @@ export default function Home() {
 
                       <div className="flex items-center gap-4 text-slate-400">
                         {/* Facebook */}
-                        <button
-                          onClick={async () => {
-                            if (typeof navigator !== "undefined" && "share" in navigator) {
-                              await handleShare(shareUrl, article.title);
-                              return;
-                            }
-
-                            window.open(
-                              `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                                shareUrl
-                              )}&quote=${encodeURIComponent(article.title)}`,
-                              "_blank",
-                              "noopener,noreferrer"
-                            );
-                          }}
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            shareUrl
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="hover:text-violet-700 cursor-pointer transition-colors"
                         >
                           <Facebook size={18} />
-                        </button>
+                        </a>
 
 
                         {/* Instagram */}
