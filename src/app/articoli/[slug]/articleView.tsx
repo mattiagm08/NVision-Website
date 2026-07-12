@@ -41,10 +41,11 @@ const footerNavLinks = [
   { href: '/contatti', label: 'Contattaci' },
 ];
 
+// Aggiunto "type" per agganciare la logica di condivisione corretta ad ogni icona
 const footerSocials = [
-  { Icon: Facebook },
-  { Icon: Instagram },
-  { Icon: Share2 },
+  { Icon: Facebook, type: 'facebook' },
+  { Icon: Instagram, type: 'instagram' },
+  { Icon: Share2, type: 'share' },
 ];
 
 const AdPlaceholder = ({ label }: { label: string }) => (
@@ -53,6 +54,52 @@ const AdPlaceholder = ({ label }: { label: string }) => (
     <div className="text-slate-400 font-medium">{label}</div>
   </div>
 );
+
+/* ---------------------------------------------------------
+    ICONE SOCIAL NON PRESENTI IN LUCIDE-REACT
+    (WhatsApp e TikTok), disegnate in stile coerente
+    con le altre icone outline/filled usate nel progetto.
+--------------------------------------------------------- */
+const WhatsAppIcon = ({ size = 18 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12.004 2.003c-5.514 0-9.997 4.483-9.997 9.997 0 1.763.462 3.483 1.34 4.997l-1.42 5.19 5.32-1.395a9.96 9.96 0 0 0 4.757 1.205h.004c5.514 0 9.997-4.483 9.997-9.997 0-2.67-1.04-5.18-2.929-7.069a9.936 9.936 0 0 0-7.072-2.928zm0 18.184h-.003a8.185 8.185 0 0 1-4.17-1.142l-.299-.178-3.155.827.842-3.076-.195-.316a8.176 8.176 0 0 1-1.256-4.372c0-4.518 3.677-8.194 8.199-8.194 2.19 0 4.248.854 5.797 2.403a8.144 8.144 0 0 1 2.4 5.796c0 4.519-3.678 8.196-8.16 8.252z"/>
+  </svg>
+);
+
+const TikTokIcon = ({ size = 18 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/>
+  </svg>
+);
+
+/* ---------------------------------------------------------
+    UTILITY DI CONDIVISIONE
+--------------------------------------------------------- */
+const copyToClipboard = async (text: string) => {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    const success = document.execCommand("copy");
+    document.body.removeChild(textarea);
+
+    return success;
+  } catch {
+    return false;
+  }
+};
 
 /**
  * Estrae il pattern {#id} dalla fine del testo dei children di un heading.
@@ -108,6 +155,9 @@ export default function ArticleView({ article, readTime }: Props) {
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   const articleContentClass = `article-content article-content-${article.contentStyle ?? 'default'}`;
+
+  // 🔗 URL specifico dell'articolo corrente, usato dalla barra di condivisione
+  const articleUrl = `${baseUrl}/articoli/${article.slug}`;
 
   const markdown = React.useMemo(() => {
   let content = article.content ?? '';
@@ -219,6 +269,117 @@ export default function ArticleView({ article, readTime }: Props) {
         "item": `${baseUrl}/articoli/${article.slug}`,
       },
     ],
+  };
+
+  // 🔗 Condivisione generica tramite Web Share API, con fallback su copia negli appunti
+  const handleGenericShare = async () => {
+    const shareData = {
+      title: article.title ?? "NVision Insights",
+      text: article.excerpt
+        ? article.excerpt
+        : "Scopri questo articolo su NVision Insights",
+      url: articleUrl,
+    };
+
+    try {
+      if ("share" in navigator && typeof navigator.share === "function") {
+        await navigator.share(shareData);
+        return;
+      }
+
+      const copied = await copyToClipboard(articleUrl);
+
+      if (copied) {
+        alert("Link copiato negli appunti!");
+      }
+    } catch (error) {
+      console.log("Condivisione annullata", error);
+    }
+  };
+
+  // 🔗 Gestisce il click sui singoli pulsanti social della barra sotto l'hero
+  const handleArticleShareClick = (type: 'facebook' | 'whatsapp' | 'instagram' | 'tiktok' | 'email' | 'share') => {
+    switch (type) {
+      case 'facebook':
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`,
+          '_blank',
+          'noopener,noreferrer'
+        );
+        break;
+
+      case 'whatsapp':
+        window.open(
+          `https://wa.me/?text=${encodeURIComponent(`${article.title} - ${articleUrl}`)}`,
+          '_blank',
+          'noopener,noreferrer'
+        );
+        break;
+
+      case 'instagram':
+        // Instagram non offre un endpoint di condivisione diretto via URL:
+        // copiamo il link e apriamo Instagram, così l'utente può incollarlo
+        // in una Storia, in un post o in un messaggio diretto.
+        copyToClipboard(articleUrl);
+        alert("Link copiato! Incollalo in una Storia o in un messaggio su Instagram.");
+        window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+        break;
+
+      case 'tiktok':
+        // Stesso discorso per TikTok: nessun endpoint di condivisione via URL.
+        copyToClipboard(articleUrl);
+        alert("Link copiato! Incollalo nella bio o in un messaggio su TikTok.");
+        window.open('https://www.tiktok.com/', '_blank', 'noopener,noreferrer');
+        break;
+
+      case 'email':
+        window.location.href = `mailto:?subject=${encodeURIComponent(
+          article.title ?? "Un articolo da NVision Insights"
+        )}&body=${encodeURIComponent(`Ti consiglio questo articolo: ${articleUrl}`)}`;
+        break;
+
+      case 'share':
+        handleGenericShare();
+        break;
+    }
+  };
+
+  // 🔗 Gestisce il click sui pulsanti social del footer (condividono il sito, non il singolo articolo)
+  const handleFooterShareClick = (type: string) => {
+    const siteUrl = `${baseUrl}/`;
+
+    if (type === "facebook") {
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
+
+    if (type === "instagram") {
+      copyToClipboard(siteUrl);
+      window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+    }
+
+    if (type === "share") {
+      (async () => {
+        const shareData = {
+          title: "NVision Insights",
+          text: "Scopri NVision Insights",
+          url: siteUrl,
+        };
+        try {
+          if ("share" in navigator && typeof navigator.share === "function") {
+            await navigator.share(shareData);
+            return;
+          }
+          const copied = await copyToClipboard(siteUrl);
+          if (copied) alert("Link copiato negli appunti!");
+        } catch (error) {
+          console.log("Condivisione annullata", error);
+        }
+      })();
+    }
   };
 
   return (
@@ -334,6 +495,76 @@ export default function ArticleView({ article, readTime }: Props) {
           </motion.div>
         </div>
       )}
+
+      {/* BARRA DI CONDIVISIONE ARTICOLO (sotto l'hero) */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-4 sm:mt-5 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="flex items-center justify-center gap-1.5 sm:gap-2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-full shadow-sm px-3 py-2 sm:px-5 sm:py-2.5 flex-wrap"
+        >
+          <span className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mr-0.5 sm:mr-1.5 hidden xs:inline sm:inline">
+            Condividi
+          </span>
+
+          <button
+            type="button"
+            onClick={() => handleArticleShareClick('facebook')}
+            aria-label="Condividi su Facebook"
+            className="p-2 rounded-full text-slate-500 hover:text-white hover:bg-blue-600 transition-colors duration-200 cursor-pointer"
+          >
+            <Facebook size={17} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleArticleShareClick('whatsapp')}
+            aria-label="Condividi su WhatsApp"
+            className="p-2 rounded-full text-slate-500 hover:text-white hover:bg-green-500 transition-colors duration-200 cursor-pointer"
+          >
+            <WhatsAppIcon size={17} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleArticleShareClick('instagram')}
+            aria-label="Condividi su Instagram"
+            className="p-2 rounded-full text-slate-500 hover:text-white hover:bg-pink-500 transition-colors duration-200 cursor-pointer"
+          >
+            <Instagram size={17} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleArticleShareClick('tiktok')}
+            aria-label="Condividi su TikTok"
+            className="p-2 rounded-full text-slate-500 hover:text-white hover:bg-black transition-colors duration-200 cursor-pointer"
+          >
+            <TikTokIcon size={17} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleArticleShareClick('email')}
+            aria-label="Condividi via Email"
+            className="p-2 rounded-full text-slate-500 hover:text-white hover:bg-slate-600 transition-colors duration-200 cursor-pointer"
+          >
+            <Mail size={17} />
+          </button>
+
+          <div className="w-px h-5 bg-slate-200 mx-0.5 sm:mx-1" />
+
+          <button
+            type="button"
+            onClick={() => handleArticleShareClick('share')}
+            aria-label="Condividi"
+            className="p-2 rounded-full text-slate-500 hover:text-white hover:bg-blue-400 transition-colors duration-200 cursor-pointer"
+          >
+            <Share2 size={17} />
+          </button>
+        </motion.div>
+      </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-8">
         <AdPlaceholder label="Top Article Ad - 728x90" />
@@ -514,7 +745,14 @@ export default function ArticleView({ article, readTime }: Props) {
 
       {/* SOCIAL */}
       <div className="flex justify-center gap-4 sm:gap-8 py-4 sm:py-8 border-y border-slate-200 max-w-3xl mx-auto mb-8 sm:mb-12">
-        <Share2 size={22} className="text-blue-300 hover:text-blue-400 cursor-pointer transition-colors" />
+        <button
+          type="button"
+          onClick={() => handleArticleShareClick('share')}
+          aria-label="Condividi questo articolo"
+          className="cursor-pointer"
+        >
+          <Share2 size={22} className="text-blue-300 hover:text-blue-400 transition-colors" />
+        </button>
       </div>
 
       {/* ARTICOLI CORRELATI */}
@@ -595,18 +833,19 @@ export default function ArticleView({ article, readTime }: Props) {
                 Tecnologia, divulgazione e innovazione per la prossima generazione di leader digitali.
               </p>
               <div className="flex justify-center space-x-4 pt-2">
-                {footerSocials.map(({ Icon }, i) => (
-                  <motion.a
+                {footerSocials.map(({ Icon, type }, i) => (
+                  <motion.button
                     key={i}
-                    href="#"
+                    type="button"
+                    onClick={() => handleFooterShareClick(type)}
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={vpS}
                     transition={{ duration: 0.5, delay: i * 0.1, type: "spring", stiffness: 260, damping: 13 }}
-                    className="p-3 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm"
+                    className="p-3 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm cursor-pointer"
                   >
                     <Icon size={20} />
-                  </motion.a>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -703,10 +942,29 @@ export default function ArticleView({ article, readTime }: Props) {
                 </motion.h3>
 
                 <div className="flex space-x-3">
-                  {footerSocials.map(({ Icon }, i) => (
+                  {footerSocials.map(({ Icon, type }, i) => (
                     <motion.a
                       key={i}
-                      href="#"
+                      href={
+                        type === "facebook"
+                          ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                              `${baseUrl}/`
+                            )}`
+                          : "#"
+                      }
+                      target={type === "facebook" ? "_blank" : undefined}
+                      rel={type === "facebook" ? "noopener noreferrer" : undefined}
+                      onClick={(e) => {
+                        if (type === "instagram") {
+                          e.preventDefault();
+                          handleFooterShareClick("instagram");
+                        }
+
+                        if (type === "share") {
+                          e.preventDefault();
+                          handleFooterShareClick("share");
+                        }
+                      }}
                       initial={{ scale: 0, opacity: 0, rotate: -180 }}
                       whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                       viewport={vpS}
