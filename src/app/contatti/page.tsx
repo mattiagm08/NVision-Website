@@ -634,11 +634,11 @@ export default function Contatti() {
                   <AnimatePresence>
                     {submitted && (
                       <motion.div
-                        initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                        initial={{ opacity: 0, y: -12, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 12, scale: 0.96 }}
+                        exit={{ opacity: 0, y: -12, scale: 0.96 }}
                         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="absolute z-30 left-0 right-0 sm:right-auto top-full mt-4 w-full sm:w-[26rem] max-w-full bg-gradient-to-br from-purple-600 via-indigo-600 to-fuchsia-700 text-white rounded-2xl shadow-xl shadow-purple-900/20 px-5 py-4 flex items-start gap-3"
+                        className="absolute z-30 left-0 right-0 sm:right-auto bottom-full mb-4 w-full sm:w-[26rem] max-w-full bg-gradient-to-br from-purple-600 via-indigo-600 to-fuchsia-700 text-white rounded-2xl shadow-xl shadow-purple-900/20 px-5 py-4 flex items-start gap-3"
                       >
                         <motion.div
                           initial={{ scale: 0, rotate: -185 }}
