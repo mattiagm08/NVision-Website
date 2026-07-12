@@ -371,31 +371,6 @@ export default function Contatti() {
             viewport={{ once: true }}
             className="relative bg-white border border-slate-100 rounded-[2.5rem] shadow-2xl shadow-purple-100/40 overflow-hidden"
           >
-            {/* Overlay successo */}
-            <AnimatePresence>
-              {submitted && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="absolute inset-0 z-20 bg-gradient-to-br from-purple-600 via-indigo-600 to-fuchsia-700 flex flex-col items-center justify-center text-white p-6 text-center"
-                >
-                  <motion.div
-                    initial={{ scale: 0, rotate: -185 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                    className="w-14 h-14 rounded-full bg-white/10 border border-white/30 flex items-center justify-center shadow-inner"
-                  >
-                    <CheckCircle2 size={48} className="text-white drop-shadow" />
-                  </motion.div>
-                  <h3 className="text-4xl font-black mb-3 tracking-tight">Messaggio Ricevuto!</h3>
-                  <p className="text-purple-100/90 font-light text-lg max-w-md leading-relaxed">
-                    I controlli sono andati a buon fine. Un consulente di <strong>NVision Insights</strong> prenderà in carico la tua richiesta entro le prossime 24 ore lavorative.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
             <div className="p-8 md:p-12">
               <form onSubmit={handleSubmit} className="space-y-8" noValidate>
 
@@ -637,7 +612,7 @@ export default function Contatti() {
                 </div>
 
                 {/* SUBMIT */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 pt-2">
+                <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-5 pt-2">
                   <motion.button
                     whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                     whileTap={{ scale: isSubmitting ? 1 : 0.97 }}
@@ -654,6 +629,34 @@ export default function Contatti() {
                   <span className="text-xs text-slate-400 font-light max-w-xs leading-normal">
                     Premendo invia, i dati verranno convalidati all&apos;istante. Risposta garantita entro 24 ore lavorative.
                   </span>
+
+                  {/* Conferma invio: piccola card ancorata vicino al pulsante, non più un overlay a schermo intero */}
+                  <AnimatePresence>
+                    {submitted && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 12, scale: 0.96 }}
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute z-30 left-0 right-0 sm:right-auto top-full mt-4 w-full sm:w-[26rem] max-w-full bg-gradient-to-br from-purple-600 via-indigo-600 to-fuchsia-700 text-white rounded-2xl shadow-xl shadow-purple-900/20 px-5 py-4 flex items-start gap-3"
+                      >
+                        <motion.div
+                          initial={{ scale: 0, rotate: -185 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                          className="w-9 h-9 shrink-0 rounded-full bg-white/10 border border-white/30 flex items-center justify-center shadow-inner"
+                        >
+                          <CheckCircle2 size={18} className="text-white drop-shadow" />
+                        </motion.div>
+                        <div className="text-left">
+                          <h3 className="text-base font-black mb-1 tracking-tight">Messaggio Ricevuto!</h3>
+                          <p className="text-purple-100/90 font-light text-xs leading-relaxed">
+                            Un consulente di <strong>NVision Insights</strong> prenderà in carico la tua richiesta entro le prossime 24 ore lavorative.
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
               </form>
