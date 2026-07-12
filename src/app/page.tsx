@@ -992,13 +992,22 @@ export default function Home() {
 
       {/* ─── SEZIONE SOLUZIONI ─────────────────────────────────────────── */}
       <section id="soluzioni" className="py-24 bg-zinc-950 relative overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-violet-700/15 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-fuchsia-700/10 rounded-full blur-[120px] pointer-events-none" />
+        {/* Sfondi sfumati dinamici con animazione float continua per una maggiore profondità visiva */}
+        <motion.div 
+          animate={{ y: [0, -25, 0], scale: [1, 1.03, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-violet-700/15 rounded-full blur-[140px] pointer-events-none" 
+        />
+        <motion.div 
+          animate={{ y: [0, 25, 0], scale: [1, 1.05, 1] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-fuchsia-700/10 rounded-full blur-[120px] pointer-events-none" 
+        />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Header + pulsante */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-            <div className="max-w-2xl">
+            <div className="max-w-3xl">
               <AnimatedTitle className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-none mb-6 whitespace-nowrap">
                 Le Nostre{' '}
                 <span className="relative inline-block">
@@ -1008,23 +1017,25 @@ export default function Home() {
                 </span>
               </AnimatedTitle>
 
-              <AnimatedParagraph className="text-white/90 md:text-xl leading-relaxed font-light">
-                Uniamo visione strategica e conoscenza tecnica d&apos;eccellenza.
+              <AnimatedParagraph className="text-white/80 md:text-xl leading-relaxed font-light balance max-w-2xl">
+                Risolviamo la complessità trasformandola in opportunità concrete. Uniamo visione strategica, ecosistemi digitali evoluti e una conoscenza tecnica d&apos;eccellenza per guidare la crescita del tuo business verso il futuro.
               </AnimatedParagraph>
             </div>
 
-            {/* Il pulsante vola da destra */}
+            {/* Il pulsante vola da destra con micro-interazioni potenziate */}
             <motion.button
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false, amount: 0.5 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-white text-black px-12 py-4 rounded-full font-bold hover:bg-purple-500 hover:text-white transition-all duration-300 flex items-center h-fit w-fit shadow-lg"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group/btn bg-white text-black px-12 py-4 rounded-full font-bold hover:bg-purple-500 hover:text-white transition-all duration-300 flex items-center h-fit w-fit shadow-lg relative overflow-hidden"
             >
-              <Link href="/soluzioni" className="text-black hover:text-white">
+              <Link href="/soluzioni" className="text-black group-hover/btn:text-white transition-colors duration-300 flex items-center">
                 Tutte Le Soluzioni
               </Link>
-              <ArrowRight className="ml-2" size={20} />
+              <ArrowRight className="ml-2 transform group-hover/btn:translate-x-1.5 transition-transform duration-300" size={20} />
             </motion.button>
           </div>
 
@@ -1034,14 +1045,14 @@ export default function Home() {
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: false, amount: 0.5 }}
             transition={{ delay: 0.25, duration: 0.6, type: 'spring', stiffness: 260, damping: 14 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-semibold tracking-widest uppercase mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-300 text-xs font-semibold tracking-widest uppercase mb-8 backdrop-blur-sm select-none"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
             Tecnologia &amp; Innovazione
           </motion.div>
 
           {/* Grid soluzioni — MOBILE: animazioni sempre dal basso */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {soluzioni.map((item, i) => (
               <motion.div
                 key={item.id}
@@ -1049,8 +1060,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: false, amount: 0.15 }}
                 transition={{ duration: 0.75, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ scale: 0.985 }}
-                className={`group relative p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/8 backdrop-blur-md overflow-hidden transition-all duration-300 hover:bg-white/[0.07] hover:border-violet-500/40 hover:shadow-[0_0_60px_rgba(139,92,246,0.12)] ${item.size}`}
+                whileHover={{ scale: 1.015, y: -4 }}
+                className={`group relative p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/8 backdrop-blur-md overflow-hidden transition-all duration-500 hover:bg-white/[0.06] hover:border-violet-500/40 hover:shadow-[0_25px_60px_rgba(139,92,246,0.15)] ${item.size || ''}`}
               >
                 {/* ── Linea di scansione sul bordo superiore */}
                 <motion.div
@@ -1063,7 +1074,7 @@ export default function Home() {
 
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div>
-                    {/* Icona con anello espandente */}
+                    {/* Icona con anello espandente reattivo */}
                     <div className="relative mb-6 w-fit">
                       <motion.div
                         className="absolute inset-0 rounded-2xl border-2 border-violet-500 pointer-events-none"
@@ -1072,27 +1083,37 @@ export default function Home() {
                         viewport={{ once: false, amount: 0.15 }}
                         transition={{ duration: 1.1, delay: i * 0.1 + 0.35 }}
                       />
-                      <div className="p-3 bg-violet-500/10 w-fit rounded-2xl border border-violet-500/20 group-hover:scale-110 group-hover:bg-violet-500/20 transition-all duration-300">
+                      <div className="p-3 bg-violet-500/10 w-fit rounded-2xl border border-violet-500/20 group-hover:scale-110 group-hover:bg-violet-500/20 group-hover:border-violet-500/40 transition-all duration-300 ease-out">
                         {item.icon}
                       </div>
                     </div>
 
-                    <h4 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight">{item.title}</h4>
-                    <p className="text-white/90 leading-relaxed text-base font-light">{item.desc}</p>
+                    {/* Titolo e Descrizione con transizioni cromatiche coordinate */}
+                    <h4 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight group-hover:text-violet-300 transition-colors duration-300">
+                      {item.title}
+                    </h4>
+                    <p className="text-white/70 leading-relaxed text-base font-light group-hover:text-white/90 transition-colors duration-300">
+                      {item.desc}
+                    </p>
                   </div>
-                  <div className="mt-8 flex items-center text-xs font-bold text-violet-400 tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Link href="/soluzioni" className="flex items-center">
+
+                  {/* Link di approfondimento con comparsa fluida e slittamento sull'asse Y */}
+                  <div className="mt-8 flex items-center text-xs font-bold text-violet-400 tracking-widest uppercase opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                    <Link href="/soluzioni" className="flex items-center group/link">
                       Scopri di più
-                      <ArrowRight className="ml-2" size={14} />
+                      <ArrowRight className="ml-2 transform group-hover/link:translate-x-1 transition-transform duration-300" size={14} />
                     </Link>
                   </div>
                 </div>
-                <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-violet-500/8 rounded-full blur-3xl group-hover:bg-violet-500/20 transition-colors duration-500" />
+
+                {/* Sfera luminosa d'angolo che si espande e si accende all'hover */}
+                <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-violet-500/5 rounded-full blur-3xl group-hover:bg-violet-500/20 group-hover:scale-125 transition-all duration-700 pointer-events-none" />
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* ─── FOOTER ────────────────────────────────────────────────────── */}
       <footer className="relative mt-auto border-t border-zinc-100 bg-white">
