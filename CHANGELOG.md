@@ -9,6 +9,17 @@
 ### Fixed
 -
 
+## [V2.1.0] 12/07/26
+
+### Added
+- Social Bar in Article Viewer
+
+### Changed
+- Pop-up Conferma Richiesta in Contattaci
+
+### Fixed
+- Share Buttons 
+
 ## [V2.0.0] 05/07/26
 
 ### Added
