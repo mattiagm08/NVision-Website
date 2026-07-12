@@ -21,10 +21,12 @@ const footerNavLinks = [
   { href: "/chisiamo", label: "Chi Siamo" },
 ];
 
+// Aggiunto "type" per poter agganciare la logica di condivisione corretta
+// ad ogni icona (stesso pattern usato in homepage).
 const footerSocials = [
-  { Icon: Facebook },
-  { Icon: Instagram },
-  { Icon: Share2 },
+  { Icon: Facebook, type: "facebook" },
+  { Icon: Instagram, type: "instagram" },
+  { Icon: Share2, type: "share" },
 ];
 
 const searchFieldOptions = [
@@ -39,6 +41,59 @@ const monthNames = [
 ];
 
 const weekdayLabels = ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'];
+
+/* ---------------------------------------------------------
+    UTILITY DI CONDIVISIONE (stesse identiche della homepage)
+--------------------------------------------------------- */
+const copyToClipboard = async (text: string) => {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    const success = document.execCommand("copy");
+    document.body.removeChild(textarea);
+
+    return success;
+  } catch {
+    return false;
+  }
+};
+
+const handleShare = async (url: string, title?: string) => {
+  const shareData = {
+    title: title ?? "NVision Insights",
+    text: title
+      ? `Scopri questo articolo su NVision Insights`
+      : "Scopri NVision Insights",
+    url,
+  };
+
+  try {
+    if ("share" in navigator && typeof navigator.share === "function") {
+      await navigator.share(shareData);
+      return;
+    }
+
+    const copied = await copyToClipboard(url);
+
+    if (copied) {
+      alert("Link copiato negli appunti!");
+    }
+  } catch (error) {
+    console.log("Condivisione annullata", error);
+  }
+};
 
 export default function Articoli() {
   const pathname = usePathname();
@@ -505,72 +560,103 @@ export default function Articoli() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {filteredArticles.map((article) => (
-              <motion.div
-                key={article.slug}
-                whileHover={{ y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-slate-100"
-              >
-                {/* Immagine con Overlay */}
-                <div className="relative h-56 overflow-hidden group">
+            {filteredArticles.map((article) => {
+              // URL assoluto dell'articolo, usato da tutti e 3 i pulsanti di condivisione
+              const shareUrl = `https://nvisioninsights.it/articoli/${article.slug}`;
 
-                  <Link href={`/articoli/${article.slug}`} className="block h-full">
-                    <img
-                      src={article.images?.[0]?.src}
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </Link>
+              return (
+                <motion.div
+                  key={article.slug}
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-slate-100"
+                >
+                  {/* Immagine con Overlay */}
+                  <div className="relative h-56 overflow-hidden group">
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent pointer-events-none" />
-
-                  <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
-                    {article.publicationDate}
-                  </div>
-
-                </div>
-
-                {/* Contenuto Card */}
-                <div className="p-8 flex flex-col flex-grow">
-
-                  {article.category && (
-                    <span className="inline-block mb-3 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-blue-100">
-                      {article.category}
-                    </span>
-                  )}
-                  
-                  <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-blue-600 transition-colors leading-tight tracking-tight">
-                    <Link href={`/articoli/${article.slug}`}>{article.title}</Link>
-                  </h4>
-
-                  <Link
-                      href={`/articoli/${article.title}`}
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
-                    ></Link>
-
-                  <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2 font-light">
-                    {article.excerpt}
-                  </p>
-
-                  {/* Footer Card */}
-                  <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
-                    <Link
-                      href={`/articoli/${article.slug}`}
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
-                    >
-                      Leggi di più <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+                    <Link href={`/articoli/${article.slug}`} className="block h-full">
+                      <img
+                        src={article.images?.[0]?.src}
+                        alt={article.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
                     </Link>
 
-                    <div className="flex items-center gap-4 text-slate-400">
-                      <Facebook size={18} className="hover:text-blue-700 cursor-pointer transition-colors" />
-                      <Instagram size={18} className="hover:text-blue-700 cursor-pointer transition-colors" />
-                      <Share2 size={18} className="hover:text-blue-700 cursor-pointer transition-colors" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent pointer-events-none" />
+
+                    <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
+                      {article.publicationDate}
+                    </div>
+
+                  </div>
+
+                  {/* Contenuto Card */}
+                  <div className="p-8 flex flex-col flex-grow">
+
+                    {article.category && (
+                      <span className="inline-block mb-3 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-blue-100">
+                        {article.category}
+                      </span>
+                    )}
+
+                    <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-blue-600 transition-colors leading-tight tracking-tight">
+                      <Link href={`/articoli/${article.slug}`}>{article.title}</Link>
+                    </h4>
+
+                    <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2 font-light">
+                      {article.excerpt}
+                    </p>
+
+                    {/* Footer Card */}
+                    <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
+                      <Link
+                        href={`/articoli/${article.slug}`}
+                        className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
+                      >
+                        Leggi di più <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+                      </Link>
+
+                      <div className="flex items-center gap-4 text-slate-400">
+                        {/* Facebook: apre il popup di condivisione di FB con l'URL dell'articolo */}
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-blue-700 cursor-pointer transition-colors"
+                          aria-label="Condividi su Facebook"
+                        >
+                          <Facebook size={18} />
+                        </a>
+
+                        {/* Instagram: non supporta link diretti di condivisione, quindi copiamo
+                            il link negli appunti e apriamo Instagram così l'utente possa incollarlo */}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            await copyToClipboard(shareUrl);
+                            window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+                          }}
+                          className="hover:text-blue-700 cursor-pointer transition-colors"
+                          aria-label="Condividi su Instagram"
+                        >
+                          <Instagram size={18} />
+                        </button>
+
+                        {/* Condivisione nativa del dispositivo (Web Share API), con fallback a copia link */}
+                        <button
+                          type="button"
+                          onClick={() => handleShare(shareUrl, article.title)}
+                          className="hover:text-blue-700 cursor-pointer transition-colors"
+                          aria-label="Condividi"
+                        >
+                          <Share2 size={18} />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </section>
@@ -607,10 +693,31 @@ export default function Articoli() {
               </p>
               {/* Socials centrati e grandi su mobile */}
               <div className="flex justify-center space-x-4 pt-2">
-                {footerSocials.map(({ Icon }, i) => (
-                  <motion.a
+                {footerSocials.map(({ Icon, type }, i) => (
+                  <motion.button
                     key={i}
-                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+
+                      const siteUrl = "https://nvisioninsights.it/";
+
+                      if (type === "facebook") {
+                        window.open(
+                          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`,
+                          "_blank",
+                          "noopener,noreferrer"
+                        );
+                      }
+
+                      if (type === "instagram") {
+                        copyToClipboard(siteUrl);
+                        window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+                      }
+
+                      if (type === "share") {
+                        handleShare(siteUrl);
+                      }
+                    }}
                     initial={{ scale: 0, opacity: 0, rotate: -180 }}
                     whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                     viewport={vpS}
@@ -618,7 +725,7 @@ export default function Articoli() {
                     className="p-3 bg-zinc-100 rounded-full hover:bg-blue-600 hover:text-white text-zinc-600 transition-all duration-200 shadow-sm"
                   >
                     <Icon size={20} />
-                  </motion.a>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -715,10 +822,30 @@ export default function Articoli() {
                 </motion.h3>
 
                 <div className="flex space-x-3">
-                  {footerSocials.map(({ Icon }, i) => (
+                  {footerSocials.map(({ Icon, type }, i) => (
                     <motion.a
                       key={i}
-                      href="#"
+                      href={
+                        type === "facebook"
+                          ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                              "https://nvisioninsights.it/"
+                            )}`
+                          : "#"
+                      }
+                      target={type === "facebook" ? "_blank" : undefined}
+                      rel={type === "facebook" ? "noopener noreferrer" : undefined}
+                      onClick={(e) => {
+                        if (type === "instagram") {
+                          e.preventDefault();
+                          copyToClipboard("https://nvisioninsights.it/");
+                          window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+                        }
+
+                        if (type === "share") {
+                          e.preventDefault();
+                          handleShare("https://nvisioninsights.it/");
+                        }
+                      }}
                       initial={{ scale: 0, opacity: 0, rotate: -180 }}
                       whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                       viewport={vpS}
