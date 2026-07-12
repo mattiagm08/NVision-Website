@@ -61,9 +61,9 @@ const FOOTER_POLICY_LINKS = [
 ] as const;
 
 const FOOTER_SOCIALS = [
-  { Icon: Facebook },
-  { Icon: Instagram },
-  { Icon: Share2 },
+  { Icon: Facebook, type: "facebook" },
+  { Icon: Instagram, type: "instagram" },
+  { Icon: Share2, type: "share" },
 ] as const;
 
 // Indici immagini del carosello hero (duplicati per l'effetto loop infinito)
@@ -116,22 +116,55 @@ function useIsMobile() {
 
   return isMobile;
 }
+const copyToClipboard = async (text: string) => {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
 
-const handleShare = async () => {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    const success = document.execCommand("copy");
+    document.body.removeChild(textarea);
+
+    return success;
+  } catch {
+    return false;
+  }
+};
+
+
+const handleShare = async (url: string) => {
   const shareData = {
     title: "NVision Insights",
-    text: "Scopri NVision Insights",
-    url: window.location.href,
+    text: "Scopri questo articolo su NVision Insights",
+    url,
   };
 
   try {
+    // Mobile: apre il menu nativo di condivisione
     if (navigator.share) {
       await navigator.share(shareData);
-    } else {
-      await navigator.clipboard.writeText(window.location.href);
+      return;
+    }
+
+    // Desktop: fallback
+    const copied = await copyToClipboard(url);
+
+    if (copied) {
       alert("Link copiato negli appunti!");
     }
+
   } catch (error) {
+    // L'utente ha chiuso il popup di condivisione
     console.log("Condivisione annullata", error);
   }
 };
@@ -838,68 +871,107 @@ export default function Home() {
 
           {/* Cards — identiche a quelle della pagina /articoli */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {articoli.map((article) => (
-              <motion.div
-                key={article.slug}
-                whileHover={{ y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-slate-100"
-              >
-                {/* Immagine con Overlay */}
-                <div className="relative h-56 overflow-hidden group">
-                  <Link href={`/articoli/${article.slug}`} className="block h-full">
-                    <img
-                      src={article.images?.[0]?.src}
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </Link>
+            {articoli.map((article) => {
+              const shareUrl = `https://nvisioninsights.it/articoli/${article.slug}`;
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-violet-900/40 to-transparent pointer-events-none" />
-
-                  <div className="absolute top-4 right-4 bg-violet-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
-                    {article.publicationDate}
-                  </div>
-                </div>
-
-                {/* Contenuto Card */}
-                <div className="p-8 flex flex-col flex-grow">
-                  {article.category && (
-                    <span className="inline-block mb-3 bg-violet-50 text-violet-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-violet-100">
-                      {article.category}
-                    </span>
-                  )}
-
-                  <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-violet-600 transition-colors leading-tight tracking-tight">
-                    <Link href={`/articoli/${article.slug}`}>{article.title}</Link>
-                  </h4>
-
-                  <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2 font-light">
-                    {article.excerpt}
-                  </p>
-
-                  {/* Footer Card */}
-                  <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
-                    <Link
-                      href={`/articoli/${article.slug}`}
-                      className="flex items-center gap-2 text-violet-600 hover:text-violet-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
-                    >
-                      Leggi di più <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+              return (
+                <motion.div
+                  key={article.slug}
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all border border-slate-100"
+                >
+                  {/* Immagine con Overlay */}
+                  <div className="relative h-56 overflow-hidden group">
+                    <Link href={`/articoli/${article.slug}`} className="block h-full">
+                      <img
+                        src={article.images?.[0]?.src}
+                        alt={article.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
                     </Link>
 
-                    <div className="flex items-center gap-4 text-slate-400">
-                      <Facebook size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
-                      <Instagram size={18} className="hover:text-violet-700 cursor-pointer transition-colors" />
-                      <Share2
-                        size={18}
-                        onClick={handleShare}
-                        className="hover:text-violet-700 cursor-pointer transition-colors"
-                      />
+                    <div className="absolute inset-0 bg-gradient-to-t from-violet-900/40 to-transparent pointer-events-none" />
+
+                    <div className="absolute top-4 right-4 bg-violet-600 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-widest shadow-lg">
+                      {article.publicationDate}
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+
+                  {/* Contenuto Card */}
+                  <div className="p-8 flex flex-col flex-grow">
+                    {article.category && (
+                      <span className="inline-block mb-3 bg-violet-50 text-violet-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-violet-100">
+                        {article.category}
+                      </span>
+                    )}
+
+                    <h4 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-violet-600 transition-colors leading-tight tracking-tight">
+                      <Link href={`/articoli/${article.slug}`}>
+                        {article.title}
+                      </Link>
+                    </h4>
+
+                    <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2 font-light">
+                      {article.excerpt}
+                    </p>
+
+                    {/* Footer Card */}
+                    <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
+                      <Link
+                        href={`/articoli/${article.slug}`}
+                        className="flex items-center gap-2 text-violet-600 hover:text-violet-800 font-bold text-sm uppercase tracking-wider transition-all group/link"
+                      >
+                        Leggi di più{" "}
+                        <ArrowRight
+                          size={16}
+                          className="group-hover/link:translate-x-1 transition-transform"
+                        />
+                      </Link>
+
+                      <div className="flex items-center gap-4 text-slate-400">
+                        {/* Facebook */}
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            shareUrl
+                          )}&quote=${encodeURIComponent(article.title)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-violet-700 cursor-pointer transition-colors"
+                        >
+                          <Facebook size={18} />
+                        </a>
+
+
+                        {/* Instagram */}
+                        <button
+                          onClick={async () => {
+                            await copyToClipboard(shareUrl);
+                            window.open(
+                              "https://www.instagram.com/",
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
+                          }}
+                          className="hover:text-violet-700 cursor-pointer transition-colors"
+                        >
+                          <Instagram size={18} />
+                        </button>
+
+
+                        {/* Condivisione nativa */}
+                        <button
+                          onClick={() => handleShare(shareUrl)}
+                          className="hover:text-violet-700 cursor-pointer transition-colors"
+                        >
+                          <Share2 size={18} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* CTA — rimbalza con spring */}
@@ -1159,17 +1231,39 @@ export default function Home() {
                 </motion.h3>
 
                 <div className="flex space-x-3">
-                  {FOOTER_SOCIALS.map(({ Icon }, i) => (
+                  {FOOTER_SOCIALS.map(({ Icon, type }, i) => (
                     <motion.a
                       key={i}
-                      href="#"
+                      href={
+                        type === "facebook"
+                          ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                              "https://nvisioninsights.it/"
+                            )}`
+                          : "#"
+                      }
+                      target={type === "facebook" ? "_blank" : undefined}
+                      rel={type === "facebook" ? "noopener noreferrer" : undefined}
+                      onClick={(e) => {
+                        if (type === "instagram") {
+                          e.preventDefault();
+
+                          navigator.clipboard.writeText("https://nvisioninsights.it/");
+                          window.open("https://www.instagram.com/", "_blank");
+                        }
+
+                        if (type === "share") {
+                          e.preventDefault();
+
+                          handleShare("https://nvisioninsights.it/");
+                        }
+                      }}
                       initial={{ scale: 0, opacity: 0, rotate: -180 }}
                       whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                       viewport={VP_SOFT}
                       transition={{
                         duration: 0.5,
                         delay: i * 0.1,
-                        type: 'spring',
+                        type: "spring",
                         stiffness: 260,
                         damping: 13,
                       }}
