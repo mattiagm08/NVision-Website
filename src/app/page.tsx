@@ -1004,12 +1004,6 @@ export default function Home() {
           className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-fuchsia-700/10 rounded-full blur-[120px] pointer-events-none" 
         />
 
-        {/* Trama a puntini sottile, coerente con il linguaggio visivo già usato altrove nel sito */}
-        <div
-          className="absolute inset-0 opacity-[0.035] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(#8b5cf6 1px, transparent 1px)', backgroundSize: '34px 34px' }}
-        />
-
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Header + pulsante */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -1024,20 +1018,8 @@ export default function Home() {
               </AnimatedTitle>
 
               <AnimatedParagraph className="text-white/80 md:text-xl leading-relaxed font-light balance max-w-2xl">
-                Risolviamo la complessità trasformandola in opportunità concrete: uniamo visione strategica, ecosistemi digitali evoluti e competenza tecnica d&apos;eccellenza per guidare la crescita di ogni business — dalle startup alle realtà più strutturate — verso il futuro.
+                Risolviamo la complessità trasformandola in opportunità concrete. Uniamo visione strategica, ecosistemi digitali evoluti e una conoscenza tecnica d&apos;eccellenza per guidare la crescita del tuo business verso il futuro.
               </AnimatedParagraph>
-
-              {/* Riga meta editoriale: numero di aree + separatore, per dare struttura e concretezza senza appesantire */}
-              <motion.div
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                className="mt-6 flex items-center gap-3 text-white/40 text-xs font-mono tracking-[0.2em] uppercase"
-              >
-                <span className="h-px w-8 bg-white/20" />
-                {soluzioni.length} Aree di Intervento Strategico
-              </motion.div>
             </div>
 
             {/* Il pulsante vola da destra con micro-interazioni potenziate */}
@@ -1078,7 +1060,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: false, amount: 0.15 }}
                 transition={{ duration: 0.75, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ scale: 1.02, y: -6 }}
+                whileHover={{ scale: 1.015, y: -4 }}
                 className={`group relative p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/8 backdrop-blur-md overflow-hidden transition-all duration-500 hover:bg-white/[0.06] hover:border-violet-500/40 hover:shadow-[0_25px_60px_rgba(139,92,246,0.15)] ${item.size || ''}`}
               >
                 {/* ── Linea di scansione sul bordo superiore */}
@@ -1090,16 +1072,8 @@ export default function Home() {
                   transition={{ duration: 1.4, delay: i * 0.1 + 0.2, times: [0, 0.1, 0.6, 1] }}
                 />
 
-                {/* ── Velo sfumato interno che emerge dolcemente all'hover, per dare profondità alla card */}
-                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/[0.05] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem]" />
-
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div>
-                    {/* Numerazione editoriale della card, per dare struttura e senso di percorso alla griglia */}
-                    <span className="block text-[11px] font-mono tracking-[0.3em] text-violet-400/50 mb-4 select-none">
-                      {`0${i + 1}`}
-                    </span>
-
                     {/* Icona con anello espandente reattivo */}
                     <div className="relative mb-6 w-fit">
                       <motion.div
