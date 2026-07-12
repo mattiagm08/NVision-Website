@@ -141,22 +141,21 @@ const copyToClipboard = async (text: string) => {
   }
 };
 
-
-const handleShare = async (url: string) => {
+const handleShare = async (url: string, title?: string) => {
   const shareData = {
-    title: "NVision Insights",
-    text: "Scopri questo articolo su NVision Insights",
+    title: title ?? "NVision Insights",
+    text: title 
+      ? `Scopri questo articolo su NVision Insights`
+      : "Scopri NVision Insights",
     url,
   };
 
   try {
-    // Mobile: apre il menu nativo di condivisione
-    if (navigator.share) {
+    if ("share" in navigator && typeof navigator.share === "function") {
       await navigator.share(shareData);
       return;
     }
 
-    // Desktop: fallback
     const copied = await copyToClipboard(url);
 
     if (copied) {
@@ -164,7 +163,6 @@ const handleShare = async (url: string) => {
     }
 
   } catch (error) {
-    // L'utente ha chiuso il popup di condivisione
     console.log("Condivisione annullata", error);
   }
 };
@@ -931,16 +929,25 @@ export default function Home() {
 
                       <div className="flex items-center gap-4 text-slate-400">
                         {/* Facebook */}
-                        <a
-                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                            shareUrl
-                          )}&quote=${encodeURIComponent(article.title)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          onClick={async () => {
+                            if (typeof navigator !== "undefined" && "share" in navigator) {
+                              await handleShare(shareUrl, article.title);
+                              return;
+                            }
+
+                            window.open(
+                              `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                shareUrl
+                              )}&quote=${encodeURIComponent(article.title)}`,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
+                          }}
                           className="hover:text-violet-700 cursor-pointer transition-colors"
                         >
                           <Facebook size={18} />
-                        </a>
+                        </button>
 
 
                         {/* Instagram */}
@@ -961,7 +968,7 @@ export default function Home() {
 
                         {/* Condivisione nativa */}
                         <button
-                          onClick={() => handleShare(shareUrl)}
+                          onClick={() => handleShare(shareUrl, article.title)}
                           className="hover:text-violet-700 cursor-pointer transition-colors"
                         >
                           <Share2 size={18} />
