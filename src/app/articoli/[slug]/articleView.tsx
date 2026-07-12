@@ -504,9 +504,6 @@ export default function ArticleView({ article, readTime }: Props) {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="flex items-center justify-center gap-1.5 sm:gap-2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-full shadow-sm px-3 py-2 sm:px-5 sm:py-2.5 flex-wrap"
         >
-          <span className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mr-0.5 sm:mr-1.5 hidden xs:inline sm:inline">
-            Condividi
-          </span>
 
           <button
             type="button"
